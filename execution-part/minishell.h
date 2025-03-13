@@ -3,6 +3,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <sys/waits.h>
+# include <sys/wait.h>
 
 #endif
