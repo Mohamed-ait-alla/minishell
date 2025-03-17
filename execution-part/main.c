@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mait-all <mait-all@stduent.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
+/*   Updated: 2025/03/17 19:38:39 by mait-all         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"             
 
 char    *get_env_path(char **env)
@@ -15,7 +27,7 @@ char    *get_env_path(char **env)
         return (NULL);                                 
 }  
 
-char    *get_path_name(char **av, char **env)
+char    *get_path_name(char *cmd, char **env)
 {        
         char    *env_path;                   
         char    *holder;          
@@ -25,11 +37,12 @@ char    *get_path_name(char **av, char **env)
 
         env_path = get_env_path(env);
         exec_dirs = ft_split(env_path, ':');
-        i = 0;       
+        i = 0;
+          
         while (exec_dirs && exec_dirs[i])
         {                        
                 holder = ft_strjoin(exec_dirs[i], "/");
-                binary_path = ft_strjoin(holder, av[1]);      
+                binary_path = ft_strjoin(holder, cmd);
                 free(holder);                      
                 if (access(binary_path, F_OK) == 0 && access(binary_path, X_OK) == 0)                                   
                         return (binary_path);                             
@@ -37,7 +50,17 @@ char    *get_path_name(char **av, char **env)
                 i++;                        
         }                                
         return (NULL);                                                    
-} 
+}
+
+void    check_for_redirections(char *redirection_symbol, char *file)
+{
+        if (!redirection_symbol || !file)
+                return ;
+        if (ft_strncmp(redirection_symbol, ">", 1) == 0) // redirect output to the specified file, overwrite it if it exist
+                redirect_output_to_file(file, 'o');
+        else if (ft_strncmp(redirection_symbol, ">>", 2) == 0) // redirect output to the specified file, append to it if it exist 
+                redirect_output_to_file(file, 'a');     
+}
 
 
 int     main(int ac, char **av, char **env)
@@ -52,8 +75,9 @@ int     main(int ac, char **av, char **env)
         if (pid == 0)
         {
                 // child process that will execute the command
-                path_name = get_path_name(av, env);
+                check_for_redirections(av[2], av[3]); // check for redirections if any
                 args = ft_split(av[1], ' ');
+                path_name = get_path_name(args[0], env);
                 if (!path_name)
 		{
                         printf("no binary path found for this command\n");
@@ -63,7 +87,5 @@ int     main(int ac, char **av, char **env)
                 perror("execve: ");
                 exit(EXIT_FAILURE);
         }
-
         waitpid(pid, NULL, 0);
 }
-

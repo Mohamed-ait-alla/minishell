@@ -4,7 +4,8 @@ RM = rm -f
 
 NAME = minishell
 
-SRCS = main.c
+SRCS = main.c \
+	   redirect_io.c
 
 S_OBJS = $(SRCS:.c=.o)
 
