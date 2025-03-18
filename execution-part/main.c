@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@stduent.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/03/17 19:38:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:33:10 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,15 @@ void    check_for_redirections(char *redirection_symbol, char *file)
 {
         if (!redirection_symbol || !file)
                 return ;
-        if (ft_strncmp(redirection_symbol, ">", 1) == 0) // redirect output to the specified file, overwrite it if it exist
+        if (ft_strcmp(redirection_symbol, ">") == 0) // redirect output to the specified file, overwrite it if it exist
                 redirect_output_to_file(file, 'o');
-        else if (ft_strncmp(redirection_symbol, ">>", 2) == 0) // redirect output to the specified file, append to it if it exist 
-                redirect_output_to_file(file, 'a');     
+        else if (ft_strcmp(redirection_symbol, ">>") == 0) // redirect output to the specified file, append to it if it exist 
+                redirect_output_to_file(file, 'a');
+        else if (ft_strcmp(redirection_symbol, "<") == 0) // redirect input to the specified file, so the command can read from it
+                redirect_input_to_file(file);
+        else if (ft_strcmp(redirection_symbol, "<<") == 0)
+                printf("here_doc\n");// here_document 
+        
 }
 
 
@@ -75,8 +80,8 @@ int     main(int ac, char **av, char **env)
         if (pid == 0)
         {
                 // child process that will execute the command
-                check_for_redirections(av[2], av[3]); // check for redirections if any
-                args = ft_split(av[1], ' ');
+                check_for_redirections(av[1], av[2]); // check for redirections if any
+                args = ft_split(av[3], ' ');
                 path_name = get_path_name(args[0], env);
                 if (!path_name)
 		{
