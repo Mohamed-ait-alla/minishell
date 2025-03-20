@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@stduent.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/03/18 19:33:10 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/03/20 19:55:16 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,9 @@ void    check_for_redirections(char *redirection_symbol, char *file)
                 redirect_output_to_file(file, 'a');
         else if (ft_strcmp(redirection_symbol, "<") == 0) // redirect input to the specified file, so the command can read from it
                 redirect_input_to_file(file);
-        else if (ft_strcmp(redirection_symbol, "<<") == 0)
-                printf("here_doc\n");// here_document 
-        
+        else if (ft_strcmp(redirection_symbol, "<<") == 0) // here_document
+                redirect_input_to_file_here_doc(file); // just for testing file here is a limitter  
 }
-
 
 int     main(int ac, char **av, char **env)
 {
