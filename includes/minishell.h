@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/03/20 17:01:29 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:55:31 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
+# include <readline/readline.h>
 
-typedef enum e_token_type
+typedef enum s_token_type
 {
 	TOKEN_WORD,
 	TOKEN_PIPE,
@@ -42,5 +44,9 @@ typedef struct s_commands
 	int					append;
 	struct s_commands	*next;
 }						t_commands;
+
+void	custom_error(char *msg, int exit_code);
+char	**split_the_cmd(char const *s);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_parsing.c                                 :+:      :+:    :+:   */
+/*   split_the_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:53:05 by mdahani           #+#    #+#             */
-/*   Updated: 2025/03/20 16:52:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:34:41 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
 static char	**free_array(char **ptr, int i)
 {
@@ -23,7 +23,7 @@ static char	**free_array(char **ptr, int i)
 	return (0);
 }
 
-static int	ft_count_words(char const *str, char c)
+static int	ft_count_words(char const *str)
 {
 	int	i;
 	int	count;
@@ -34,7 +34,7 @@ static int	ft_count_words(char const *str, char c)
 	word = 0;
 	while (str[i])
 	{
-		if (str[i] != c)
+		if (str[i] > 32)
 		{
 			if (word == 0)
 			{
@@ -64,7 +64,7 @@ static char	*ft_putword(char *word, char const *s, int i, int word_len)
 	return (word);
 }
 
-static char	**ft_split_words(char const *s, char c, char **s2, int num_words)
+static char	**ft_split_words(char const *s, char **s2, int num_words)
 {
 	int	i;
 	int	word;
@@ -75,9 +75,9 @@ static char	**ft_split_words(char const *s, char c, char **s2, int num_words)
 	word_len = 0;
 	while (word < num_words)
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] && s[i] >= 32)
 			i++;
-		while (s[i] && s[i] != c)
+		while (s[i] && s[i] > 32)
 		{
 			i++;
 			word_len++;
@@ -93,17 +93,17 @@ static char	**ft_split_words(char const *s, char c, char **s2, int num_words)
 	return (s2);
 }
 
-char	**ft_split(char const *s, char c)
+char	**split_the_cmd(char const *s)
 {
 	char			**s2;
 	unsigned int	num_words;
 
 	if (!s)
 		return (0);
-	num_words = ft_count_words(s, c);
+	num_words = ft_count_words(s);
 	s2 = (char **)malloc(sizeof(char *) * (num_words + 1));
 	if (!s2)
 		return (0);
-	s2 = ft_split_words(s, c, s2, num_words);
+	s2 = ft_split_words(s, s2, num_words);
 	return (s2);
 }
