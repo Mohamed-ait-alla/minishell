@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/03/20 17:16:27 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:56:52 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,40 @@ int ft_strlen(char *str)
     return (i);
 }
 
+void    parsing_cmd(char *cmd)
+{
+    int i;
+    
+    i = 0; 
+    if (cmd == NULL || !ft_strncmp(cmd, "exit\n", 5))
+    {
+        printf("exit\n");
+        while (i != 99999999)
+            i++;
+        free(cmd);
+        exit(0);
+    }
+    
+}
+
 int main(int ac, char **av)
 {
+    // get all commands
+    // t_commands  *cmds;
+    char *input;
+    
+    (void)av;
     // check if we have any args
-    if (ac > 1)
+    if (ac != 1)
+        custom_error("Error: run only the programme\n" ,1);
+    while (1)
     {
-        // get all commands
-        char **cmds;
-        int (i), (j), (k);
-        
-        cmds = malloc(sizeof(char *) * ac);
-        if (!cmds)
-            return (1);
-        i = 1;
-        j = 0;
-        while (i < ac)
-        {
-            cmds[j] = malloc(sizeof(char) * (ft_strlen(av[i]) + 1));
-            if (!cmds[j])
-                return (1);
-            k = 0;
-            while (av[i][k])
-            {
-                cmds[j][k] = av[i][k];
-                k++;
-            }
-            cmds[j][k] = '\0';
-            j++;
-            i++;
-        }
-        cmds[j] = NULL;
-        for (int i = 0; cmds[i]; i++)
-        {
-            printf("%s\n", cmds[i]);
-        }
+        input = readline("minishell> ");
+        if (!input)
+            break ;
+        // paring the command
+        parsing_cmd(input);
+        // cmds->args = split_the_cmd(input);
+        free(input);
     }
-    return (0);
 }
