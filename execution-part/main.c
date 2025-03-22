@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@stduent.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/03/20 19:55:16 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/03/21 21:25:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,24 @@ char    *get_path_name(char *cmd, char **env)
         return (NULL);                                                    
 }
 
-void    check_for_redirections(char *redirection_symbol, char *file)
+void    check_for_redirections(char **av)
 {
-        if (!redirection_symbol || !file)
-                return ;
-        if (ft_strcmp(redirection_symbol, ">") == 0) // redirect output to the specified file, overwrite it if it exist
-                redirect_output_to_file(file, 'o');
-        else if (ft_strcmp(redirection_symbol, ">>") == 0) // redirect output to the specified file, append to it if it exist 
-                redirect_output_to_file(file, 'a');
-        else if (ft_strcmp(redirection_symbol, "<") == 0) // redirect input to the specified file, so the command can read from it
-                redirect_input_to_file(file);
-        else if (ft_strcmp(redirection_symbol, "<<") == 0) // here_document
-                redirect_input_to_file_here_doc(file); // just for testing file here is a limitter  
+        int     i;
+        
+        i = 1;
+        while (av && av[i])
+        {
+                
+                if (ft_strcmp(av[i], ">") == 0) // redirect output to the specified file, overwrite it if it exist
+                        redirect_output_to_file(av[i + 1], 'o');
+                else if (ft_strcmp(av[i], ">>") == 0) // redirect output to the specified file, append to it if it exist 
+                        redirect_output_to_file(av[i + 1], 'a');
+                else if (ft_strcmp(av[i], "<") == 0) // redirect input to the specified file, so the command can read from it
+                        redirect_input_to_file(av[i + 1]);
+                else if (ft_strcmp(av[i], "<<") == 0) // here_document
+                        redirect_input_to_file_here_doc(av[i + 1]);
+                i++;  
+        }
 }
 
 int     main(int ac, char **av, char **env)
@@ -78,8 +84,8 @@ int     main(int ac, char **av, char **env)
         if (pid == 0)
         {
                 // child process that will execute the command
-                check_for_redirections(av[1], av[2]); // check for redirections if any
-                args = ft_split(av[3], ' ');
+                check_for_redirections(av); // check for redirections if any
+                args = ft_split(av[1], ' ');
                 path_name = get_path_name(args[0], env);
                 if (!path_name)
 		{
