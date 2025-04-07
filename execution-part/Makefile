@@ -7,6 +7,7 @@ NAME = minishell
 SRCS = main.c \
 	   run_commands.c \
 	   redirect_io.c \
+	   pipes_utils.c \
 	   ../get_next_line/get_next_line.c \
 	   ../get_next_line/get_next_line_utils.c
 
