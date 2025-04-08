@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/07 12:08:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:14:24 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,15 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
         {
             if (i == 0) // first command 
             {
+				check_for_redirections(av);
                 redirect_output_to_pipe(pipes[i][1]);
-                j = 1;
+                j = 3;
             }
             else if (i == n_of_pipes) // last command
             {
 				redirect_input_to_pipe(pipes[i - 1][0]);
-                redirect_output_to_file("/dev/stdout", 'o'); // /dev/stdout just for testing
-                j = 3; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
+				check_for_redirections(av);
+                j = 4; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
 				if (n_of_pipes > 2)
 					j = 4;
             }
