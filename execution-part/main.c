@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/08 12:11:49 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/08 18:40:10 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **env)
 	if (pid == 0)
 	{
 			check_for_redirections(av);
-			execute_command(av[3], env);
+			execute_command(av[1], env);
 	}
 	waitpid(pid, NULL, 0);
 }

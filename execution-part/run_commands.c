@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/07 10:01:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/08 19:03:28 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static char	*get_env_path(char **env)
 {
-		char	*env_path;
 		int	 i;
 
 		i = 0;
@@ -51,19 +50,37 @@ static char	*get_path_name(char *cmd, char **env)
 		return (NULL);
 }
 
+static char	*get_exec_path(char **env, char *cmd)
+{
+	if (!cmd || !cmd[0])
+		return (NULL);
+	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
+	{
+		if (access(cmd, F_OK) == 0)
+		{
+			if (access(cmd, X_OK) == 0)
+				return (cmd);
+			else
+				return ("no permission");
+		}
+		return ("no file");
+	}
+	return (get_path_name(cmd, env));
+}
+
 void	execute_command(char *cmd, char **env)
 {
 	char	**args;
-	char	*path_name;
+	char	*path;
 
 	args = ft_split(cmd, ' ');
-	path_name = get_path_name(args[0], env);
-	if (!path_name)
+	path = get_exec_path(env, args[0]);
+	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)
 	{
-			printf("no binary path found for this command\n");
-			exit(EXIT_FAILURE);
+			printf("permission denied\n");
+			exit(126);
 	}
-	execve(path_name, args, env);
+	execve(path, args, env);
 	perror("execve: ");
 	exit(EXIT_FAILURE);
 }
