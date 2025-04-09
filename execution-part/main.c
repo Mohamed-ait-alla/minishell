@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/09 10:54:27 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/09 12:50:36 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	check_for_redirections(char **av)
 int	main(int ac, char **av, char **env)
 {
 	int pid;
+	int	status;
 
+	status = 0;
 	// check for pipes
 	if (check_for_pipes(av))
 	{
@@ -50,5 +52,7 @@ int	main(int ac, char **av, char **env)
 			check_for_redirections(av);
 			execute_command(av[1], env);
 	}
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
 }

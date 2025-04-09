@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/09 11:42:14 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/09 13:00:56 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
 {
     int pids[n_of_pipes + 1];
     int pipes[n_of_pipes][2];
+	int status;
     int i;
     int j;
     
-    // creates the pipe ends
+	status = 0;
     i = 0;
+    // creates the pipe ends
     while (i < n_of_pipes)
     {
         if (pipe(pipes[i]) == -1)
@@ -119,7 +121,9 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
     i = 0;
     while (i < n_of_pipes + 1)
     {
-        waitpid(pids[i], NULL, 0);
+        waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status) && (i == n_of_pipes))
+			exit(WEXITSTATUS(status));
         i++;
     }
 }
