@@ -6,11 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/07 11:17:32 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:56:03 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void	redirect_output_to_file(char *file, char mode)
 {
@@ -21,10 +21,7 @@ void	redirect_output_to_file(char *file, char mode)
 	else if (mode == 'a') // appending mode
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
-	{
-		perror("permission denied: ");
-		exit (EXIT_FAILURE);
-	}
+		custom_error(ERR_PERMISSION, file, 1);
 	dup2(fd, STDOUT_FILENO);
 	close (fd);
 }
@@ -35,10 +32,7 @@ void	redirect_input_to_file(char *file)
 
 	fd = open (file, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("permission deined: ");
-		exit(EXIT_FAILURE);
-	}
+		custom_error(ERR_PERMISSION, file, 1);
 	dup2(fd, STDIN_FILENO);
 	close (fd);
 }

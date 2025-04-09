@@ -6,11 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/08 19:03:28 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/09 10:29:50 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static char	*get_env_path(char **env)
 {
@@ -75,6 +75,7 @@ void	execute_command(char *cmd, char **env)
 
 	args = ft_split(cmd, ' ');
 	path = get_exec_path(env, args[0]);
+	manage_shell_errors(cmd, path);
 	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)
 	{
 			printf("permission denied\n");

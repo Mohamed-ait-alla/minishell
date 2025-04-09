@@ -6,11 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/08 12:14:24 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/09 11:42:14 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 bool    check_for_pipes(char **av)
 {
@@ -92,13 +92,13 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
             {
 				check_for_redirections(av);
                 redirect_output_to_pipe(pipes[i][1]);
-                j = 3;
+                j = 1;
             }
             else if (i == n_of_pipes) // last command
             {
 				redirect_input_to_pipe(pipes[i - 1][0]);
 				check_for_redirections(av);
-                j = 4; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
+                j = 2; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
 				if (n_of_pipes > 2)
 					j = 4;
             }
