@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/10 12:47:29 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:13:42 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void    execute_pipes(char **av, int n_of_pipes, char **env, char *tmpfile)
             else if (i == n_of_pipes) // last command
             {
 				redirect_input_to_pipe(pipes[i - 1][0]);
-				check_for_redirections(av, tmpfile); // take care when here_doc is found
+				check_for_redirections(av, tmpfile); // take care when here_doc is found, will redirect input again
                 j = 2; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
 				if (n_of_pipes > 2)
 					j = 4;
