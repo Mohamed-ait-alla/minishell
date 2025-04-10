@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/09 10:56:03 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:08:22 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,11 @@ void	redirect_output_to_pipe(int write_pipe_end)
 	close (write_pipe_end);
 }
 
-static char *get_tmp_file(void)
+void	redirect_input_to_file_here_doc(char *limitter, char *tmpfile)
 {
-	char	*file_name;
-	char	*tmpfile;
-	int	 i;
-
-	file_name = ft_itoa((unsigned long long) &i);
-	tmpfile = ft_strjoin("/tmp/", file_name);
-	free(file_name);
-	return (tmpfile);
-}
-
-void	redirect_input_to_file_here_doc(char *limitter)
-{
-	char	*tmpfile;
 	char	*line;
-	char	*h_limitter;
-	int	 fd;
+	int		fd;
 
-	tmpfile = get_tmp_file();
 	fd = open (tmpfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
@@ -77,8 +62,7 @@ void	redirect_input_to_file_here_doc(char *limitter)
 	}
 	write(1, "heredoc> ", 9);
 	line = get_next_line(0);
-	h_limitter = ft_strjoin(limitter, "\n");
-	while (line && (ft_strncmp(line, h_limitter, ft_strlen(line)) != 0))
+	while (line && (ft_strncmp(line, limitter, ft_strlen(line) - 1) != 0))
 	{
 		write(1, "heredoc> ", 9);
 		write(fd, line, ft_strlen(line));
@@ -87,12 +71,5 @@ void	redirect_input_to_file_here_doc(char *limitter)
 	}
 	free(line);
 	close (fd);
-	fd = open (tmpfile, O_RDONLY);
-	if (fd < 0)
-	{
-		perror ("failed to open temporary file for reading data: ");
-		exit (EXIT_FAILURE);
-	}
-	dup2(fd, STDIN_FILENO);
-	close (fd);
+	redirect_input_to_file(tmpfile);
 }

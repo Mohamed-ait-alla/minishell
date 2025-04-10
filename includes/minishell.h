@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/09 10:39:17 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/10 11:24:36 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 void	redirect_output_to_file(char *file, char mode);
 void	redirect_output_to_pipe(int write_pipe_end);
 void	redirect_input_to_file(char *file);
-void	redirect_input_to_file_here_doc(char *limitter);
+void	redirect_input_to_file_here_doc(char *limitter, char *tmpfile);
+char	*get_tmp_file(void);
+int		check_for_here_doc(char **av);
 void	redirect_input_to_pipe(int read_pipe_end);
-void	check_for_redirections(char **av);
+void	check_for_redirections(char **av, char *tmpfile);
 bool	check_for_pipes(char **av);
-void    handle_pipes(char **av, char **env);
+void    handle_pipes(char **av, char **env, char *tmpfile);
 void	execute_command(char *cmd, char **env);
 void	manage_shell_errors(char *arg, char *path);
 

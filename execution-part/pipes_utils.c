@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/09 13:00:56 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:47:29 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void    close_unused_pipes(int pipes[][2], int n_of_pipes, int except)
     }
 }
 
-void    execute_pipes(char **av, int n_of_pipes, char **env)
+void    execute_pipes(char **av, int n_of_pipes, char **env, char *tmpfile)
 {
     int pids[n_of_pipes + 1];
     int pipes[n_of_pipes][2];
@@ -92,14 +92,14 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
         {
             if (i == 0) // first command 
             {
-				check_for_redirections(av);
+				check_for_redirections(av, tmpfile);
                 redirect_output_to_pipe(pipes[i][1]);
-                j = 1;
+                j = 3;
             }
             else if (i == n_of_pipes) // last command
             {
 				redirect_input_to_pipe(pipes[i - 1][0]);
-				check_for_redirections(av);
+				check_for_redirections(av, tmpfile); // take care when here_doc is found
                 j = 2; // j here just for testing when there more than 2 pipes increment with 3 if less increment with 2 and so on
 				if (n_of_pipes > 2)
 					j = 4;
@@ -118,20 +118,28 @@ void    execute_pipes(char **av, int n_of_pipes, char **env)
         i++;
     }
     close_unused_pipes(pipes, n_of_pipes, -1);
-    i = 0;
+    i = 1;
     while (i < n_of_pipes + 1)
     {
         waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status) && (i == n_of_pipes))
+		{
+			if (tmpfile)
+			{
+				printf("tmpfile %s\n", tmpfile);
+				if (unlink(tmpfile) == -1)
+					perror("unlink: ");
+			}
 			exit(WEXITSTATUS(status));
+		}
         i++;
     }
 }
 
-void    handle_pipes(char **av, char **env)
+void    handle_pipes(char **av, char **env, char *tmpfile)
 {
     int n_of_pipes;
 
     n_of_pipes = calculate_number_of_pipes(av);
-	execute_pipes(av, n_of_pipes, env);
+	execute_pipes(av, n_of_pipes, env, tmpfile);
 }
