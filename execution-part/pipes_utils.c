@@ -6,13 +6,10 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/10 13:13:42 by mait-all         ###   ########.fr       */
-=======
-/*   Updated: 2025/04/12 10:43:38 by mait-all         ###   ########.fr       */
->>>>>>> upstream/main
+/*   Updated: 2025/04/12 11:08:24 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 
