@@ -7,6 +7,7 @@ NAME = minishell
 SRCS = main.c \
 	   run_commands.c \
 	   redirect_io.c \
+	   pipes_execution.c \
 	   pipes_utils.c \
 	   utils.c \
 	   ../helper-functions/custom_error.c \

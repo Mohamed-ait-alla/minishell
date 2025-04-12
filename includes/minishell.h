@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/10 11:24:36 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/12 10:48:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 
 //       execution-part function's declaration
+
+//			#________redirections________#
 void	redirect_output_to_file(char *file, char mode);
 void	redirect_output_to_pipe(int write_pipe_end);
 void	redirect_input_to_file(char *file);
@@ -67,9 +69,18 @@ char	*get_tmp_file(void);
 int		check_for_here_doc(char **av);
 void	redirect_input_to_pipe(int read_pipe_end);
 void	check_for_redirections(char **av, char *tmpfile);
+
+//			#________pipes________#
 bool	check_for_pipes(char **av);
 void    handle_pipes(char **av, char **env, char *tmpfile);
+void	close_unused_pipes(int pipes[][2], int n_of_pipes, int except);
+int		calculate_number_of_pipes(char **av);
+bool	check_for_pipes(char **av);
+
+//			#________commands________#
 void	execute_command(char *cmd, char **env);
+
+//			#________errors________#
 void	manage_shell_errors(char *arg, char *path);
 
 #endif
