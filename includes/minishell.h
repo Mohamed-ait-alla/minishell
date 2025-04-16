@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/12 10:48:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:44:10 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_commands
 
 //       parsing-part function's declaration
 void	custom_error(char *err_msg, char *arg, int exit_code);
-char	**split_the_cmd(char const *s);
+t_token	*tokenize_input(char *input);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 
