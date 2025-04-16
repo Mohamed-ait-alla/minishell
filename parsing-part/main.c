@@ -6,25 +6,25 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/03/21 20:56:52 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/15 18:21:12 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_strlen(char *str)
-{
-    int i = 0;
-    while (str[i])
-        i++;
-    return (i);
-}
+// int ft_strlen(char *str)
+// {
+//     int i = 0;
+//     while (str[i])
+//         i++;
+//     return (i);
+// }
 
 void    parsing_cmd(char *cmd)
 {
     int i;
     
-    i = 0; 
+    i = 0;
     if (cmd == NULL || !ft_strncmp(cmd, "exit\n", 5))
     {
         printf("exit\n");
@@ -41,11 +41,11 @@ int main(int ac, char **av)
     // get all commands
     // t_commands  *cmds;
     char *input;
-    
+
     (void)av;
     // check if we have any args
     if (ac != 1)
-        custom_error("Error: run only the programme\n" ,1);
+        custom_error("Error: run only the programme" ,"", 1);
     while (1)
     {
         input = readline("minishell> ");
