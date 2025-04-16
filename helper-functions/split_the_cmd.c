@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 13:53:05 by mdahani           #+#    #+#             */
-/*   Updated: 2025/03/21 20:34:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/15 19:18:14 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	**ft_split_words(char const *s, char **s2, int num_words)
 	word_len = 0;
 	while (word < num_words)
 	{
-		while (s[i] && s[i] >= 32)
+		while (s[i] && s[i] <= 32)
 			i++;
 		while (s[i] && s[i] > 32)
 		{

@@ -1,5 +1,5 @@
 SRCS = main.c \
-       ../helper-functions/custom_error.c \
+       ../helper-functions/custom_error.c ../helper-functions/split_the_cmd.c \
 	   ../libft/ft_strncmp.c ../libft/ft_putstr_fd.c ../libft/ft_putchar_fd.c ../libft/ft_strlen.c
 
 OBJS = $(SRCS:.c=.o)
