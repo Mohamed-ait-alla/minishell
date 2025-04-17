@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/12 10:48:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:38:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //       execution-part function's declaration
 
+# include "../execution-part/parsing-testing-file.h" // warning: just for testing 
+
+//			#________ functions for only testing purposes ________#
+void	tested_main_with_parsing(t_command **cmds, int n_of_cmds);
+
 //			#________redirections________#
 void	redirect_output_to_file(char *file, char mode);
 void	redirect_output_to_pipe(int write_pipe_end);
@@ -68,17 +73,20 @@ void	redirect_input_to_file_here_doc(char *limitter, char *tmpfile);
 char	*get_tmp_file(void);
 int		check_for_here_doc(char **av);
 void	redirect_input_to_pipe(int read_pipe_end);
-void	check_for_redirections(char **av, char *tmpfile);
+void	check_for_redirections(t_command **cmds, char *tmpfile);
 
 //			#________pipes________#
 bool	check_for_pipes(char **av);
-void    handle_pipes(char **av, char **env, char *tmpfile);
+void    handle_pipes(t_command **cmds, char *tmpfile, int n_of_cmds);
 void	close_unused_pipes(int pipes[][2], int n_of_pipes, int except);
-int		calculate_number_of_pipes(char **av);
-bool	check_for_pipes(char **av);
+// int		calculate_number_of_pipes(char **av);
+// bool	check_for_pipes(char **av);
 
-//			#________commands________#
-void	execute_command(char *cmd, char **env);
+//			#________external commands________#
+void	execute_command(char **args, char **env);
+
+//			#________built-in commands________#
+int		is_builtin(char *cmd);
 
 //			#________errors________#
 void	manage_shell_errors(char *arg, char *path);

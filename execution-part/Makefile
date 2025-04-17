@@ -5,6 +5,7 @@ RM = rm -f
 NAME = minishell
 
 SRCS = main.c \
+	   parsing-testing-file.c \
 	   run_commands.c \
 	   redirect_io.c \
 	   pipes_execution.c \
@@ -20,7 +21,7 @@ S_OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(S_OBJS) | LIB
-	$(CC) $(CFLAGS) $(S_OBJS) -L../libft -lft -o ${NAME}
+	$(CC) $(CFLAGS) $(S_OBJS) -L../libft -lft -lreadline -o ${NAME}
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
