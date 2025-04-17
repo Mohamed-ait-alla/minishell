@@ -6,18 +6,20 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/16 16:42:25 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/17 11:11:12 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+// paring the command
 void	parsing_cmd(char *input)
 {
 	int		i;
 	t_token	*tokens;
 
 	i = 0;
+	// handle the exit cmd
 	if (input == NULL || !ft_strncmp(input, "exit", 4))
 	{
 		printf("exit\n");
@@ -26,6 +28,7 @@ void	parsing_cmd(char *input)
 		free(input);
 		exit(0);
 	}
+	// split the cmd to tokens
 	tokens = tokenize_input(input);
 	while (tokens)
 	{

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/16 16:46:31 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/17 11:16:29 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ static void	add_token(t_token **head, t_token *new_token)
 	}
 }
 
+// split the cmd to tokens
 t_token	*tokenize_input(char *input)
 {
 	t_token			*tokens;
@@ -115,13 +116,18 @@ t_token	*tokenize_input(char *input)
 			i++;
 		if (input[i] == '\0')
 			break ;
+		// handle the single and double quote and get the value of quotes
 		if (input[i] == '\'' || input[i] == '"')
 			value = get_quote_value(input, &i);
+		// get the opearator
 		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 			value = get_operator(input, &i);
+		// get the word
 		else
 			value = get_word(input, &i);
+		// add a type of token (PIPE, WORD, ...)
 		type = get_token_type(value);
+		// add a new token to list of tokens
 		add_token(&tokens, new_token(value, type));
 	}
 	return (tokens);
