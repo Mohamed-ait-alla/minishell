@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/09 12:54:15 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/17 18:28:28 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static char	*get_path_name(char *cmd, char **env)
 				binary_path = ft_strjoin(holder, cmd);
 				free(holder);
 				if (access(binary_path, F_OK) == 0 && access(binary_path, X_OK) == 0)
-						return (binary_path);
+					return (binary_path);
 				free(binary_path);
 				i++;
 		}
@@ -68,12 +68,10 @@ static char	*get_exec_path(char **env, char *cmd)
 	return (get_path_name(cmd, env));
 }
 
-void	execute_command(char *cmd, char **env)
+void	execute_command(char **args, char **env)
 {
-	char	**args;
 	char	*path;
 
-	args = ft_split(cmd, ' ');
 	path = get_exec_path(env, args[0]);
 	manage_shell_errors(args[0], path);
 	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)
