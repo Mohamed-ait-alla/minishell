@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/17 11:38:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:10:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 # define ERR_NO_FILE "bash: no such file or directory: "
 # define ERR_PERMISSION "bash: permission denied: "
 # define ERR_CMD_NOT_FOUND "bash: command not found: "
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 typedef enum s_token_type
 {
@@ -53,10 +53,11 @@ typedef struct s_commands
 }						t_commands;
 
 //       parsing-part function's declaration
-void	custom_error(char *err_msg, char *arg, int exit_code);
-char	**split_the_cmd(char const *s);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
+void					custom_error(char *err_msg, char *arg, int exit_code);
+t_token					*tokenize_input(char *input);
+int						ft_strncmp(const char *s1, const char *s2, size_t n);
+t_commands				*parse_tokens(t_token *tokens);
+char					**ft_realloc_array(char **arr, char *new_str);
 
 //       execution-part function's declaration
 
@@ -89,6 +90,6 @@ void	execute_command(char **args, char **env);
 int		is_builtin(char *cmd);
 
 //			#________errors________#
-void	manage_shell_errors(char *arg, char *path);
+void					manage_shell_errors(char *arg, char *path);
 
 #endif
