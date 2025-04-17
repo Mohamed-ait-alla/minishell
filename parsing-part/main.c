@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/17 11:11:12 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:13:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 // paring the command
 void	parsing_cmd(char *input)
 {
-	int		i;
-	t_token	*tokens;
+	int			i;
+	t_token		*tokens;
+	t_commands	*cmd_list;
 
 	i = 0;
 	// handle the exit cmd
@@ -35,6 +36,8 @@ void	parsing_cmd(char *input)
 		printf("TOKEN: [%s] Type: %d\n", tokens->value, tokens->type);
 		tokens = tokens->next;
 	}
+	// parse the tokens
+	cmd_list = parse_tokens(tokens);
 }
 
 int	main(int ac, char **av)

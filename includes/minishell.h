@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/16 16:44:10 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:12:59 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 # define ERR_NO_FILE "bash: no such file or directory: "
 # define ERR_PERMISSION "bash: permission denied: "
 # define ERR_CMD_NOT_FOUND "bash: command not found: "
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <stdbool.h>
-# include <readline/readline.h>
-# include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include <fcntl.h>
+# include <readline/readline.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 typedef enum s_token_type
 {
@@ -53,34 +53,37 @@ typedef struct s_commands
 }						t_commands;
 
 //       parsing-part function's declaration
-void	custom_error(char *err_msg, char *arg, int exit_code);
-t_token	*tokenize_input(char *input);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
+void					custom_error(char *err_msg, char *arg, int exit_code);
+t_token					*tokenize_input(char *input);
+int						ft_strncmp(const char *s1, const char *s2, size_t n);
+t_commands				*parse_tokens(t_token *tokens);
+char					**ft_realloc_array(char **arr, char *new_str);
 
 //       execution-part function's declaration
 
 //			#________redirections________#
-void	redirect_output_to_file(char *file, char mode);
-void	redirect_output_to_pipe(int write_pipe_end);
-void	redirect_input_to_file(char *file);
-void	redirect_input_to_file_here_doc(char *limitter, char *tmpfile);
-char	*get_tmp_file(void);
-int		check_for_here_doc(char **av);
-void	redirect_input_to_pipe(int read_pipe_end);
-void	check_for_redirections(char **av, char *tmpfile);
+void					redirect_output_to_file(char *file, char mode);
+void					redirect_output_to_pipe(int write_pipe_end);
+void					redirect_input_to_file(char *file);
+void					redirect_input_to_file_here_doc(char *limitter,
+							char *tmpfile);
+char					*get_tmp_file(void);
+int						check_for_here_doc(char **av);
+void					redirect_input_to_pipe(int read_pipe_end);
+void					check_for_redirections(char **av, char *tmpfile);
 
 //			#________pipes________#
-bool	check_for_pipes(char **av);
-void    handle_pipes(char **av, char **env, char *tmpfile);
-void	close_unused_pipes(int pipes[][2], int n_of_pipes, int except);
-int		calculate_number_of_pipes(char **av);
-bool	check_for_pipes(char **av);
+bool					check_for_pipes(char **av);
+void					handle_pipes(char **av, char **env, char *tmpfile);
+void					close_unused_pipes(int pipes[][2], int n_of_pipes,
+							int except);
+int						calculate_number_of_pipes(char **av);
+bool					check_for_pipes(char **av);
 
 //			#________commands________#
-void	execute_command(char *cmd, char **env);
+void					execute_command(char *cmd, char **env);
 
 //			#________errors________#
-void	manage_shell_errors(char *arg, char *path);
+void					manage_shell_errors(char *arg, char *path);
 
 #endif
