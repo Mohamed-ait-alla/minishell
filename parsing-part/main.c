@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/17 14:13:36 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/18 11:30:55 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ void	parsing_cmd(char *input)
 	int			i;
 	t_token		*tokens;
 	t_commands	*cmd_list;
+	t_token		*tmp;
 
 	i = 0;
 	// handle the exit cmd
-	if (input == NULL || !ft_strncmp(input, "exit", 4))
+	if ((input == NULL || !ft_strncmp(input, "exit", 4))
+		&& (ft_strlen(input) == 4))
 	{
 		printf("exit\n");
 		while (i != 99999999)
@@ -31,10 +33,12 @@ void	parsing_cmd(char *input)
 	}
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
-	while (tokens)
+	// print tokens => value & type
+	tmp = tokens;
+	while (tmp)
 	{
-		printf("TOKEN: [%s] Type: %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
+		printf("TOKEN: [%s] Type: %d\n", tmp->value, tmp->type);
+		tmp = tmp->next;
 	}
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
@@ -53,6 +57,8 @@ int	main(int ac, char **av)
 		input = readline("minishell> ");
 		if (!input)
 			break ;
+		if (ft_strlen(input) > 0)
+			add_history(input);
 		// paring the command
 		parsing_cmd(input);
 		free(input);
