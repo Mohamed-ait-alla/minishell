@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 18:03:00 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:09:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	parsing_cmd(char *input)
 		cmd_list = cmd_list->next;
 	}
 
-	// ---------- Excution Part ----------
+	// ---------- Execution Part ----------
 
 	// free token list and command list after execution
 	free_tokens(tokens);
