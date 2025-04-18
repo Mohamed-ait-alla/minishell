@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 12:50:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:03:00 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,12 @@ void	parsing_cmd(char *input)
 					cmd_list->append ? "append" : "overwrite");
 		cmd_list = cmd_list->next;
 	}
-	// free both token list and command list
+
+	// ---------- Excution Part ----------
+
+	// free token list and command list after execution
+	free_tokens(tokens);
+	free_commands(cmd_list);
 }
 
 int	main(int ac, char **av)
