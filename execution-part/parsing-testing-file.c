@@ -5,7 +5,7 @@
 
 
 #include "parsing-testing-file.h"
-
+# include "../includes/minishell.h"
 // Helper to skip whitespace
 char *skip_spaces(char *str) {
     while (*str == ' ' || *str == '\t')
@@ -71,7 +71,10 @@ void free_commands(t_command **cmds, int count) {
 // Dummy executor
 void execute_commands(t_command **cmds, int count, char **env) {
 	for (int i=0; i < count; i++)
-		cmds[i]->env = env;	
+		cmds[i]->env = copy_env(env);
+	// for (int i =0; cmds[0]->env[i]; i++)
+	// 	printf("%s\n", cmds[0]->env[i]);
+	
 	tested_main_with_parsing(cmds, count);
     // for (int i = 0; i < count; i++) {
     //     printf("Command %d:\n", i + 1);

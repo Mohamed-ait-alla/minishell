@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 17:51:48 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/19 11:36:47 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define ERR_NO_FILE "bash: no such file or directory: "
 # define ERR_PERMISSION "bash: permission denied: "
 # define ERR_CMD_NOT_FOUND "bash: command not found: "
+# define PATH_MAX 1024
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
@@ -98,5 +99,8 @@ int						is_builtin(char *cmd);
 
 //			#________errors________#
 void					manage_shell_errors(char *arg, char *path);
+
+//			#________utils________#
+char	**copy_env(char **envp);
 
 #endif
