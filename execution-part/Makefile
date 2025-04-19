@@ -10,6 +10,7 @@ SRCS = main.c \
 	   redirect_io.c \
 	   pipes_execution.c \
 	   pipes_utils.c \
+	   builtins.c \
 	   utils.c \
 	   ../helper-functions/custom_error.c \
 	   ../get_next_line/get_next_line.c \
