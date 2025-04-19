@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 20:17:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/19 20:32:23 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char					**ft_realloc_array(char **arr, char *new_str);
 void					free_tokens(t_token *tokens);
 void					free_commands(t_commands *cmds);
 t_env					*init_env(char **env);
+char					*get_env_value(t_env *env, char *key);
 
 //       execution-part function's declaration
 

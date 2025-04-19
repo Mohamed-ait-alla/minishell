@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 19:42:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/19 20:34:52 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	parsing_cmd(char *input, char **env)
 	t_token		*tmp_token;
 	t_env		*tmp_env;
 	int			x;
+	char		*value_of_env;
 
 	i = 0;
 	// handle the exit cmd
@@ -55,6 +56,12 @@ void	parsing_cmd(char *input, char **env)
 			printf("Env: %s\n", tmp_env->key);
 		tmp_env = tmp_env->next;
 	}
+	// print value of env
+	value_of_env = get_env_value(env_list, "USER");
+	if (value_of_env)
+		printf("value of env: %s\n", value_of_env);
+	else
+		printf("env not found\n");
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
