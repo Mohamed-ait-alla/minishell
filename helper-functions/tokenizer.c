@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/17 11:16:29 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/18 12:47:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,19 @@ static char	*get_word(char *input, int *i)
 
 static t_token_type	get_token_type(char *value)
 {
-	if (!ft_strncmp(value, "|", 1))
+	if (!ft_strncmp(value, ">>", 2))
+		return (TOKEN_APPEND);
+	else if (!ft_strncmp(value, "<<", 2))
+		return (TOKEN_HEREDOC);
+	else if (!ft_strncmp(value, "|", 1))
 		return (TOKEN_PIPE);
 	else if (!ft_strncmp(value, ">", 1))
 		return (TOKEN_REDIRECT_OUT);
 	else if (!ft_strncmp(value, "<", 1))
 		return (TOKEN_REDIRECT_IN);
-	else if (!ft_strncmp(value, ">>", 2))
-		return (TOKEN_APPEND);
-	else if (!ft_strncmp(value, "<<", 2))
-		return (TOKEN_HEREDOC);
 	return (TOKEN_WORD);
 }
+
 static t_token	*new_token(char *value, t_token_type type)
 {
 	t_token	*new_token;
