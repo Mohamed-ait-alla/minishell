@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 11:36:47 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/19 20:17:50 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -53,6 +54,14 @@ typedef struct s_commands
 	struct s_commands	*next;
 }						t_commands;
 
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env		*next;
+
+}						t_env;
+
 //       parsing-part function's declaration
 void					custom_error(char *err_msg, char *arg, int exit_code);
 t_token					*tokenize_input(char *input);
@@ -61,6 +70,7 @@ t_commands				*parse_tokens(t_token *tokens);
 char					**ft_realloc_array(char **arr, char *new_str);
 void					free_tokens(t_token *tokens);
 void					free_commands(t_commands *cmds);
+t_env					*init_env(char **env);
 
 //       execution-part function's declaration
 

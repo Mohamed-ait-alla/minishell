@@ -7,6 +7,7 @@ SRCS = main.c \
 	   ../helper-functions/ft_realloc_array.c \
 	   ../helper-functions/free_tokens.c \
 	   ../helper-functions/free_commands.c \
+	   ../helper-functions/init_env.c \
 
 LIBFT_DIR = ../libft
 LIBFT = $(LIBFT_DIR)/libft.a

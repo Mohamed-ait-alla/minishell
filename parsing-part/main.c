@@ -6,19 +6,20 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 20:09:51 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/19 19:42:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // paring the command
-void	parsing_cmd(char *input)
+void	parsing_cmd(char *input, char **env)
 {
 	int			i;
 	t_token		*tokens;
+	t_env		*env_list;
 	t_commands	*cmd_list;
-	t_token		*tmp;
+	t_token		*tmp_token;
 
 	i = 0;
 	// handle the exit cmd
@@ -34,11 +35,23 @@ void	parsing_cmd(char *input)
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
 	// print tokens => value & type
-	tmp = tokens;
-	while (tmp)
+	tmp_token = tokens;
+	while (tmp_token)
 	{
-		printf("TOKEN: [%s] Type: %d\n", tmp->value, tmp->type);
-		tmp = tmp->next;
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
+	// store the env variables in the env list
+	env_list = init_env(env);
+	// print env list
+	t_env *tmp_env = env_list;
+	while (tmp_env)
+	{
+		if (tmp_env->value)
+			printf("%s=%s\n", tmp_env->key, tmp_env->value);
+		else
+			printf("Env: %s\n", tmp_env->key);
+		tmp_env = tmp_env->next;
 	}
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
@@ -68,7 +81,7 @@ void	parsing_cmd(char *input)
 	free_commands(cmd_list);
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **env)
 {
 	char	*input;
 
@@ -84,7 +97,7 @@ int	main(int ac, char **av)
 		if (ft_strlen(input) > 0)
 			add_history(input);
 		// paring the command
-		parsing_cmd(input);
+		parsing_cmd(input, env);
 		free(input);
 	}
 }
