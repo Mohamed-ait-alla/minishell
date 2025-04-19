@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # define ERR_NO_FILE "bash: no such file or directory: "
@@ -111,6 +110,6 @@ int						is_builtin(char *cmd);
 void					manage_shell_errors(char *arg, char *path);
 
 //			#________utils________#
-char	**copy_env(char **envp);
+char					**copy_env(char **envp);
 
 #endif

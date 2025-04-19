@@ -20,6 +20,8 @@ void	parsing_cmd(char *input, char **env)
 	t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
+	t_env		*tmp_env;
+	int			x;
 
 	i = 0;
 	// handle the exit cmd
@@ -44,7 +46,7 @@ void	parsing_cmd(char *input, char **env)
 	// store the env variables in the env list
 	env_list = init_env(env);
 	// print env list
-	t_env *tmp_env = env_list;
+	tmp_env = env_list;
 	while (tmp_env)
 	{
 		if (tmp_env->value)
@@ -56,7 +58,7 @@ void	parsing_cmd(char *input, char **env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
-	int x = 0;
+	x = 0;
 	while (cmd_list)
 	{
 		printf("Command %d:\n", x++);
@@ -70,12 +72,10 @@ void	parsing_cmd(char *input, char **env)
 			printf("  Input file: %s\n", cmd_list->input_file);
 		if (cmd_list->output_file)
 			printf("  Output file: %s (%s)\n", cmd_list->output_file,
-					cmd_list->append ? "append" : "overwrite");
+				cmd_list->append ? "append" : "overwrite");
 		cmd_list = cmd_list->next;
 	}
-
 	// ---------- Execution Part ----------
-
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
