@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/20 11:54:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/20 12:51:48 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,23 @@ void	builtin_exit(char	**args)
 	exit (ft_atoi(args[1]));
 }
 
+int	builtin_env(char **env)
+{
+	int	i;
+	
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
+		i++;
+	}
+	if (i != 0)
+		return (EXIT_SUCCESS);
+	else
+		return (EXIT_FAILURE);
+}
+
 int	execute_builtin(char **args, char **env)
 {
 	if (ft_strcmp(args[0], "cd") == 0)
@@ -123,4 +140,6 @@ int	execute_builtin(char **args, char **env)
 		return (builtin_pwd(env));
 	else if (ft_strcmp(args[0], "exit") == 0)
 		builtin_exit(args);
+	else if (ft_strcmp(args[0], "env") == 0)
+		return (builtin_env(env));
 }
