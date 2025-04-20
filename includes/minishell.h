@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 20:32:23 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/20 19:27:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void					free_tokens(t_token *tokens);
 void					free_commands(t_commands *cmds);
 t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);
+char					*expand_variable_value(char *word, t_env *env);
 
 //       execution-part function's declaration
 
