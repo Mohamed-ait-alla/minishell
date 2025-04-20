@@ -56,7 +56,7 @@ t_command *parse_command(char *cmd_str) {
 }
 
 // Free command array
-void free_commands(t_command **cmds, int count) {
+void free_commandds(t_command **cmds, int count) {
     for (int i = 0; i < count; i++) {
         for (int j = 0; cmds[i]->args[j]; j++)
             free(cmds[i]->args[j]);
@@ -71,7 +71,7 @@ void free_commands(t_command **cmds, int count) {
 // Dummy executor
 void execute_commands(t_command **cmds, int count, char **env) {
 	for (int i=0; i < count; i++)
-		cmds[i]->env = copy_env(env);
+		cmds[i]->env = env;
 	// for (int i =0; cmds[0]->env[i]; i++)
 	// 	printf("%s\n", cmds[0]->env[i]);
 	
@@ -101,6 +101,8 @@ void execute_commands(t_command **cmds, int count, char **env) {
 
 int main(int ac, char **av, char **env) {
     char *input;
+	char **envp;
+	envp = copy_env(env);
 
     while ((input = readline("minishell$ "))) {
         if (*input)
@@ -117,9 +119,9 @@ int main(int ac, char **av, char **env) {
         cmds[cmd_count] = NULL;
         free(cmd_strs);
 
-        execute_commands(cmds, cmd_count, env); // Replace with your real execution logic
+        execute_commands(cmds, cmd_count, envp); // Replace with your real execution logic
 
-        free_commands(cmds, cmd_count);
+        free_commandds(cmds, cmd_count);
         free(input);
     }
 
