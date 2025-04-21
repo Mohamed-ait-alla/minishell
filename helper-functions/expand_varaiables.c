@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 17:37:47 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 19:42:30 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,40 @@ static char	*expand_variable_value(char *word, t_env *env)
 	while (word[i])
 	{
 		if (word[i] == '$' && word[i + 1] && (ft_isalpha(word[i + 1]) || word[i
-				+ 1] == '_'))
+				+ 1] == '_' || word[i + 1] == '{'))
 		{
 			i++;
-			start = i;
-			while (word[i] && (ft_isalnum(word[i]) || word[i] == '_'))
+			if (word[i] == '{')
+			{
 				i++;
-			key = ft_substr(word, start, i - start);
-			var_value = get_env_value(env, key);
-			if (!var_value)
-				var_value = ft_strdup("");
-			tmp = ft_strjoin(result, var_value);
-			free(result);
-			result = tmp;
-			free(key);
+				start = i;
+				while (word[i] && word[i] != '}')
+					i++;
+				key = ft_substr(word, start, i - start);
+				i++;
+				printf("key: %s\n", key);
+				var_value = get_env_value(env, key);
+				if (!var_value)
+					var_value = ft_strdup("");
+				tmp = ft_strjoin(result, var_value);
+				free(result);
+				result = tmp;
+				free(key);
+			}
+			else
+			{
+				start = i;
+				while (word[i] && (ft_isalnum(word[i]) || word[i] == '_'))
+					i++;
+				key = ft_substr(word, start, i - start);
+				var_value = get_env_value(env, key);
+				if (!var_value)
+					var_value = ft_strdup("");
+				tmp = ft_strjoin(result, var_value);
+				free(result);
+				result = tmp;
+				free(key);
+			}
 		}
 		else
 		{
@@ -72,9 +92,10 @@ static char	*expand_variable_value(char *word, t_env *env)
 }
 
 // expand the env
-void expand_variables(t_token *tokens, t_env *env)
+void	expand_variables(t_token *tokens, t_env *env)
 {
-	char *expanded_value;
+	char	*expanded_value;
+
 	while (tokens)
 	{
 		if (tokens->type == TOKEN_WORD && ft_strchr(tokens->value, '$'))
