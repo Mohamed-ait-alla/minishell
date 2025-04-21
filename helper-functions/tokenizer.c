@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 17:26:30 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 20:45:27 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,29 @@ static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 	start = (*i);
 	while (input[*i] && input[*i] != quote)
 		(*i)++;
+	if (input[*i] == '\0')
+	{
+		while (1)
+		{
+			if (quote == '"')
+			{
+				if (!ft_strncmp(readline("dquote> "), "\"", 1)
+						&& ft_strlen(readline("dquote> ")) == 1)
+					break ;
+			}
+			else if (quote == '\'')
+			{
+				if (!ft_strncmp(readline("squote> "), "\'", 1)
+					&& ft_strlen(readline("squote> ")) == 1)
+					break ;
+			}
+		}
+	}
 	str = ft_substr(input, start, *i - start);
 	if (input[*i] == quote)
 		(*i)++;
 	if (quote == '\'')
-	    *quote_type = SINGLE_QUOTE;
+		*quote_type = SINGLE_QUOTE;
 	else
 		*quote_type = DOUBLE_QUOTE;
 	return (str);
@@ -77,7 +95,8 @@ static t_token_type	get_token_type(char *value)
 	return (TOKEN_WORD);
 }
 
-static t_token	*new_token(char *value, t_token_type type, t_quote_type quote_type)
+static t_token	*new_token(char *value, t_token_type type,
+		t_quote_type quote_type)
 {
 	t_token	*new_token;
 
