@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 15:12:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:10:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,18 @@ typedef enum s_token_type
 	TOKEN_SEMICOLON,
 }						t_token_type;
 
+typedef enum s_quote_type
+{
+	NO_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+}						t_quote_type;
+
 typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
+	t_quote_type		quote_type;
 	struct s_token		*next;
 }						t_token;
 

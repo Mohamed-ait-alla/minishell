@@ -6,14 +6,14 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 12:47:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:26:30 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-static char	*get_quote_value(char *input, int *i)
+static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 {
 	char	quote;
 	int		start;
@@ -27,6 +27,10 @@ static char	*get_quote_value(char *input, int *i)
 	str = ft_substr(input, start, *i - start);
 	if (input[*i] == quote)
 		(*i)++;
+	if (quote == '\'')
+	    *quote_type = SINGLE_QUOTE;
+	else
+		*quote_type = DOUBLE_QUOTE;
 	return (str);
 }
 
@@ -73,7 +77,7 @@ static t_token_type	get_token_type(char *value)
 	return (TOKEN_WORD);
 }
 
-static t_token	*new_token(char *value, t_token_type type)
+static t_token	*new_token(char *value, t_token_type type, t_quote_type quote_type)
 {
 	t_token	*new_token;
 
@@ -82,6 +86,7 @@ static t_token	*new_token(char *value, t_token_type type)
 		return (NULL);
 	new_token->value = value;
 	new_token->type = type;
+	new_token->quote_type = quote_type;
 	new_token->next = NULL;
 	return (new_token);
 }
@@ -108,6 +113,7 @@ t_token	*tokenize_input(char *input)
 	int				i;
 	char			*value;
 	t_token_type	type;
+	t_quote_type	quote_type;
 
 	tokens = NULL;
 	i = 0;
@@ -117,9 +123,10 @@ t_token	*tokenize_input(char *input)
 			i++;
 		if (input[i] == '\0')
 			break ;
+		quote_type = NO_QUOTE;
 		// handle the single and double quote and get the value of quotes
 		if (input[i] == '\'' || input[i] == '"')
-			value = get_quote_value(input, &i);
+			value = get_quote_value(input, &i, &quote_type);
 		// get the opearator
 		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 			value = get_operator(input, &i);
@@ -129,7 +136,7 @@ t_token	*tokenize_input(char *input)
 		// add a type of token (PIPE, WORD, ...)
 		type = get_token_type(value);
 		// add a new token to list of tokens
-		add_token(&tokens, new_token(value, type));
+		add_token(&tokens, new_token(value, type, quote_type));
 	}
 	return (tokens);
 }
