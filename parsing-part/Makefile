@@ -9,7 +9,7 @@ SRCS = main.c \
 	   ../helper-functions/free_commands.c \
 	   ../helper-functions/init_env.c \
 	   ../helper-functions/get_env_value.c \
-	   ../helper-functions/expand_env_value.c \
+	   ../helper-functions/expand_varaiables.c \
 
 LIBFT_DIR = ../libft
 LIBFT = $(LIBFT_DIR)/libft.a

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_env_value.c                                 :+:      :+:    :+:   */
+/*   expand_varaiables.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/20 19:22:33 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 15:14:16 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	return (new_str);
 }
 
-char	*expand_variable_value(char *word, t_env *env)
+static char	*expand_variable_value(char *word, t_env *env)
 {
 	int		i;
 	int		start;
@@ -69,4 +69,20 @@ char	*expand_variable_value(char *word, t_env *env)
 		}
 	}
 	return (result);
+}
+
+// expand the env
+void expand_variables(t_token *tokens, t_env *env)
+{
+	char *expanded_value;
+	while (tokens)
+	{
+		if (tokens->type == TOKEN_WORD && ft_strchr(tokens->value, '$'))
+		{
+			expanded_value = expand_variable_value(tokens->value, env);
+			free(tokens->value);
+			tokens->value = expanded_value;
+		}
+		tokens = tokens->next;
+	}
 }
