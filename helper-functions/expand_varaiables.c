@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 15:14:16 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:37:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,13 @@ void expand_variables(t_token *tokens, t_env *env)
 	{
 		if (tokens->type == TOKEN_WORD && ft_strchr(tokens->value, '$'))
 		{
-			expanded_value = expand_variable_value(tokens->value, env);
-			free(tokens->value);
-			tokens->value = expanded_value;
+			if (tokens->quote_type != SINGLE_QUOTE)
+			{
+				expanded_value = expand_variable_value(tokens->value, env);
+				if (tokens->value)
+					free(tokens->value);
+				tokens->value = expanded_value;
+			}
 		}
 		tokens = tokens->next;
 	}
