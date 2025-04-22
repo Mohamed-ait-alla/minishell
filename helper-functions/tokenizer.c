@@ -6,51 +6,47 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/22 09:59:00 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/22 12:45:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
 
-static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
+static char	*get_quote_value(char **input, int *i, t_quote_type *quote_type)
 {
 	char	quote;
 	int		start;
 	char	*str;
 	char	*line;
+	char	*tmp;
+	char	*new_input;
 
-	quote = input[*i];
+	quote = (*input)[*i];
 	(*i)++;
 	start = (*i);
-	while (input[*i] && input[*i] != quote)
+	while ((*input)[*i] && (*input)[*i] != quote)
 		(*i)++;
-	if (input[*i] == '\0')
+	while ((*input)[*i] == '\0')
 	{
-		while (1)
-		{
-			if (quote == '\'')
-			{
-				line = readline("squote> ");
-				if (!line)
-					break ;
-				if (!ft_strncmp(line, "\'", 1) && ft_strlen(line) == 1)
-					break ;
-			}
-			else if (quote == '"')
-			{
-				line = readline("dquote> ");
-				if (!line)
-					break ;
-				if (!ft_strncmp(line, "\"", 1) && ft_strlen(line) == 1)
-					break ;
-			}
-		}
-		if (line)
-			free(line);
+		if (quote == '\'')
+			line = readline("quote> ");
+		else
+			line = readline("dquote> ");
+		if (!line)
+			break ;
+		tmp = ft_strjoin((*input), "\n");
+		new_input = ft_strjoin(tmp, line);
+		free(tmp);
+		free((*input));
+		(*input) = new_input;
+		free(line);
+		(*i) = start;
+		while ((*input)[*i] && (*input)[*i] != quote)
+			(*i)++;
 	}
-	str = ft_substr(input, start, *i - start);
-	if (input[*i] == quote)
+	str = ft_substr((*input), start, *i - start);
+	if ((*input)[*i] == quote)
 		(*i)++;
 	if (quote == '\'')
 		*quote_type = SINGLE_QUOTE;
@@ -152,7 +148,7 @@ t_token	*tokenize_input(char *input)
 		quote_type = NO_QUOTE;
 		// handle the single and double quote and get the value of quotes
 		if (input[i] == '\'' || input[i] == '"')
-			value = get_quote_value(input, &i, &quote_type);
+			value = get_quote_value(&input, &i, &quote_type);
 		// get the opearator
 		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 			value = get_operator(input, &i);
