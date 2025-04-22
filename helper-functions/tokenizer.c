@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 20:45:27 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/22 09:59:00 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 	char	quote;
 	int		start;
 	char	*str;
+	char	*line;
 
 	quote = input[*i];
 	(*i)++;
@@ -28,19 +29,25 @@ static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 	{
 		while (1)
 		{
-			if (quote == '"')
+			if (quote == '\'')
 			{
-				if (!ft_strncmp(readline("dquote> "), "\"", 1)
-						&& ft_strlen(readline("dquote> ")) == 1)
+				line = readline("squote> ");
+				if (!line)
+					break ;
+				if (!ft_strncmp(line, "\'", 1) && ft_strlen(line) == 1)
 					break ;
 			}
-			else if (quote == '\'')
+			else if (quote == '"')
 			{
-				if (!ft_strncmp(readline("squote> "), "\'", 1)
-					&& ft_strlen(readline("squote> ")) == 1)
+				line = readline("dquote> ");
+				if (!line)
+					break ;
+				if (!ft_strncmp(line, "\"", 1) && ft_strlen(line) == 1)
 					break ;
 			}
 		}
+		if (line)
+			free(line);
 	}
 	str = ft_substr(input, start, *i - start);
 	if (input[*i] == quote)
