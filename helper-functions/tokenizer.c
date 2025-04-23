@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/22 12:55:20 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:14:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,15 @@ static char	*get_operator(char *input, int *i)
 	{
 		operator= ft_substr(input, *i, 2);
 		*i += 2;
+		if (!ft_strncmp(input + *i, ">", 1) || !ft_strncmp(input + *i, "<", 1))
+			custom_error("syntax error near unexpected token `>>'", "", 2);
 	}
 	else
 	{
 		operator= ft_substr(input, *i, 1);
 		*i += 1;
+		if (!ft_strncmp(input + *i, "|", 1))
+			custom_error("syntax error near unexpected token `|'", "", 2);
 	}
 	return (operator);
 }
