@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/19 12:24:46 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:25:56 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	tested_main_with_parsing(t_command **cmds, int n_of_cmds)
 	if (is_builtin(cmds[0]->args[0]))
 	{
 		status = execute_builtin(cmds[0]->args, cmds[0]->env);
-		// exit(status);
+		exit(status);
 	}
 	// check for pipes
 	if (n_of_cmds > 1)
