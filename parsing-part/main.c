@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/20 19:37:19 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:34:10 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	parsing_cmd(char *input, char **env)
 	t_env		*tmp_env;
 	int			x;
 	char		*value_of_env;
-	char		*resu_of_expand_env;
-
 	i = 0;
 	// handle the exit cmd
 	if ((input == NULL || !ft_strncmp(input, "exit", 4))
@@ -64,15 +62,21 @@ void	parsing_cmd(char *input, char **env)
 	else
 		printf("env not found\n");
 	// expand the env variables
-	resu_of_expand_env = expand_variable_value(tokens, env_list);
-	if (resu_of_expand_env)
-		printf("Expanded env: %s\n", resu_of_expand_env);
-	else
-		printf("env not found\n");
+	expand_variables(tokens, env_list);
+
+	// print tokens after expanding the env variables
+	printf("Tokens after expanding:\n");
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
+	
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
-	x = 0;
+	x = 1;
 	while (cmd_list)
 	{
 		printf("Command %d:\n", x++);
