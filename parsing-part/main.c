@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/23 16:47:16 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:32:37 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 // paring the command
 void	parsing_cmd(char *input, char **env)
 {
+	(void)env;
 	int			i;
 	t_token		*tokens;
-	t_env		*env_list;
+	// t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
-	t_env		*tmp_env;
+	// t_env		*tmp_env;
 	int			x;
-	char		*value_of_env;
+	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
 	if ((input == NULL || !ft_strncmp(input, "exit", 4))
@@ -36,6 +37,9 @@ void	parsing_cmd(char *input, char **env)
 	}
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
+	if (!tokens)
+		printf("syntax error\n");
+	printf("====================================================================>\n");
 	// print tokens => value & type
 	tmp_token = tokens;
 	while (tmp_token)
@@ -43,35 +47,35 @@ void	parsing_cmd(char *input, char **env)
 		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
 		tmp_token = tmp_token->next;
 	}
-	// store the env variables in the env list
-	env_list = init_env(env);
-	// print env list
-	tmp_env = env_list;
-	while (tmp_env)
-	{
-		if (tmp_env->value)
-			printf("%s=%s\n", tmp_env->key, tmp_env->value);
-		else
-			printf("Env: %s\n", tmp_env->key);
-		tmp_env = tmp_env->next;
-	}
-	// print value of env
-	value_of_env = get_env_value(env_list, "USER");
-	if (value_of_env)
-		printf("value of env: %s\n", value_of_env);
-	else
-		printf("env not found\n");
-	// expand the env variables
-	expand_variables(tokens, env_list);
+	// // store the env variables in the env list
+	// env_list = init_env(env);
+	// // print env list
+	// tmp_env = env_list;
+	// while (tmp_env)
+	// {
+	// 	if (tmp_env->value)
+	// 		printf("%s=%s\n", tmp_env->key, tmp_env->value);
+	// 	else
+	// 		printf("Env: %s\n", tmp_env->key);
+	// 	tmp_env = tmp_env->next;
+	// }
+	// // print value of env
+	// value_of_env = get_env_value(env_list, "USER");
+	// if (value_of_env)
+	// 	printf("value of env: %s\n", value_of_env);
+	// else
+	// 	printf("env not found\n");
+	// // expand the env variables
+	// expand_variables(tokens, env_list);
 
-	// print tokens after expanding the env variables
-	printf("Tokens after expanding:\n");
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// // print tokens after expanding the env variables
+	// printf("Tokens after expanding:\n");
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
