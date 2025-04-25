@@ -6,11 +6,18 @@ NAME = minishell
 
 SRCS = main.c \
 	   parsing-testing-file.c \
-	   run_commands.c \
 	   redirect_io.c \
 	   pipes_execution.c \
 	   pipes_utils.c \
-	   builtins.c \
+	   run_external_commands.c \
+	   run_builtin_commands.c \
+	   builtins/builtin_cd.c \
+	   builtins/builtin_echo.c \
+	   builtins/builtin_env.c \
+	   builtins/builtin_exit.c \
+	   builtins/builtin_export.c \
+	   builtins/builtin_pwd.c \
+	   builtins/builtin_unset.c \
 	   utils.c \
 	   ../helper-functions/custom_error.c \
 	   ../get_next_line/get_next_line.c \

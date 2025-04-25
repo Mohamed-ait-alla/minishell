@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/24 12:11:14 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:59:11 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ void					execute_command(char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);
+int						execute_builtin(char **args, char **env);
+int						search_for_env_var(char **env, char *var);
+int						has_equal_sign(char *var);
 
 //						#________errors________#
 void					manage_shell_errors(char *arg, char *path);
