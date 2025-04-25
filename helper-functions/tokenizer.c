@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/22 12:55:20 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:17:32 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 	str = ft_substr(input, start, *i - start);
 	if (input[*i] == quote)
 		(*i)++;
+	else
+	{
+		free(str);
+		return (NULL);
+	}
 	if (quote == '\'')
 	    *quote_type = SINGLE_QUOTE;
 	else
@@ -85,11 +90,15 @@ static char	*get_operator(char *input, int *i)
 	{
 		operator= ft_substr(input, *i, 2);
 		*i += 2;
+		if (input[*i] == '>' || input[*i] == '<')
+			return (NULL);
 	}
 	else
 	{
 		operator= ft_substr(input, *i, 1);
 		*i += 1;
+		if (input[*i] == '|')
+			return (NULL);
 	}
 	return (operator);
 }
@@ -170,12 +179,26 @@ t_token	*tokenize_input(char *input)
 		quote_type = NO_QUOTE;
 		// handle the single and double quote and get the value of quotes
 		if (input[i] == '\'' || input[i] == '"')
+		{
 			value = get_quote_value(input, &i, &quote_type);
 			// advanced get_quote_value function
 			// value = get_quote_value(&input, &i, &quote_type);
+			if (!value)
+			{
+				tokens = NULL;
+				break ;
+			}
+		}
 		// get the opearator
 		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+		{
 			value = get_operator(input, &i);
+			if (!value)
+			{
+				tokens = NULL;
+				break ;	
+			}
+		}
 		// get the word
 		else
 			value = get_word(input, &i);
