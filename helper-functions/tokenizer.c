@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/24 12:17:32 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/25 20:00:48 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,31 @@ static char	*get_operator(char *input, int *i)
 	return (operator);
 }
 
-static char	*get_word(char *input, int *i)
+static char	*get_word(char *input, int *i, t_quote_type *quote_type)
 {
 	int	start;
+	char quote;
 
 	start = *i;
 	while (input[*i] && (input[*i] != '|' && input[*i] != '>'
 			&& input[*i] != '<') && input[*i] > 32)
+	{
+		if (input[*i] == '"' || input[*i] == '\'')
+		{
+			quote = input[*i];
+			(*i)++;
+			while (input[*i] && input[*i] != quote)
+				(*i)++;
+			if (input[*i] != quote)
+				return (NULL);
+		}
 		(*i)++;
+	}
+	if (quote == '\'')
+	    *quote_type = SINGLE_QUOTE;
+	else
+		*quote_type = DOUBLE_QUOTE;
+	
 	return (ft_substr(input, start, *i - start));
 }
 
@@ -201,7 +218,14 @@ t_token	*tokenize_input(char *input)
 		}
 		// get the word
 		else
-			value = get_word(input, &i);
+		{
+			value = get_word(input, &i, &quote_type);
+			if (!value)
+			{
+				tokens = NULL;
+				break ;
+			}
+		}
 		// add a type of token (PIPE, WORD, ...)
 		type = get_token_type(value);
 		// add a new token to list of tokens
