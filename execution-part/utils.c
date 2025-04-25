@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/18 22:17:46 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/24 12:08:07 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,14 @@ char	**copy_env(char **envp)
 	}
 	new_env[i] = NULL;
 	return (new_env);
+}
+
+void	free_double_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr && arr[i])
+		free(arr[i++]);
+	free(arr);
 }

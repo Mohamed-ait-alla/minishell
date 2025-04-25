@@ -103,7 +103,6 @@ int main(int ac, char **av, char **env) {
     char *input;
 	char **envp;
 	envp = copy_env(env);
-
     while ((input = readline("minishell$ "))) {
         if (*input)
             add_history(input);
@@ -118,7 +117,6 @@ int main(int ac, char **av, char **env) {
         }
         cmds[cmd_count] = NULL;
         free(cmd_strs);
-
         execute_commands(cmds, cmd_count, envp); // Replace with your real execution logic
 
         free_commandds(cmds, cmd_count);

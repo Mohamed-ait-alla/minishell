@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/21 17:10:02 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:11:14 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ void					expand_variables(t_token *tokens, t_env *env);
 # include "../execution-part/parsing-testing-file.h"
 // warning: just for testing
 
-//			#________ functions for only testing purposes ________#
+//						#________ functions used for only testing purposes ________#
 void					tested_main_with_parsing(t_command **cmds,
 							int n_of_cmds);
 
-//			#________redirections________#
+//						#________redirections________#
 void					redirect_output_to_file(char *file, char mode);
 void					redirect_output_to_pipe(int write_pipe_end);
 void					redirect_input_to_file(char *file);
@@ -101,7 +101,7 @@ int						check_for_here_doc(char **av);
 void					redirect_input_to_pipe(int read_pipe_end);
 void					check_for_redirections(t_command **cmds, char *tmpfile);
 
-//			#________pipes________#
+//						#________pipes________#
 bool					check_for_pipes(char **av);
 void					handle_pipes(t_command **cmds, char *tmpfile,
 							int n_of_cmds);
@@ -110,16 +110,17 @@ void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 // int		calculate_number_of_pipes(char **av);
 // bool	check_for_pipes(char **av);
 
-//			#________external commands________#
+//						#________external commands________#
 void					execute_command(char **args, char **env);
 
-//			#________built-in commands________#
+//						#________built-in commands________#
 int						is_builtin(char *cmd);
 
-//			#________errors________#
+//						#________errors________#
 void					manage_shell_errors(char *arg, char *path);
 
-//			#________utils________#
+//						#________utils________#
 char					**copy_env(char **envp);
+void					free_double_array(char **arr);
 
 #endif
