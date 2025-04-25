@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/24 11:32:37 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/25 19:43:29 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	parsing_cmd(char *input, char **env)
 	(void)env;
 	int			i;
 	t_token		*tokens;
-	// t_env		*env_list;
+	t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
 	// t_env		*tmp_env;
@@ -47,8 +47,8 @@ void	parsing_cmd(char *input, char **env)
 		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
 		tmp_token = tmp_token->next;
 	}
-	// // store the env variables in the env list
-	// env_list = init_env(env);
+	// store the env variables in the env list
+	env_list = init_env(env);
 	// // print env list
 	// tmp_env = env_list;
 	// while (tmp_env)
@@ -66,7 +66,7 @@ void	parsing_cmd(char *input, char **env)
 	// else
 	// 	printf("env not found\n");
 	// // expand the env variables
-	// expand_variables(tokens, env_list);
+	expand_variables(tokens, env_list);
 
 	// // print tokens after expanding the env variables
 	// printf("Tokens after expanding:\n");
