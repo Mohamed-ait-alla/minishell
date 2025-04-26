@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/26 11:37:29 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:12:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,4 +142,6 @@ int	main(int ac, char **av, char **env)
 		parsing_cmd(input, env);
 		free(input);
 	}
+	// clear history
+	clear_history();
 }
