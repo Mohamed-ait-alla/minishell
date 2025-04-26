@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/18 10:24:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/26 12:02:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,13 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			tokens = tokens->next;
 			if (tokens)
-			{
-				/* code */
-			}
+				current_cmd->input_file = ft_strdup(tokens->value);
+			// apped = 1 because when we use heredoc (<<) we using append
+			current_cmd->heredoc = 1;
 		}
 		tokens = tokens->next;
 	}
+	printf("append: %d\n", current_cmd->append);
+	printf("heredoc: %d\n", current_cmd->heredoc);
 	return (cmd_list);
 }
