@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 16:50:24 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/26 10:09:18 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,43 +37,61 @@ void	check_for_redirections(t_command **cmds, char *tmpfile)
 	}
 }
 
-void	tested_main_with_parsing(t_command **cmds, int n_of_cmds)
+int	count_n_of_cmds(t_commands *cmds)
+{
+	int count;
+	t_commands *tmp;
+
+	count = 0;
+	tmp = cmds;
+	while (tmp)
+	{
+		count ++;
+		tmp = tmp->next;
+	}
+	return (count);
+}
+
+void	tested_main_with_parsing(t_commands *cmds, char **env)
 {
 	char	*tmpfile;
 	int		pid;
 	int		status;
-
+	int		n_of_cmds;
+	// t_env	*envp;
+	
 	status = 0;
+	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
-	if (cmds[0]->heredoc)
-		tmpfile = get_tmp_file();
-	// check for buit-ins
-	if (is_builtin(cmds[0]->args[0]))
-	{
-		status = execute_builtin(cmds[0]->args, cmds[0]->env);
-		// exit(status);
-	}
+	// if (cmds[0]->heredoc)
+	// 	tmpfile = get_tmp_file();
+	// // check for buit-ins
+	// if (is_builtin(cmds[0]->args[0]))
+	// {
+	// 	status = execute_builtin(cmds[0]->args, cmds[0]->env);
+	// 	// exit(status);
+	// }
 	// check for pipes
-	if (n_of_cmds > 1)
-		handle_pipes(cmds, tmpfile, n_of_cmds);
+	// if (n_of_cmds > 1)
+	// 	handle_pipes(cmds, tmpfile, n_of_cmds);
 	// if no pipes are included execute other commands as normal
 	pid = fork();
 	if (pid == -1)
 			perror("fork: ");
 	if (pid == 0)
 	{
-		check_for_redirections(cmds, tmpfile);
-		execute_command(cmds[0]->args, cmds[0]->env);
+		// check_for_redirections(cmds, tmpfile);
+		execute_command(cmds->args, env);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		if (cmds[0]->heredoc)
-		{
-			printf("tmpfile removed is %s\n", tmpfile);
-			if (unlink(tmpfile) == -1)
-				perror("unlink: ");
-		}
+		// if (cmds[0]->heredoc)
+		// {
+		// 	printf("tmpfile removed is %s\n", tmpfile);
+		// 	if (unlink(tmpfile) == -1)
+		// 		perror("unlink: ");
+		// }
 		// exit(WEXITSTATUS(status));
 	}
 }

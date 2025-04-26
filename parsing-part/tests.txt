@@ -1,0 +1,2 @@
+cat Makefile[space]
+no command (enter)
