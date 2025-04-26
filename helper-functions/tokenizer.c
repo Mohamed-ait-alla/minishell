@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:48 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:30:41 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@
 // 		*quote_type = DOUBLE_QUOTE;
 // 	return (str);
 // }
+
 
 static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
 {
@@ -227,9 +228,12 @@ t_token	*tokenize_input(char *input)
 			}
 		}
 		// add a type of token (PIPE, WORD, ...)
-		type = get_token_type(value);
-		// add a new token to list of tokens
-		add_token(&tokens, new_token(value, type, quote_type));
+		if (value[0] > 32 && ft_strlen(value) > 1)
+		{
+			type = get_token_type(value);
+			// add a new token to list of tokens
+			add_token(&tokens, new_token(value, type, quote_type));
+		}
 	}
 	return (tokens);
 }

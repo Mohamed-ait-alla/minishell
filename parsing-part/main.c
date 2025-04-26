@@ -6,11 +6,25 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/26 10:27:15 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/26 11:37:29 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int is_only_spaces(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] > 32)
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 // paring the command
 void	parsing_cmd(char *input, char **env)
@@ -120,6 +134,11 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(input) > 0)
 			add_history(input);
 		// paring the command
+		if (is_only_spaces(input))
+		{
+			free(input);
+			continue ;
+		}
 		parsing_cmd(input, env);
 		free(input);
 	}
