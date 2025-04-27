@@ -3,22 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/24 11:32:37 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/27 18:11:25 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static int is_only_spaces(char *input)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] > 32)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 // paring the command
 void	parsing_cmd(char *input, char **env)
 {
-	(void)env;
 	int			i;
 	t_token		*tokens;
-	// t_env		*env_list;
+	t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
 	// t_env		*tmp_env;
@@ -37,18 +50,18 @@ void	parsing_cmd(char *input, char **env)
 	}
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
-	if (!tokens)
+	if (!tokens && ft_strlen(input) > 0)
 		printf("syntax error\n");
-	printf("====================================================================>\n");
+	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
-	// // store the env variables in the env list
-	// env_list = init_env(env);
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
+	// store the env variables in the env list
+	env_list = init_env(env);
 	// // print env list
 	// tmp_env = env_list;
 	// while (tmp_env)
@@ -66,7 +79,7 @@ void	parsing_cmd(char *input, char **env)
 	// else
 	// 	printf("env not found\n");
 	// // expand the env variables
-	// expand_variables(tokens, env_list);
+	expand_variables(tokens, env_list);
 
 	// // print tokens after expanding the env variables
 	// printf("Tokens after expanding:\n");
@@ -80,33 +93,37 @@ void	parsing_cmd(char *input, char **env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
-	x = 1;
-	while (cmd_list)
-	{
-		printf("Command %d:\n", x++);
-		if (cmd_list->args)
-		{
-			printf("  Args:\n");
-			for (int j = 0; cmd_list->args[j]; j++)
-				printf("    %s\n", cmd_list->args[j]);
-		}
-		if (cmd_list->input_file)
-			printf("  Input file: %s\n", cmd_list->input_file);
-		if (cmd_list->output_file)
-			printf("  Output file: %s (%s)\n", cmd_list->output_file,
-				cmd_list->append ? "append" : "overwrite");
-		cmd_list = cmd_list->next;
-	}
+	// x = 1;
+	// while (cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
+	// 	if (cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; cmd_list->args[j]; j++)
+	// 			printf("    %s\n", cmd_list->args[j]);
+	// 	}
+	// 	if (cmd_list->input_file)
+	// 		printf("  Input file: %s\n", cmd_list->input_file);
+	// 	if (cmd_list->output_file)
+	// 		printf("  Output file: %s (%s)\n", cmd_list->output_file,
+	// 			cmd_list->append ? "append" : "overwrite");
+	// 	cmd_list = cmd_list->next;
+	// }
 	// ---------- Execution Part ----------
+	cmd_list->env = env;
+	tested_main_with_parsing(cmd_list);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
-
+	char	**env;
+	
+	env = copy_env(envp);
 	(void)av;
 	// check if we have any args
 	if (ac != 1)
@@ -119,7 +136,14 @@ int	main(int ac, char **av, char **env)
 		if (ft_strlen(input) > 0)
 			add_history(input);
 		// paring the command
+		if (is_only_spaces(input))
+		{
+			free(input);
+			continue ;
+		}
 		parsing_cmd(input, env);
 		free(input);
 	}
+	// clear history
+	clear_history();
 }

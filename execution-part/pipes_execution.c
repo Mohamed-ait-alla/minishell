@@ -6,13 +6,13 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/17 18:34:52 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/26 11:49:18 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minishell.h"
 
-static void	configure_pipeline_io(t_command **cmds, int pipes[][2], int i, int n_of_cmds, char *tmpfile)
+static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n_of_cmds, char *tmpfile)
 {
 	if (i == 0) // first command 
 	{
@@ -55,13 +55,15 @@ static void	wait_for_childs(int pids[], int n_of_cmds, char *tmpfile)
 	}
 }
 
-static void	execute_pipes(t_command **cmds, int n_of_cmds, char *tmpfile)
+static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, char **env)
 {
+	t_commands *tmp;
 	int pids[n_of_cmds];
 	int pipes[n_of_cmds - 1][2];
 	int i;
 
 	i = 0;
+	tmp = cmds;
 	// creates the pipe ends
 	while (i < n_of_cmds - 1)
 	{
@@ -83,20 +85,21 @@ static void	execute_pipes(t_command **cmds, int n_of_cmds, char *tmpfile)
 		}
 		if (pids[i] == 0) // child processes
 		{
-			configure_pipeline_io(cmds, pipes, i, n_of_cmds, tmpfile);
+			configure_pipeline_io(tmp, pipes, i, n_of_cmds, tmpfile);
 			close_unused_pipes(pipes, n_of_cmds - 1, -1);
-			execute_command(cmds[i]->args, cmds[i]->env);
+			execute_command(tmp->args, env);
 		}
 		i++;
+		tmp = tmp -> next;
 	}
 	close_unused_pipes(pipes, n_of_cmds - 1, -1);
 	wait_for_childs(pids, n_of_cmds, tmpfile);
 }
 
-void	handle_pipes(t_command **cmds, char *tmpfile, int n_of_cmds)
+void	handle_pipes(t_commands *cmds, char *tmpfile, int n_of_cmds, char **env)
 {
 	// int n_of_pipes;
 
 	// n_of_pipes = calculate_number_of_pipes(av);
-	execute_pipes(cmds, n_of_cmds, tmpfile);
+	execute_pipes(cmds, n_of_cmds, tmpfile, env);
 }

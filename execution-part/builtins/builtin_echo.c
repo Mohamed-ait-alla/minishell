@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:29 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 19:56:59 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 09:41:01 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ int	builtin_echo(char **args, char **env)
 	}
 	if (!is_option)
 		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }
