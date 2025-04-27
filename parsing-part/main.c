@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/26 10:15:16 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:29:23 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 // paring the command
 void	parsing_cmd(char *input, char **env)
 {
-	(void)env;
 	int			i;
 	t_token		*tokens;
 	t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
 	// t_env		*tmp_env;
-	// int			x;
+	int			x;
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
@@ -41,12 +40,12 @@ void	parsing_cmd(char *input, char **env)
 		printf("syntax error\n");
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// store the env variables in the env list
 	env_list = init_env(env);
 	// // print env list
@@ -98,16 +97,19 @@ void	parsing_cmd(char *input, char **env)
 	// 	cmd_list = cmd_list->next;
 	// }
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, env);
+	cmd_list->env = env;
+	tested_main_with_parsing(cmd_list);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
-
+	char	**env;
+	
+	env = copy_env(envp);
 	(void)av;
 	// check if we have any args
 	if (ac != 1)

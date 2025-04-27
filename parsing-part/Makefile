@@ -14,7 +14,15 @@ SRCS = main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
 	   ../execution-part/redirect_io.c \
+	   ../execution-part/run_builtin_commands.c \
 	   ../execution-part/run_external_commands.c \
+	   ../execution-part/builtins/builtin_cd.c \
+	   ../execution-part/builtins/builtin_exit.c \
+	   ../execution-part/builtins/builtin_export.c \
+	   ../execution-part/builtins/builtin_env.c \
+	   ../execution-part/builtins/builtin_unset.c \
+	   ../execution-part/builtins/builtin_echo.c \
+	   ../execution-part/builtins/builtin_pwd.c \
 	   ../execution-part/utils.c \
 	   ../get_next_line/get_next_line.c \
 	   ../get_next_line/get_next_line_utils.c
