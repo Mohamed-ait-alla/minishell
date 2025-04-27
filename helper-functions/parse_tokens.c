@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 11:04:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:13:31 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			tokens = tokens->next;
 			if (tokens)
-			{
-				/* code */
-			}
+				current_cmd->input_file = ft_strdup(tokens->value);
+			// heredoc = 1 because when we use heredoc (<<) we using heredoc
+			current_cmd->heredoc = 1;
 		}
 		tokens = tokens->next;
 	}

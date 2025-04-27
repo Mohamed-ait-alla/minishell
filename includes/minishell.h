@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 10:31:06 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:11:40 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_commands
 	char				*input_file;
 	char				*output_file;
 	int					append;
+	int					heredoc;
 	struct s_commands	*next;
 }						t_commands;
 
