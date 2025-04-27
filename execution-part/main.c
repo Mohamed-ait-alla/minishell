@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/27 10:41:19 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 19:35:21 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile)
 	{
 		if (tmp->input_file) 
 		{
-			// if (tmp->here_doc)
-			// 	redirect_input_to_file_here_doc(tmp[i]->infile, tmpfile);
-			// else
+			if (tmp->heredoc)
+				redirect_input_to_file_here_doc(tmp->input_file, tmpfile);
+			else
 				redirect_input_to_file(tmp->input_file);
 		}
 		if (tmp->output_file)
@@ -62,8 +62,8 @@ void	tested_main_with_parsing(t_commands *cmds)
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
-	// if (cmds[0]->heredoc)
-	// 	tmpfile = get_tmp_file();
+	if (cmds->heredoc)
+		tmpfile = get_tmp_file();
 	// // check for buit-ins
 	if (is_builtin(cmds->args[0]))
 	{
@@ -85,12 +85,12 @@ void	tested_main_with_parsing(t_commands *cmds)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		// if (cmds[0]->heredoc)
-		// {
-		// 	printf("tmpfile removed is %s\n", tmpfile);
-		// 	if (unlink(tmpfile) == -1)
-		// 		perror("unlink: ");
-		// }
+		if (cmds->heredoc)
+		{
+			printf("tmpfile removed is %s\n", tmpfile);
+			if (unlink(tmpfile) == -1)
+				perror("unlink: ");
+		}
 		// exit(WEXITSTATUS(status));
 	}
 }
