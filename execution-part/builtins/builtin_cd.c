@@ -6,13 +6,13 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 19:42:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 09:56:09 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_set_env(char **env, char *key, char *value)
+static void	ft_set_env(char **env, char *key, char *value)
 {
 	char	*key_value;
 	int		is_found;
@@ -26,12 +26,10 @@ int	ft_set_env(char **env, char *key, char *value)
 		if (!env[is_found])
 		{
 			perror ("ft_strdup: ");
-			return (0);
+			return ;
 		}
 		free(key_value);
-		return (1);
 	}
-	return (0);
 }
 
 int	builtin_cd(char **args, char **env)

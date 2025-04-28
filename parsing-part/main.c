@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/28 18:33:25 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/28 20:32:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int is_only_spaces(char *input)
 // paring the command
 void	parsing_cmd(char *input, char **env)
 {
-	(void)env;
 	int			i;
 	t_token		*tokens;
 	t_env		*env_list;
@@ -55,12 +54,12 @@ void	parsing_cmd(char *input, char **env)
 		printf("syntax error\n");
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// store the env variables in the env list
 	env_list = init_env(env);
 	// // print env list
@@ -112,16 +111,19 @@ void	parsing_cmd(char *input, char **env)
 		cmd_list = cmd_list->next;
 	}
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, env);
+	cmd_list->env = env;
+	tested_main_with_parsing(cmd_list);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
-
+	char	**env;
+	
+	env = copy_env(envp);
 	(void)av;
 	// check if we have any args
 	if (ac != 1)

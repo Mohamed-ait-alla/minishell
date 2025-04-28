@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:56 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 19:45:58 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:56:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,5 @@ int	builtin_unset(char **args, char **env)
 		}
 		i++;
 	}
-	if (i == 1)
-		return (EXIT_FAILURE);
-	else
-		return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 19:45:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/28 20:32:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_token
 typedef struct s_commands
 {
 	char				**args;
+	char				**env;
 	char				*input_file;
 	char				*output_file;
 	int					append;
@@ -80,7 +81,7 @@ void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
 // warning: just for testing
 
 //						#________ functions used for only testing purposes ________#
-void					tested_main_with_parsing(t_commands *cmds, char **env);
+void					tested_main_with_parsing(t_commands *cmds);
 
 //						#________redirections________#
 void					redirect_output_to_file(char *file, char mode);
@@ -91,12 +92,12 @@ void					redirect_input_to_file_here_doc(char *limitter,
 char					*get_tmp_file(void);
 int						check_for_here_doc(char **av);
 void					redirect_input_to_pipe(int read_pipe_end);
-void					check_for_redirections(t_command **cmds, char *tmpfile);
+void					check_for_redirections(t_commands *cmds, char *tmpfile);
 
 //						#________pipes________#
 bool					check_for_pipes(char **av);
-void					handle_pipes(t_command **cmds, char *tmpfile,
-							int n_of_cmds);
+void					handle_pipes(t_commands *cmds, char *tmpfile,
+							int n_of_cmds, char **env);
 void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 							int except);
 // int		calculate_number_of_pipes(char **av);
