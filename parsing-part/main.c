@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 18:11:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/28 09:42:17 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,62 +57,62 @@ void	parsing_cmd(char *input, char **env)
 	// tmp_token = tokens;
 	// while (tmp_token)
 	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
-	// store the env variables in the env list
-	env_list = init_env(env);
-	// // print env list
-	// tmp_env = env_list;
-	// while (tmp_env)
-	// {
-	// 	if (tmp_env->value)
-	// 		printf("%s=%s\n", tmp_env->key, tmp_env->value);
-	// 	else
-	// 		printf("Env: %s\n", tmp_env->key);
-	// 	tmp_env = tmp_env->next;
-	// }
-	// // print value of env
-	// value_of_env = get_env_value(env_list, "USER");
-	// if (value_of_env)
-	// 	printf("value of env: %s\n", value_of_env);
-	// else
-	// 	printf("env not found\n");
-	// // expand the env variables
-	expand_variables(tokens, env_list);
-
-	// // print tokens after expanding the env variables
-	// printf("Tokens after expanding:\n");
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
-	
-	// parse the tokens
-	cmd_list = parse_tokens(tokens);
-	// print commands
-	// x = 1;
-	// while (cmd_list)
-	// {
-	// 	printf("Command %d:\n", x++);
-	// 	if (cmd_list->args)
-	// 	{
-	// 		printf("  Args:\n");
-	// 		for (int j = 0; cmd_list->args[j]; j++)
-	// 			printf("    %s\n", cmd_list->args[j]);
-	// 	}
-	// 	if (cmd_list->input_file)
-	// 		printf("  Input file: %s\n", cmd_list->input_file);
-	// 	if (cmd_list->output_file)
-	// 		printf("  Output file: %s (%s)\n", cmd_list->output_file,
-	// 			cmd_list->append ? "append" : "overwrite");
-	// 	cmd_list = cmd_list->next;
-	// }
-	// ---------- Execution Part ----------
-	cmd_list->env = env;
-	tested_main_with_parsing(cmd_list);
+		// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		// 	tmp_token = tmp_token->next;
+		// }
+		// store the env variables in the env list
+		env_list = init_env(env);
+		// // print env list
+		// tmp_env = env_list;
+		// while (tmp_env)
+		// {
+			// 	if (tmp_env->value)
+			// 		printf("%s=%s\n", tmp_env->key, tmp_env->value);
+			// 	else
+			// 		printf("Env: %s\n", tmp_env->key);
+			// 	tmp_env = tmp_env->next;
+			// }
+			// // print value of env
+			// value_of_env = get_env_value(env_list, "USER");
+			// if (value_of_env)
+			// 	printf("value of env: %s\n", value_of_env);
+			// else
+			// 	printf("env not found\n");
+			// // expand the env variables
+			expand_variables(tokens, env_list);
+			
+			// // print tokens after expanding the env variables
+			// printf("Tokens after expanding:\n");
+			// tmp_token = tokens;
+			// while (tmp_token)
+			// {
+				// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+				// 	tmp_token = tmp_token->next;
+				// }
+				
+				// parse the tokens
+				cmd_list = parse_tokens(tokens);
+				// print commands
+		// 		x = 1;
+		// 		while (cmd_list)
+		// 		{
+		// printf("Command %d:\n", x++);
+		// if (cmd_list->args)
+		// {
+		// 	printf("  Args:\n");
+		// 	for (int j = 0; cmd_list->args[j]; j++)
+		// 	printf("    %s\n", cmd_list->args[j]);
+		// }
+		// if (cmd_list->input_file)
+		// printf(" is here_doc (%s),  Input file: %s\n", cmd_list->heredoc ? "yes":"no", cmd_list->input_file);
+		// if (cmd_list->output_file)
+		// printf("  Output file: %s (%s)\n", cmd_list->output_file,
+		// 	cmd_list->append ? "append" : "overwrite");
+		// 	cmd_list = cmd_list->next;
+		// }
+		// ---------- Execution Part ----------
+		cmd_list->env = env;
+		tested_main_with_parsing(cmd_list);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);

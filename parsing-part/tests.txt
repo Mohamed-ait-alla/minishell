@@ -1,2 +1,4 @@
 cat Makefile[space]
 no command (enter)
+exe-p: << l << l cat ...
+par-p: << l => segfault 
