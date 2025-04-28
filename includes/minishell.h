@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 18:11:40 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:32:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,10 @@ typedef enum s_token_type
 	TOKEN_SEMICOLON,
 }						t_token_type;
 
-typedef enum s_quote_type
-{
-	NO_QUOTE,
-	SINGLE_QUOTE,
-	DOUBLE_QUOTE,
-}						t_quote_type;
-
 typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
-	t_quote_type		quote_type;
 	struct s_token		*next;
 }						t_token;
 
@@ -81,7 +73,7 @@ void					free_tokens(t_token *tokens);
 void					free_commands(t_commands *cmds);
 t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);
-void					expand_variables(t_token *tokens, t_env *env);
+void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
 
 //       execution-part function's declaration
 
