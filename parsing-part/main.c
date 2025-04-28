@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/26 15:12:19 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/28 18:33:25 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	parsing_cmd(char *input, char **env)
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
 	// t_env		*tmp_env;
-	// int			x;
+	int			x;
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
@@ -80,37 +80,37 @@ void	parsing_cmd(char *input, char **env)
 	// else
 	// 	printf("env not found\n");
 	// // expand the env variables
-	expand_variables(tokens, env_list);
+	expand_variables_and_remove_quotes(tokens, env_list);
 
-	// // print tokens after expanding the env variables
-	// printf("Tokens after expanding:\n");
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	// print tokens after expanding the env variables
+	printf("Tokens after expanding:\n");
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
 	
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
-	// x = 1;
-	// while (cmd_list)
-	// {
-	// 	printf("Command %d:\n", x++);
-	// 	if (cmd_list->args)
-	// 	{
-	// 		printf("  Args:\n");
-	// 		for (int j = 0; cmd_list->args[j]; j++)
-	// 			printf("    %s\n", cmd_list->args[j]);
-	// 	}
-	// 	if (cmd_list->input_file)
-	// 		printf("  Input file: %s\n", cmd_list->input_file);
-	// 	if (cmd_list->output_file)
-	// 		printf("  Output file: %s (%s)\n", cmd_list->output_file,
-	// 			cmd_list->append ? "append" : "overwrite");
-	// 	cmd_list = cmd_list->next;
-	// }
+	x = 1;
+	while (cmd_list)
+	{
+		printf("Command %d:\n", x++);
+		if (cmd_list->args)
+		{
+			printf("  Args:\n");
+			for (int j = 0; cmd_list->args[j]; j++)
+				printf("    %s\n", cmd_list->args[j]);
+		}
+		if (cmd_list->input_file)
+			printf("  Input file: %s\n", cmd_list->input_file);
+		if (cmd_list->output_file)
+			printf("  Output file: %s (%s)\n", cmd_list->output_file,
+				cmd_list->append ? "append" : "overwrite");
+		cmd_list = cmd_list->next;
+	}
 	// ---------- Execution Part ----------
 	tested_main_with_parsing(cmd_list, env);
 	// free token list and command list after execution

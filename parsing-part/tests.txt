@@ -1,2 +1,4 @@
 cat Makefile[space]
 no command (enter)
+echo $'USER'
+echo $215445

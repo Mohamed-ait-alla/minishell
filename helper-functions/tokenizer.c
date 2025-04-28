@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/26 15:12:29 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/27 19:33:04 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,31 +57,27 @@
 // }
 
 
-static char	*get_quote_value(char *input, int *i, t_quote_type *quote_type)
-{
-	char	quote;
-	int		start;
-	char	*str;
+// static char	*get_quote_value(char *input, int *i)
+// {
+// 	char	quote;
+// 	int		start;
+// 	char	*str;
 
-	quote = input[*i];
-	(*i)++;
-	start = (*i);
-	while (input[*i] && input[*i] != quote)
-		(*i)++;
-	str = ft_substr(input, start, *i - start);
-	if (input[*i] == quote)
-		(*i)++;
-	else
-	{
-		free(str);
-		return (NULL);
-	}
-	if (quote == '\'')
-	    *quote_type = SINGLE_QUOTE;
-	else
-		*quote_type = DOUBLE_QUOTE;
-	return (str);
-}
+// 	quote = input[*i];
+// 	(*i)++;
+// 	start = (*i);
+// 	while (input[*i] && input[*i] != quote)
+// 		(*i)++;
+// 	str = ft_substr(input, start, *i - start);
+// 	if (input[*i] == quote)
+// 		(*i)++;
+// 	else
+// 	{
+// 		free(str);
+// 		return (NULL);
+// 	}
+// 	return (str);
+// }
 
 static char	*get_operator(char *input, int *i)
 {
@@ -104,7 +100,7 @@ static char	*get_operator(char *input, int *i)
 	return (operator);
 }
 
-static char	*get_word(char *input, int *i, t_quote_type *quote_type)
+static char	*get_word(char *input, int *i)
 {
 	int	start;
 	char quote;
@@ -124,11 +120,6 @@ static char	*get_word(char *input, int *i, t_quote_type *quote_type)
 		}
 		(*i)++;
 	}
-	if (quote == '\'')
-	    *quote_type = SINGLE_QUOTE;
-	else
-		*quote_type = DOUBLE_QUOTE;
-	
 	return (ft_substr(input, start, *i - start));
 }
 
@@ -147,8 +138,7 @@ static t_token_type	get_token_type(char *value)
 	return (TOKEN_WORD);
 }
 
-static t_token	*new_token(char *value, t_token_type type,
-		t_quote_type quote_type)
+static t_token	*new_token(char *value, t_token_type type)
 {
 	t_token	*new_token;
 
@@ -157,7 +147,6 @@ static t_token	*new_token(char *value, t_token_type type,
 		return (NULL);
 	new_token->value = value;
 	new_token->type = type;
-	new_token->quote_type = quote_type;
 	new_token->next = NULL;
 	return (new_token);
 }
@@ -184,7 +173,6 @@ t_token	*tokenize_input(char *input)
 	int				i;
 	char			*value;
 	t_token_type	type;
-	t_quote_type	quote_type;
 
 	tokens = NULL;
 	i = 0;
@@ -194,21 +182,20 @@ t_token	*tokenize_input(char *input)
 			i++;
 		if (input[i] == '\0')
 			break ;
-		quote_type = NO_QUOTE;
 		// handle the single and double quote and get the value of quotes
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			value = get_quote_value(input, &i, &quote_type);
-			// advanced get_quote_value function
-			// value = get_quote_value(&input, &i, &quote_type);
-			if (!value)
-			{
-				tokens = NULL;
-				break ;
-			}
-		}
+		// if (input[i] == '\'' || input[i] == '"')
+		// {
+		// 	value = get_quote_value(input, &i);
+		// 	// advanced get_quote_value function
+		// 	// value = get_quote_value(&input, &i, &quote_type);
+		// 	if (!value)
+		// 	{
+		// 		tokens = NULL;
+		// 		break ;
+		// 	}
+		// }
 		// get the opearator
-		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
 			value = get_operator(input, &i);
 			if (!value)
@@ -220,7 +207,7 @@ t_token	*tokenize_input(char *input)
 		// get the word
 		else
 		{
-			value = get_word(input, &i, &quote_type);
+			value = get_word(input, &i);
 			if (!value)
 			{
 				tokens = NULL;
@@ -232,7 +219,7 @@ t_token	*tokenize_input(char *input)
 		{
 			type = get_token_type(value);
 			// add a new token to list of tokens
-			add_token(&tokens, new_token(value, type, quote_type));
+			add_token(&tokens, new_token(value, type));
 		}
 	}
 	return (tokens);
