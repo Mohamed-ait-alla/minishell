@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/28 20:32:47 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:52:05 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ typedef struct s_env
 
 }						t_env;
 
+// for testing purposes
+typedef struct s_exec_env
+{
+	char	**env;
+}	t_exec_env;
+
+
 //       parsing-part function's declaration
 void					custom_error(char *err_msg, char *arg, int exit_code);
 t_token					*tokenize_input(char *input);
@@ -81,7 +88,7 @@ void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
 // warning: just for testing
 
 //						#________ functions used for only testing purposes ________#
-void					tested_main_with_parsing(t_commands *cmds);
+void					tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env);
 
 //						#________redirections________#
 void					redirect_output_to_file(char *file, char mode);
@@ -108,7 +115,7 @@ void					execute_command(char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);
-int						execute_builtin(char **args, char **env);
+int						execute_builtin(char **args, t_exec_env *exec_env);
 int						search_for_env_var(char **env, char *var);
 int						has_equal_sign(char *var);
 

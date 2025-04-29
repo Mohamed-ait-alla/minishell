@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/28 21:41:49 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 12:23:28 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	is_only_spaces(char *input)
 }
 
 // paring the command
-void	parsing_cmd(char *input, char **env)
+void	parsing_cmd(char *input, t_exec_env *exec_env)
 {
 	int			i;
 	t_token		*tokens;
@@ -55,14 +55,14 @@ void	parsing_cmd(char *input, char **env)
 		printf("syntax error\n");
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// store the env variables in the env list
-	env_list = init_env(env);
+	env_list = init_env(exec_env->env);
 	// // print env list
 	// tmp_env = env_list;
 	// while (tmp_env)
@@ -82,13 +82,13 @@ void	parsing_cmd(char *input, char **env)
 	// // expand the env variables
 	expand_variables_and_remove_quotes(tokens, env_list);
 	// print tokens after expanding the env variables
-	printf("Tokens after expanding:\n");
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// printf("Tokens after expanding:\n");
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
@@ -110,8 +110,7 @@ void	parsing_cmd(char *input, char **env)
 	// 	cmd_list = cmd_list->next;
 	// }
 	// ---------- Execution Part ----------
-	cmd_list->env = env;
-	tested_main_with_parsing(cmd_list);
+	tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
@@ -120,9 +119,9 @@ void	parsing_cmd(char *input, char **env)
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
-	char	**env;
+	t_exec_env envir;
 
-	env = copy_env(envp);
+	envir.env = copy_env(envp);
 	(void)av;
 	// check if we have any args
 	if (ac != 1)
@@ -140,7 +139,7 @@ int	main(int ac, char **av, char **envp)
 			free(input);
 			continue ;
 		}
-		parsing_cmd(input, env);
+		parsing_cmd(input, &envir);
 		free(input);
 	}
 	// clear history

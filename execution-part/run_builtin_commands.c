@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:28 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:53:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,20 @@ int	has_equal_sign(char *var)
 	return (true);
 }
 
-int	execute_builtin(char **args, char **env)
+int	execute_builtin(char **args, t_exec_env *exec_env)
 {
 	if (ft_strcmp(args[0], "cd") == 0)
-		return (builtin_cd(args, env));
+		return (builtin_cd(args, exec_env->env));
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		return (builtin_pwd(env));
+		return (builtin_pwd(exec_env->env));
 	else if (ft_strcmp(args[0], "exit") == 0)
 		builtin_exit(args);
 	else if (ft_strcmp(args[0], "env") == 0)
-		return (builtin_env(env));
+		return (builtin_env(exec_env->env));
 	else if (ft_strcmp(args[0], "unset") == 0)
-		return (builtin_unset(args, env));
+		return (builtin_unset(args, exec_env->env));
 	else if (ft_strcmp(args[0], "echo") == 0)
-		return (builtin_echo(args, env));
+		return (builtin_echo(args, exec_env->env));
 	else if (ft_strcmp(args[0], "export") == 0)
-		return (builtin_export(args, env));
+		return (builtin_export(args, exec_env));
 }
