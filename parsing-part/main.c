@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/29 17:09:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:45:03 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
-	if ((input == NULL || !ft_strncmp(input, "exit", 4))
+	if ((input == NULL || !ft_strcmp(input, "exit"))
 		&& (ft_strlen(input) == 4))
 	{
 		printf("exit\n");
@@ -119,6 +119,34 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	free_commands(cmd_list);
 }
 
+void	sig_int_handler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	setup_signal(void)
+{
+	struct sigaction	sa_quit;
+
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+
+}
+// any where you use execve, you need to fork the process
+// if (pid == 0)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 	// execve(...)
+// }
+
+
 int	main(int ac, char **av, char **envp)
 {
 	char	*input;
@@ -129,6 +157,8 @@ int	main(int ac, char **av, char **envp)
 	// check if we have any args
 	if (ac != 1)
 		custom_error("Error: run only the programme", "", 1);
+	// handle the signal SIGINT (Ctrl+C)
+	setup_signal();
 	while (1)
 	{
 		input = readline("minishell> ");
