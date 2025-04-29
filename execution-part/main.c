@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/27 19:35:21 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:34:39 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void	tested_main_with_parsing(t_commands *cmds)
 	tmpfile = NULL;
 	if (cmds->heredoc)
 		tmpfile = get_tmp_file();
-	// // check for buit-ins
-	if (is_builtin(cmds->args[0]))
-	{
-		status = execute_builtin(cmds->args, cmds->env);
-		// exit(status);
-	}
-	// check for pipes
+		// // check for buit-ins
+		if (is_builtin(cmds->args[0]))
+		{
+			status = execute_builtin(cmds->args, cmds->env);
+			// exit(status);
+		}
+		// check for pipes
 	if (n_of_cmds > 1)
 		handle_pipes(cmds, tmpfile, n_of_cmds, cmds->env);
 	// if no pipes are included execute other commands as normal

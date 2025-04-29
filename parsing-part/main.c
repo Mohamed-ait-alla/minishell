@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/27 18:11:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:37:38 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int is_only_spaces(char *input)
+static int	is_only_spaces(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -34,8 +34,9 @@ void	parsing_cmd(char *input, char **env)
 	t_env		*env_list;
 	t_commands	*cmd_list;
 	t_token		*tmp_token;
-	// t_env		*tmp_env;
-	int			x;
+	t_env		*tmp_env;
+
+	// int			x;
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
@@ -50,16 +51,19 @@ void	parsing_cmd(char *input, char **env)
 	}
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
-	if (!tokens && ft_strlen(input) > 0)
+	if (!tokens)
+	{
 		printf("syntax error\n");
+		return ;
+	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
 	// store the env variables in the env list
 	env_list = init_env(env);
 	// // print env list
@@ -79,17 +83,15 @@ void	parsing_cmd(char *input, char **env)
 	// else
 	// 	printf("env not found\n");
 	// // expand the env variables
-	expand_variables(tokens, env_list);
-
-	// // print tokens after expanding the env variables
-	// printf("Tokens after expanding:\n");
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
-	
+	expand_variables_and_remove_quotes(tokens, env_list);
+	// print tokens after expanding the env variables
+	printf("Tokens after expanding:\n");
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
@@ -122,7 +124,7 @@ int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	char	**env;
-	
+
 	env = copy_env(envp);
 	(void)av;
 	// check if we have any args

@@ -9,7 +9,7 @@ SRCS = main.c \
 	   ../helper-functions/free_commands.c \
 	   ../helper-functions/init_env.c \
 	   ../helper-functions/get_env_value.c \
-	   ../helper-functions/expand_varaiables.c \
+	   ../helper-functions/expand_variables_and_remove_quotes.c \
 	   ../execution-part/main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
