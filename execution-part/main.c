@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/28 21:34:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:47:18 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	count_n_of_cmds(t_commands *cmds)
 	return (count);
 }
 
-void	tested_main_with_parsing(t_commands *cmds)
+void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 {
 	char	*tmpfile;
 	int		pid;
@@ -67,12 +67,12 @@ void	tested_main_with_parsing(t_commands *cmds)
 		// // check for buit-ins
 		if (is_builtin(cmds->args[0]))
 		{
-			status = execute_builtin(cmds->args, cmds->env);
+			status = execute_builtin(cmds->args, exec_env);
 			// exit(status);
 		}
 		// check for pipes
 	if (n_of_cmds > 1)
-		handle_pipes(cmds, tmpfile, n_of_cmds, cmds->env);
+		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
 	// if no pipes are included execute other commands as normal
 	pid = fork();
 	if (pid == -1)
@@ -80,7 +80,7 @@ void	tested_main_with_parsing(t_commands *cmds)
 	if (pid == 0)
 	{
 		check_for_redirections(cmds, tmpfile);
-		execute_command(cmds->args, cmds->env);
+		execute_command(cmds->args, exec_env->env);
 	}
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))

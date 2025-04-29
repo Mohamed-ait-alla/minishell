@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/28 19:55:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:30:00 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,24 +74,16 @@ void	sort_env_vars(char **env)
 bool	is_valid_identifier(char *arg)
 {
 	int	i;
-	int	len;
-	char	**key_value;
 
 	if (!arg || (!ft_isalpha(arg[0]) && arg[0] != '_'))
 		return (false);
-	key_value = ft_split(arg, '=');
-	len = ft_strlen(key_value[0]);
-	i = 0;
-	while (key_value[0][i])
+	i = 1;
+	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalnum(key_value[0][i]) && key_value[0][len - 1] != '+')
-		{
-			free_double_array(key_value);
+		if (!ft_isalnum(arg[i]) && arg[i] != '_' && (arg[i] == '+' && arg[i + 1] != '='))
 			return (false);
-		}
 		i++;
 	}
-	free_double_array(key_value);
 	return (true);
 }
 
@@ -102,46 +94,50 @@ bool has_plus_sign(char *arg)
 	return (false);
 }
 
-char	**add_var_to_env(char **env, char *var)
+void	add_var_to_env(t_exec_env *exec_env, char *var)
 {
 	char	**new_env;
 	int		len;
 	int		j;
 	
-	len = ft_get_env_len(env);
+	len = ft_get_env_len(exec_env->env);
 	new_env = malloc(sizeof(char *) * (len + 2));
 	if (!new_env)
-		return (0);
+		return ;
 	j = 0;
 	while (j < len)
 	{
-		new_env[j] = env[j];
+		new_env[j] = exec_env->env[j];
 		j++;
 	}
-	new_env[len] = ft_strdup(var);
-	new_env[len + 1] = NULL;
-	free(env);
-	env = new_env;
-	return (env);
+	new_env[j] = ft_strdup(var);
+	new_env[j + 1] = NULL;
+	free(exec_env->env);
+	exec_env->env = new_env;
+	// return (env);
 }
 
-int	builtin_export(char **args, char **env)
+int	builtin_export(char **args, t_exec_env *exec_env)
 {
 	int		i;
+	int		j;
 	int		is_found;
+	int		var_len;
 	char	**key_value;
 	char	**tmp_key_value;
 	char	*holder;
+	char	*plus;
+	char	*tmp;
 	char	*tmp_holder_1;
 	char	*tmp_holder_2;
 	
 	if (!args[1])
 	{
-		sort_env_vars(env);
+		sort_env_vars(exec_env->env);
 		i = 0;
-		while (env[i])
+		while (exec_env->env[i])
 		{
-			key_value = ft_split(env[i], '=');
+			key_value = ft_split(exec_env->env[i], '=');
 			if (!key_value[1])
 			{
 				i++;
@@ -164,76 +160,53 @@ int	builtin_export(char **args, char **env)
 				if (has_plus_sign(key_value[0]))
 				{
 					key_value[0][ft_strlen(key_value[0]) - 1] = '\0'; // skip the + sign
-					is_found = search_for_env_var(env, key_value[0]);
+					is_found = search_for_env_var(exec_env->env, key_value[0]);
 					// if var  exists
 					if (is_found)
 					{
-						printf("found\n");
-						tmp_key_value = ft_split(env[is_found], '=');
+						tmp_key_value = ft_split(exec_env->env[is_found], '=');
 						holder = ft_strjoin(tmp_key_value[1], key_value[1]);
 						tmp_holder_1 = ft_strjoin(tmp_key_value[0], "=");
 						tmp_holder_2 = ft_strjoin(tmp_holder_1, holder);
 						free(holder);
 						free(tmp_holder_1);
-						free(env[is_found]);
-						env[is_found] = ft_strdup(tmp_holder_2);
+						free(exec_env->env[is_found]);
+						exec_env->env[is_found] = ft_strdup(tmp_holder_2);
 						free(tmp_holder_2);
 						free_double_array(tmp_key_value);
 						free_double_array(key_value);
-						printf("----------------------------after seted------------------------\n");
-						sort_env_vars(env);
-						int x = 0;
-						while (env[x])
-						{
-							key_value = ft_split(env[x], '=');
-							if (!key_value[1])
-							{
-								x++;
-								printf("declare -x %s=\"\"\n", key_value[0]);
-								continue;
-							}
-							printf("declare -x %s=\"%s\"\n", key_value[0], key_value[1]);
-							free_double_array(key_value);
-							x++;
-						}
 					}
 					// if var do not exists	
 					else
 					{
-						printf("didn't find\n");
-						env = add_var_to_env(env, key_value[0]);
-						printf("----------------------------after seted------------------------\n");
-						sort_env_vars(env);
-						int x = 0;
-						while (env[x])
+						plus = ft_strchr(args[i], '+');
+						if (plus && plus[1] == '=')
 						{
-							key_value = ft_split(env[x], '=');
-							if (!key_value[1])
-							{
-								x++;
-								printf("declare -x %s=\"\"\n", key_value[0]);
-								continue;
-							}
-							printf("declare -x %s=\"%s\"\n", key_value[0], key_value[1]);
-							free_double_array(key_value);
-							x++;
+							var_len = plus - args[i];
+							tmp = malloc(var_len + ft_strlen(plus + 1) + 1);
+							if (!tmp)
+								return (1);
+							ft_memcpy(tmp, args[i], var_len);
+							ft_memcpy(tmp + var_len, plus + 1, ft_strlen(plus+1));
+							add_var_to_env(exec_env, tmp);
+							free(tmp);
 						}
 					}
 				}
 				else // if var has no + sign
 				{
-					is_found = search_for_env_var(env, key_value[0]);
+					is_found = search_for_env_var(exec_env->env, key_value[0]);
 					if (is_found) // if var has = and exist in env update it
 					{
-						free(env[is_found]);
-						env[is_found] = ft_strdup(args[i]);
+						free(exec_env->env[is_found]);
+						exec_env->env[is_found] = ft_strdup(args[i]);
 					}
 					else // if var has = but doesn't exist in env
-						add_var_to_env(env, args[i]);
+						add_var_to_env(exec_env, args[i]);
 				}
 			}
 			else // if var has no = add directly to env
-				add_var_to_env(env, args[i]);
+				add_var_to_env(exec_env, args[i]);
 		}
 		else
 		{
