@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/29 10:03:13 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/04/29 12:22:55 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static char	*expand_variable_value(char *word, t_env *env)
 			if (word[i])
 				i++;
 		}
-		else if (word[i] == '$' && word[i + 1] && (ft_isalnum(word[i + 1])
+		else if (word[i] == '$' && word[i + 1] && (ft_isalpha(word[i + 1])
 				|| word[i + 1] == '_'))
 		{
 			i++;
@@ -103,7 +103,7 @@ static char	*expand_variable_value(char *word, t_env *env)
 			if (word[i])
 				i++;
 		}
-		else if (word[i] && word[i] == '$' && word[i + 1] == '\'')
+		else if (word[i + 1] && word[i] == '$' && word[i + 1] == '\'')
 		{
 			i++;
 			while (word[i] && word[i] != '\'')
@@ -113,6 +113,23 @@ static char	*expand_variable_value(char *word, t_env *env)
 			}
 			if (word[i])
 				i++;
+		}
+		else if (word[i] == '$' && word[i + 1] && ft_isdigit(word[i + 1]))
+		{
+			i+= 2;
+			while (word[i])
+			{
+				result = ft_strjoin_char(result, word[i]);
+				i++;
+			}
+			if (word[i])
+				i++;
+		}
+		else if (word[i] == '$' && word[i + 1] && word[i + 1] == '?')
+		{
+			i += 2;
+			// resplace the 0 with the last return value
+			result = ft_strjoin(result, "0");
 		}
 		else
 		{

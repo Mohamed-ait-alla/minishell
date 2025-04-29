@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/28 21:41:49 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:37:38 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,11 @@ void	parsing_cmd(char *input, char **env)
 	}
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
-	if (!tokens && ft_strlen(input) > 0)
+	if (!tokens)
+	{
 		printf("syntax error\n");
+		return ;
+	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
 	tmp_token = tokens;
