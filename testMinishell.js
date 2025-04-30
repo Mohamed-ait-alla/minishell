@@ -7,10 +7,8 @@
 const path = require("path");
 const { spawnSync } = require("child_process");
 const fs = require("fs");
-// const readline = require("readline");
 
 const minishellPath = "./minishell";
-// Make sure to change the program name variable if you have a different one and make sure to write him correctly
 const logDir = "./logs";
 const testOutput = path.join(logDir, "test_output.txt");
 const refOutput = path.join(logDir, "bash_output.txt");
