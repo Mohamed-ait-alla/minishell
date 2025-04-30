@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                Created with love by:               Mohamed Dahani          */
+/*         Created with love by:        Mohamed Dahani & Mohamed Ait Alla     */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,10 @@ const runTests = () => {
     console.log("\x1b[32m╰──────────────────────────────╯\x1b[0m");
   }
   console.log(
-    "\n\x1b[4m\x1b[34mCreated with love by: Mohamed Dahani ❤️\x1b[0m\n"
+    "\n\x1b[4m\x1b[34mCreated with love by: Mohamed Dahani & Mohamed Ait Alla ❤️\x1b[0m\n"
   );
   console.log("\x1b[4m\x1b[34mGitHub: https://github.com/dahani-dev\x1b[0m\n");
+  console.log("\x1b[4m\x1b[34mGitHub: https://github.com/Mohamed-Ait-Alla\x1b[0m\n");
 };
 
 runTests();
