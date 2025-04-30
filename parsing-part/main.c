@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/30 14:57:24 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:44:58 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 		&& (ft_strlen(input) == 4))
 	{
 		printf("exit\n");
-		while (i != 99999999)
-			i++;
 		free(input);
 		exit(0);
 	}

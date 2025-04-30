@@ -7,20 +7,32 @@
 const path = require("path");
 const { spawnSync } = require("child_process");
 const fs = require("fs");
+// const readline = require("readline");
 
 const minishellPath = "./minishell";
 // Make sure to change the program name variable if you have a different one and make sure to write him correctly
-const programName = "minishell> ";
 const logDir = "./logs";
 const testOutput = path.join(logDir, "test_output.txt");
 const refOutput = path.join(logDir, "bash_output.txt");
 let errorStatus = false;
+let commandsFailed = [];
+let programName = process.argv[2];
+
+if (!programName) {
+  console.error(
+    "\x1b[1m\x1b[31m\n⚠️  Please enter your minishell prompt exactly, including any trailing space (e.g., minishell$> ).\x1b[0m"
+  );
+  console.error(
+    '\x1b[1m\x1b[33m\nUsage: node tester.js "minishell$> "\n\x1b[0m'
+  );
+  process.exit(1);
+}
 
 // Add your test commands here
 const tests = [
-  "",
+  // "",
   // "echo hello",
-  "ls",
+  // "ls",
   // "pwd",
   // "cd ..",
   // "cd .",
@@ -30,7 +42,7 @@ const tests = [
   // "export VAR=value",
   // "unset VAR",
   // "env",
-  // "exit",
+  "exit",
 ];
 
 const runCommand = (shell, command) => {
@@ -40,6 +52,9 @@ const runCommand = (shell, command) => {
       encoding: "utf-8",
       shell: false,
     });
+    if (command === "exit" && shell === "bash") {
+      return "exit\n";
+    }
     return result.stdout;
   } catch (error) {
     return `Error: ${error.message}`;
@@ -48,15 +63,18 @@ const runCommand = (shell, command) => {
 
 const comparisonCommands = (command) => {
   const bashOutput = runCommand("bash", command);
+  console.log(`the command from bash output is: ${bashOutput}`);
   let minishellOutput = runCommand(minishellPath, command)
     .replace(programName, "")
     .replace("\n", "")
     .replace(programName, "")
     .replace(command, "");
+  console.log(`the command from minishell output is: ${minishellOutput}`);
   fs.writeFileSync(refOutput, bashOutput);
   fs.writeFileSync(testOutput, minishellOutput);
   if (bashOutput !== minishellOutput) {
     console.log(`\x1b[31m[FAIL]\x1b[0m Command: ${command}`);
+    commandsFailed.push(command);
     printDiff(bashOutput, minishellOutput);
     errorStatus = true;
   } else {
@@ -101,6 +119,12 @@ const runTests = () => {
     console.log(
       "\x1b[31m\x1b[1m╰─────────────────────────────────────────────────╯\x1b[0m"
     );
+    console.log("\x1b[1m\x1b[37m\n🚨 Commands that failed:\x1b[0m\n");
+    for (let i = 0; i < commandsFailed.length; i++) {
+      console.log(
+        `\x1b[31m${i + 1}.\x1b[0m \x1b[1m\x1b[37m${commandsFailed[i]}\x1b[0m`
+      );
+    }
   } else {
     console.log("\x1b[32m\x1b[1m╭──────────────────────────────╮");
     console.log("\x1b[1m│  ✅ All tests passed!        │");
@@ -109,6 +133,7 @@ const runTests = () => {
   console.log(
     "\n\x1b[4m\x1b[34mCreated with love by: Mohamed Dahani ❤️\x1b[0m\n"
   );
+  console.log("\x1b[4m\x1b[34mGitHub: https://github.com/dahani-dev\x1b[0m\n");
 };
 
 runTests();
