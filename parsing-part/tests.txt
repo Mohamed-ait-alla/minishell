@@ -4,3 +4,7 @@ exe-p: << l << l cat ...
 par-p: << l => segfault 
 echo $'USER'
 echo $215445
+minishell> rm -rf hh  
+syntax error
+echo "$?"
+cat /dev/random | head -c 10
