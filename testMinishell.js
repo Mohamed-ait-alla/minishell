@@ -78,7 +78,9 @@ const printDiff = (expected, actual) => {
 
 const runTests = () => {
   if (!fs.existsSync(minishellPath)) {
-    console.error("❌ ./minishell not found. Make sure it is compiled.");
+    console.log(
+      "\n\x1b[1m\x1b[31m❌ ./minishell not found. Make sure it is compiled.\x1b[0m\n"
+    );
     process.exit(1);
   }
   fs.mkdirSync(logDir, { recursive: true });
