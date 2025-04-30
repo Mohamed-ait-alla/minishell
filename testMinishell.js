@@ -61,13 +61,11 @@ const runCommand = (shell, command) => {
 
 const comparisonCommands = (command) => {
   const bashOutput = runCommand("bash", command);
-  console.log(`the command from bash output is: ${bashOutput}`);
   let minishellOutput = runCommand(minishellPath, command)
     .replace(programName, "")
     .replace("\n", "")
     .replace(programName, "")
     .replace(command, "");
-  console.log(`the command from minishell output is: ${minishellOutput}`);
   fs.writeFileSync(refOutput, bashOutput);
   fs.writeFileSync(testOutput, minishellOutput);
   if (bashOutput !== minishellOutput) {
