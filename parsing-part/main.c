@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/29 17:09:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:44:58 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	t_token		*tokens;
 	t_env		*env_list;
 	t_commands	*cmd_list;
+	// t_commands	*tmp_cmd_list;
 	t_token		*tmp_token;
 	t_env		*tmp_env;
 
@@ -40,12 +41,10 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
-	if ((input == NULL || !ft_strncmp(input, "exit", 4))
+	if ((input == NULL || !ft_strcmp(input, "exit"))
 		&& (ft_strlen(input) == 4))
 	{
 		printf("exit\n");
-		while (i != 99999999)
-			i++;
 		free(input);
 		exit(0);
 	}
@@ -95,22 +94,24 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
+	
 	// x = 1;
-	// while (cmd_list)
+	// tmp_cmd_list = cmd_list;
+	// while (tmp_cmd_list)
 	// {
 	// 	printf("Command %d:\n", x++);
-	// 	if (cmd_list->args)
+	// 	if (tmp_cmd_list->args)
 	// 	{
 	// 		printf("  Args:\n");
-	// 		for (int j = 0; cmd_list->args[j]; j++)
-	// 			printf("    %s\n", cmd_list->args[j]);
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
 	// 	}
-	// 	if (cmd_list->input_file)
-	// 		printf("  Input file: %s\n", cmd_list->input_file);
-	// 	if (cmd_list->output_file)
-	// 		printf("  Output file: %s (%s)\n", cmd_list->output_file,
-	// 			cmd_list->append ? "append" : "overwrite");
-	// 	cmd_list = cmd_list->next;
+	// 	if (tmp_cmd_list->input_file)
+	// 		printf("  Input file: %s\n", tmp_cmd_list->input_file);
+	// 	if (tmp_cmd_list->output_file)
+	// 		printf("  Output file: %s (%s)\n", tmp_cmd_list->output_file,
+	// 			tmp_cmd_list->append ? "append" : "overwrite");
+	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
 	// ---------- Execution Part ----------
 	tested_main_with_parsing(cmd_list, exec_env);
@@ -118,6 +119,33 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	free_tokens(tokens);
 	free_commands(cmd_list);
 }
+
+void	sig_int_handler(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	setup_signal(void)
+{
+	struct sigaction	sa_quit;
+
+	sa_quit.sa_handler = SIG_IGN;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = 0;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+// any where you use execve, you need to fork the process
+// if (pid == 0)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 	// execve(...)
+// }
+
 
 int	main(int ac, char **av, char **envp)
 {
@@ -129,6 +157,8 @@ int	main(int ac, char **av, char **envp)
 	// check if we have any args
 	if (ac != 1)
 		custom_error("Error: run only the programme", "", 1);
+	// handle the signal SIGINT (Ctrl+C)
+	setup_signal();
 	while (1)
 	{
 		input = readline("minishell> ");

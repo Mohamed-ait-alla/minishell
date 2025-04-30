@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/29 16:30:00 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:48:47 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	add_var_to_env(t_exec_env *exec_env, char *var)
 	char	**new_env;
 	int		len;
 	int		j;
-	
 	len = ft_get_env_len(exec_env->env);
 	new_env = malloc(sizeof(char *) * (len + 2));
 	if (!new_env)
@@ -117,19 +116,57 @@ void	add_var_to_env(t_exec_env *exec_env, char *var)
 	// return (env);
 }
 
+// this function responsible for handling += feature in export
+void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
+{
+	int		is_found;
+	char	*key;
+	char	*value;
+	char	*new_key;
+	char	*new_value;
+	char	*holder;
+	char	*tmp_holder_1;
+	char	*tmp_holder_2;
+	
+	new_value = ft_strchr(var, '=') + 1;
+	new_key = ft_substr(var, 0, new_value - 2 - var);
+	is_found = search_for_env_var(exec_env->env, new_key);
+	// if var  exists
+	if (is_found)
+	{
+		value = ft_strchr(exec_env->env[is_found], '=') + 1;
+		key = ft_substr(exec_env->env[is_found], 0, value - 1 - exec_env->env[is_found]);
+		holder = ft_strjoin(value, new_value);
+		tmp_holder_1 = ft_strjoin(key, "=");
+		tmp_holder_2 = ft_strjoin(tmp_holder_1, holder);
+		free(holder);
+		free(tmp_holder_1);
+		free(exec_env->env[is_found]);
+		exec_env->env[is_found] = ft_strdup(tmp_holder_2);
+		free(tmp_holder_2);
+		free(key);
+		free(new_key);
+	}
+	// if var do not exists	
+	else
+	{
+		holder = ft_strjoin(new_key, "=");
+		tmp_holder_1 = ft_strjoin(holder, new_value);
+		add_var_to_env(exec_env, tmp_holder_1);
+		free(holder);
+		free(tmp_holder_1);
+	}
+}
+
 int	builtin_export(char **args, t_exec_env *exec_env)
 {
 	int		i;
-	int		j;
 	int		is_found;
-	int		var_len;
 	char	**key_value;
-	char	**tmp_key_value;
-	char	*holder;
-	char	*plus;
-	char	*tmp;
-	char	*tmp_holder_1;
-	char	*tmp_holder_2;
+	char	*key;
+	char	*value;
+	char	*has_plus;
+	char	*has_equal;
 	
 	if (!args[1])
 	{
@@ -137,15 +174,16 @@ int	builtin_export(char **args, t_exec_env *exec_env)
 		i = 0;
 		while (exec_env->env[i])
 		{
-			key_value = ft_split(exec_env->env[i], '=');
-			if (!key_value[1])
+			value = ft_strchr(exec_env->env[i], '=');
+			key = ft_substr(exec_env->env[i], 0, value - exec_env->env[i]);
+			if (!value)
 			{
 				i++;
-				printf("declare -x %s\n", key_value[0]);
+				printf("declare -x %s\n", key);
 				continue;
 			}
-			printf("declare -x %s=\"%s\"\n", key_value[0], key_value[1]);
-			free_double_array(key_value);
+			printf("declare -x %s=\"%s\"\n", key, value + 1);
+			free(key);
 			i++;
 		}
 	}
@@ -156,46 +194,16 @@ int	builtin_export(char **args, t_exec_env *exec_env)
 		{
 			if (!has_equal_sign(args[i])) // if var has = check if it exist in env or not
 			{
-				key_value = ft_split(args[i], '=');
-				if (has_plus_sign(key_value[0]))
+				// check if args[i] has + --> append mode
+				if (ft_strchr(args[i], '+'))
+					handle_plus_sign_feature(exec_env, args[i]); // handle += feature
+				else
 				{
-					key_value[0][ft_strlen(key_value[0]) - 1] = '\0'; // skip the + sign
-					is_found = search_for_env_var(exec_env->env, key_value[0]);
-					// if var  exists
-					if (is_found)
-					{
-						tmp_key_value = ft_split(exec_env->env[is_found], '=');
-						holder = ft_strjoin(tmp_key_value[1], key_value[1]);
-						tmp_holder_1 = ft_strjoin(tmp_key_value[0], "=");
-						tmp_holder_2 = ft_strjoin(tmp_holder_1, holder);
-						free(holder);
-						free(tmp_holder_1);
-						free(exec_env->env[is_found]);
-						exec_env->env[is_found] = ft_strdup(tmp_holder_2);
-						free(tmp_holder_2);
-						free_double_array(tmp_key_value);
-						free_double_array(key_value);
-					}
-					// if var do not exists	
-					else
-					{
-						plus = ft_strchr(args[i], '+');
-						if (plus && plus[1] == '=')
-						{
-							var_len = plus - args[i];
-							tmp = malloc(var_len + ft_strlen(plus + 1) + 1);
-							if (!tmp)
-								return (1);
-							ft_memcpy(tmp, args[i], var_len);
-							ft_memcpy(tmp + var_len, plus + 1, ft_strlen(plus+1));
-							add_var_to_env(exec_env, tmp);
-							free(tmp);
-						}
-					}
-				}
-				else // if var has no + sign
-				{
-					is_found = search_for_env_var(exec_env->env, key_value[0]);
+					// handle = feature
+					has_equal = ft_strchr(args[i], '=');
+					key = ft_substr(args[i], 0, has_equal - args[i]);
+					is_found = search_for_env_var(exec_env->env, key);
+					free(key);
 					if (is_found) // if var has = and exist in env update it
 					{
 						free(exec_env->env[is_found]);
