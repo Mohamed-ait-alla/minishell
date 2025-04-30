@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/29 11:47:18 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:09:57 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,24 @@ void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
-	if (cmds->heredoc)
+	if (cmds->heredoc)	
 		tmpfile = get_tmp_file();
-		// // check for buit-ins
-		if (is_builtin(cmds->args[0]))
-		{
-			status = execute_builtin(cmds->args, exec_env);
-			// exit(status);
-		}
-		// check for pipes
+	// // check for buit-ins
+	printf("args is %d\n", cmds->heredoc);
+	// if (!cmds->args) ------------
+	// 	printf("yes\n");
+	if (is_builtin(cmds->args[0]))
+	{
+		status = execute_builtin(cmds->args, exec_env);
+		// exit(status);
+	}
+	// check for pipes
 	if (n_of_cmds > 1)
 		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
 	// if no pipes are included execute other commands as normal
 	pid = fork();
 	if (pid == -1)
-			perror("fork: ");
+		perror("fork: ");
 	if (pid == 0)
 	{
 		check_for_redirections(cmds, tmpfile);
