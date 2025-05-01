@@ -19,6 +19,7 @@ SRCS = main.c \
 	   ../execution-part/builtins/builtin_cd.c \
 	   ../execution-part/builtins/builtin_exit.c \
 	   ../execution-part/builtins/builtin_export.c \
+	   ../execution-part/builtins/export_utils.c \
 	   ../execution-part/builtins/builtin_env.c \
 	   ../execution-part/builtins/builtin_unset.c \
 	   ../execution-part/builtins/builtin_echo.c \

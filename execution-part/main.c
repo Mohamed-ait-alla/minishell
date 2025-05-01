@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/30 10:09:57 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:41:39 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	if (cmds->heredoc)	
 		tmpfile = get_tmp_file();
 	// // check for buit-ins
-	printf("args is %d\n", cmds->heredoc);
-	// if (!cmds->args) ------------
-	// 	printf("yes\n");
 	if (is_builtin(cmds->args[0]))
 	{
 		status = execute_builtin(cmds->args, exec_env);

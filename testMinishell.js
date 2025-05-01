@@ -28,7 +28,7 @@ if (!programName) {
 
 // Add your test commands here
 const tests = [
-  // "",
+  "",
   // "echo hello",
   // "ls",
   // "pwd",
