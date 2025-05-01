@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/30 17:44:58 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/01 19:08:25 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,15 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	t_token		*tokens;
 	t_env		*env_list;
 	t_commands	*cmd_list;
-	// t_commands	*tmp_cmd_list;
+	t_commands	*tmp_cmd_list;
 	t_token		*tmp_token;
 	t_env		*tmp_env;
+	int			x;
 
-	// int			x;
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
-	if ((input == NULL || !ft_strcmp(input, "exit"))
-		&& (ft_strlen(input) == 4))
+	if ((input == NULL || !ft_strcmp(input, "exit")) && (ft_strlen(input) == 4))
 	{
 		printf("exit\n");
 		free(input);
@@ -94,7 +93,6 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 	// print commands
-	
 	// x = 1;
 	// tmp_cmd_list = cmd_list;
 	// while (tmp_cmd_list)
@@ -107,10 +105,20 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 			printf("    %s\n", tmp_cmd_list->args[j]);
 	// 	}
 	// 	if (tmp_cmd_list->input_file)
-	// 		printf("  Input file: %s\n", tmp_cmd_list->input_file);
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+	// 			printf("  Input file[%d]: %s\n", i + 1,
+	// 				tmp_cmd_list->input_file[i]);
+	// 	}
 	// 	if (tmp_cmd_list->output_file)
-	// 		printf("  Output file: %s (%s)\n", tmp_cmd_list->output_file,
-	// 			tmp_cmd_list->append ? "append" : "overwrite");
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+	// 		{
+	// 			printf("  Output file[%d]: %s (%s)\n", i + 1,
+	// 				tmp_cmd_list->output_file[i],
+	// 				tmp_cmd_list->append ? "append" : "overwrite");
+	// 		}
+	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
 	// ---------- Execution Part ----------
@@ -146,11 +154,10 @@ void	setup_signal(void)
 // 	// execve(...)
 // }
 
-
 int	main(int ac, char **av, char **envp)
 {
-	char	*input;
-	t_exec_env envir;
+	char		*input;
+	t_exec_env	envir;
 
 	envir.env = copy_env(envp);
 	(void)av;

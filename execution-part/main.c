@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/30 10:09:57 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/01 20:03:20 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,28 @@
 void	check_for_redirections(t_commands *cmds, char *tmpfile)
 {
 	t_commands *tmp;
+	int			i;
 
 	tmp = cmds;
 	while (tmp)
 	{
-		if (tmp->input_file) 
+		i = 0;
+		while (tmp->input_file && tmp->input_file[i]) 
 		{
 			if (tmp->heredoc)
-				redirect_input_to_file_here_doc(tmp->input_file, tmpfile);
+				redirect_input_to_file_here_doc(cmds, tmp->input_file[i], tmpfile);
 			else
-				redirect_input_to_file(tmp->input_file);
+				redirect_input_to_file(tmp->input_file[i]);
+			i++;
 		}
-		if (tmp->output_file)
+		i = 0;
+		while (tmp->output_file && tmp->output_file[i])
 		{
 			if (tmp->append)
-				redirect_output_to_file(tmp->output_file, 'a');
+				redirect_output_to_file(tmp->output_file[i], 'a');
 			else
-				redirect_output_to_file(tmp->output_file, 'o');		
+				redirect_output_to_file(tmp->output_file[i], 'o');
+			i++;
 		}
 		tmp = tmp->next;
 	}
@@ -52,31 +57,32 @@ int	count_n_of_cmds(t_commands *cmds)
 	return (count);
 }
 
-void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
+int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 {
 	char	*tmpfile;
 	int		pid;
 	int		status;
 	int		n_of_cmds;
-	
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
 	if (cmds->heredoc)	
 		tmpfile = get_tmp_file();
-	// // check for buit-ins
-	printf("args is %d\n", cmds->heredoc);
-	// if (!cmds->args) ------------
-	// 	printf("yes\n");
-	if (is_builtin(cmds->args[0]))
+	// check for pipes
+	if (n_of_cmds > 1)
+		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
+		// if no pipes are included execute other commands as normal
+		// // check for buit-ins
+	// if (!cmds->args)
+	// {
+	// 	check_for_redirections(cmds, tmpfile);
+	// 	return ;
+	// }
+	if (cmds->args && is_builtin(cmds->args[0]))
 	{
 		status = execute_builtin(cmds->args, exec_env);
 		// exit(status);
 	}
-	// check for pipes
-	if (n_of_cmds > 1)
-		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
-	// if no pipes are included execute other commands as normal
 	pid = fork();
 	if (pid == -1)
 		perror("fork: ");

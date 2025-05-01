@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/30 22:25:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:43:23 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_commands
 {
 	char				**args;
 	char				**env;
-	char				*input_file;
-	char				*output_file;
+	char				**input_file;
+	char				**output_file;
 	int					append;
 	int					heredoc;
 	struct s_commands	*next;
@@ -89,13 +89,13 @@ void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
 // warning: just for testing
 
 //						#________ functions used for only testing purposes ________#
-void					tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env);
+int					tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env);
 
 //						#________redirections________#
 void					redirect_output_to_file(char *file, char mode);
 void					redirect_output_to_pipe(int write_pipe_end);
 void					redirect_input_to_file(char *file);
-void					redirect_input_to_file_here_doc(char *limitter,
+void					redirect_input_to_file_here_doc(t_commands *cmds, char *limitter,
 							char *tmpfile);
 char					*get_tmp_file(void);
 int						check_for_here_doc(char **av);
