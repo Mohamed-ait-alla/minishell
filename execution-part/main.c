@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/01 18:28:04 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/01 20:03:20 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,28 @@
 void	check_for_redirections(t_commands *cmds, char *tmpfile)
 {
 	t_commands *tmp;
+	int			i;
 
 	tmp = cmds;
 	while (tmp)
 	{
-		if (tmp->input_file) 
+		i = 0;
+		while (tmp->input_file && tmp->input_file[i]) 
 		{
 			if (tmp->heredoc)
-				redirect_input_to_file_here_doc(tmp->input_file, tmpfile);
+				redirect_input_to_file_here_doc(cmds, tmp->input_file[i], tmpfile);
 			else
-				redirect_input_to_file(tmp->input_file);
+				redirect_input_to_file(tmp->input_file[i]);
+			i++;
 		}
-		if (tmp->output_file)
+		i = 0;
+		while (tmp->output_file && tmp->output_file[i])
 		{
 			if (tmp->append)
-				redirect_output_to_file(tmp->output_file, 'a');
+				redirect_output_to_file(tmp->output_file[i], 'a');
 			else
-				redirect_output_to_file(tmp->output_file, 'o');		
+				redirect_output_to_file(tmp->output_file[i], 'o');
+			i++;
 		}
 		tmp = tmp->next;
 	}
@@ -52,7 +57,7 @@ int	count_n_of_cmds(t_commands *cmds)
 	return (count);
 }
 
-void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
+int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 {
 	char	*tmpfile;
 	int		pid;
@@ -73,7 +78,7 @@ void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	// 	check_for_redirections(cmds, tmpfile);
 	// 	return ;
 	// }
-	if (is_builtin(cmds->args[0]))
+	if (cmds->args && is_builtin(cmds->args[0]))
 	{
 		status = execute_builtin(cmds->args, exec_env);
 		// exit(status);
@@ -91,7 +96,7 @@ void	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	{
 		if (cmds->heredoc)
 		{
-			// printf("tmpfile removed is %s\n", tmpfile);
+			printf("tmpfile removed is %s\n", tmpfile);
 			if (unlink(tmpfile) == -1)
 				perror("unlink: ");
 		}
