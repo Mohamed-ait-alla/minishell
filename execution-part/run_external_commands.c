@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/26 10:13:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/01 09:33:21 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	execute_command(char **args, char **env)
 {
 	char	*path;
 
+	if (!args)
+		return ;
 	path = get_exec_path(env, args[0]);
 	manage_shell_errors(args[0], path);
 	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)

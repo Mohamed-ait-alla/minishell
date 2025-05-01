@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/30 17:44:58 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:54:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	t_token		*tokens;
 	t_env		*env_list;
 	t_commands	*cmd_list;
-	// t_commands	*tmp_cmd_list;
+	t_commands	*tmp_cmd_list;
 	t_token		*tmp_token;
 	t_env		*tmp_env;
 
-	// int			x;
+	int			x;
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
@@ -95,26 +95,26 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	cmd_list = parse_tokens(tokens);
 	// print commands
 	
-	// x = 1;
-	// tmp_cmd_list = cmd_list;
-	// while (tmp_cmd_list)
-	// {
-	// 	printf("Command %d:\n", x++);
-	// 	if (tmp_cmd_list->args)
-	// 	{
-	// 		printf("  Args:\n");
-	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
-	// 			printf("    %s\n", tmp_cmd_list->args[j]);
-	// 	}
-	// 	if (tmp_cmd_list->input_file)
-	// 		printf("  Input file: %s\n", tmp_cmd_list->input_file);
-	// 	if (tmp_cmd_list->output_file)
-	// 		printf("  Output file: %s (%s)\n", tmp_cmd_list->output_file,
-	// 			tmp_cmd_list->append ? "append" : "overwrite");
-	// 	tmp_cmd_list = tmp_cmd_list->next;
-	// }
+	x = 1;
+	tmp_cmd_list = cmd_list;
+	while (tmp_cmd_list)
+	{
+		printf("Command %d:\n", x++);
+		if (tmp_cmd_list->args)
+		{
+			printf("  Args:\n");
+			for (int j = 0; tmp_cmd_list->args[j]; j++)
+				printf("    %s\n", tmp_cmd_list->args[j]);
+		}
+		if (tmp_cmd_list->input_file)
+			printf("  Input file: %s\n", tmp_cmd_list->input_file);
+		if (tmp_cmd_list->output_file)
+			printf("  Output file: %s (%s)\n", tmp_cmd_list->output_file,
+				tmp_cmd_list->append ? "append" : "overwrite");
+		tmp_cmd_list = tmp_cmd_list->next;
+	}
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
