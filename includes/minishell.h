@@ -6,16 +6,17 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 19:43:23 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/02 09:41:18 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# define ERR_NO_FILE "bash: no such file or directory: "
-# define ERR_PERMISSION "bash: permission denied: "
-# define ERR_CMD_NOT_FOUND "bash: command not found: "
+# define ERR_NO_FILE "minishell: no such file or directory: "
+# define ERR_PERMISSION "minishell: permission denied: "
+# define ERR_CMD_NOT_FOUND "minishell: command not found: "
 # define PATH_MAX 1024
+# define MAX_HEREDOCS 16
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
