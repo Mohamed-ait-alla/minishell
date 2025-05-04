@@ -6,21 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/02 15:31:13 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/04 16:37:39 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	count_heredocs(char	**limiters)
-{
-	int	count;
-	
-	count = 0;
-	while (limiters[count])
-		count++;
-	return (count);
-}
 
 void	check_for_redirections(t_commands *cmds, char *tmpfile)
 {
@@ -76,25 +66,11 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
-	if (cmds->heredoc)
-	{
-		if (count_heredocs(cmds->input_file) > MAX_HEREDOCS)
-		{
-			printf("minishell: maximum here-document count exceeded\n");
-			exit (2);
-		}
-		tmpfile = get_tmp_file();
-	}
 	// check for pipes
 	if (n_of_cmds > 1)
 		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
-		// if no pipes are included execute other commands as normal
-		// // check for buit-ins
-	// if (!cmds->args)
-	// {
-	// 	check_for_redirections(cmds, tmpfile);
-	// 	return ;
-	// }
+	// if no pipes are included execute other commands as normal
+	// // check for buit-ins
 	if (cmds->args && is_builtin(cmds->args[0]))
 	{
 		status = execute_builtin(cmds->args, exec_env);
@@ -106,19 +82,9 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	if (pid == 0)
 	{
 		check_for_redirections(cmds, tmpfile);
+		handle_child_signals();
 		execute_command(cmds->args, exec_env->env);
 	}
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-	{
-		if (cmds->heredoc && tmpfile)
-		{
-			// printf("tmpfile removed is %s\n", tmpfile);
-			if (unlink(tmpfile) == -1)
-				perror("unlink: ");
-			if (tmpfile)
-				free(tmpfile);
-		}
-		// exit(WEXITSTATUS(status));
-	}
+	// exit(WEXITSTATUS(status));
 }

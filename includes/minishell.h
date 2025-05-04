@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 16:17:31 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/04 17:41:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ int						heredoc(t_commands *cmd, char **env);
 
 //       execution-part function's declaration
 
-# include "../execution-part/parsing-testing-file.h"
-// warning: just for testing
 
 //						#________ functions used for only testing purposes ________#
 int						tested_main_with_parsing(t_commands *cmds,
@@ -136,5 +134,9 @@ void					manage_shell_errors(char *arg, char *path);
 //						#________utils________#
 char					**copy_env(char **envp);
 void					free_double_array(char **arr);
+
+//						#________signals________#
+void					handle_parent_signals();
+void					handle_child_signals();
 
 #endif

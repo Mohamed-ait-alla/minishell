@@ -5,7 +5,6 @@ RM = rm -f
 NAME = minishell
 
 SRCS = main.c \
-	   parsing-testing-file.c \
 	   redirect_io.c \
 	   pipes_execution.c \
 	   pipes_utils.c \

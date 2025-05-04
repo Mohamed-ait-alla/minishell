@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 17:36:05 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/04 17:41:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,15 +243,6 @@ void	sig_int_handler(int sig)
 	rl_redisplay();
 }
 
-void	setup_signal(void)
-{
-	struct sigaction	sa_quit;
-
-	sa_quit.sa_handler = SIG_IGN;
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_flags = 0;
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
 // any where you use execve, you need to fork the process
 // if (pid == 0)
 // {
@@ -270,8 +261,8 @@ int	main(int ac, char **av, char **envp)
 	// check if we have any args
 	if (ac != 1)
 		custom_error("Error: run only the programme", "", 1);
-	// handle the signal SIGINT (Ctrl+C)
-	setup_signal();
+	// handle the signal SIGQUIT (Ctrl-\)
+	handle_parent_signals();
 	while (1)
 	{
 		// input = readline("minishell> ");
