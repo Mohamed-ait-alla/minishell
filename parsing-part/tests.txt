@@ -11,3 +11,5 @@ cat /dev/random | head -c 10
 
 cat main.c > out1 > out2 > out3
 << limit1 << limt2
+export var="ls                      -a"
+echo $var, $var, "$var"

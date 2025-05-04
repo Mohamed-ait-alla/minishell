@@ -25,6 +25,7 @@ SRCS = main.c \
 	   ../execution-part/builtins/builtin_echo.c \
 	   ../execution-part/builtins/builtin_pwd.c \
 	   ../execution-part/utils.c \
+	   ../execution-part/signals.c \
 	   ../get_next_line/get_next_line.c \
 	   ../get_next_line/get_next_line_utils.c
 	   
