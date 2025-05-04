@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 19:08:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:36:05 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ static int	is_only_spaces(char *input)
 	return (1);
 }
 
+static char	*ft_strjoin_char(char *str, char c)
+{
+	char	*new_str;
+	int		i;
+
+	new_str = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		new_str[i] = str[i];
+		i++;
+	}
+	new_str[i] = c;
+	new_str[i + 1] = '\0';
+	free(str);
+	return (new_str);
+}
+
 // paring the command
 void	parsing_cmd(char *input, t_exec_env *exec_env)
 {
@@ -37,6 +57,17 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	t_token		*tmp_token;
 	t_env		*tmp_env;
 	int			x;
+	char		*line_of_heredoc;
+	int			j;
+	char		*result;
+	char		*tmp;
+	int			start;
+	char		*key;
+	char		*value;
+	char		*file_name;
+	int			fd;
+	int			idx_last_fd;
+	char		*tmp_line;
 
 	// char		*value_of_env;
 	i = 0;
@@ -121,11 +152,86 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
+	// create heredoc and store the fd in the cmd list
+	if (heredoc(cmd_list, exec_env->env) != -1)
+	{
+		i = 0;
+		while (cmd_list->fds_of_heredoc[i] != -1)
+		{
+			file_name = get_tmp_file();
+			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
+			{
+				perror("failed to open temporary file: ");
+				return ;
+			}
+			while ((line_of_heredoc = get_next_line(cmd_list->fds_of_heredoc[i])))
+			{
+				if (!line_of_heredoc)
+					break ;
+				j = 0;
+				result = ft_strdup("");
+				// expand the env variables in the heredoc
+				while (line_of_heredoc[j])
+				{
+					if (line_of_heredoc[j] == '\n')
+						break ;
+					if (line_of_heredoc[j] == '$' && line_of_heredoc[j + 1]
+						&& (ft_isalpha(line_of_heredoc[j + 1])
+							|| line_of_heredoc[j + 1] == '_'))
+					{
+						j++;
+						start = j;
+						while (line_of_heredoc[j]
+							&& (ft_isalnum(line_of_heredoc[j])
+								|| line_of_heredoc[j] == '_'))
+							j++;
+						key = ft_substr(line_of_heredoc, start, j - start);
+						value = get_env_value(env_list, key);
+						if (!value)
+							value = ft_strdup("");
+						tmp = ft_strjoin(result, value);
+						free(result);
+						result = tmp;
+						free(key);
+					}
+					else
+					{
+						result = ft_strjoin_char(result, line_of_heredoc[j]);
+						j++;
+					}
+				}
+				write(fd, result, ft_strlen(result));
+				write(fd, "\n", 1);
+				free(line_of_heredoc);
+				free(result);
+			}
+			// unlink(file_name);
+			cmd_list->fds_of_heredoc[i] = open(file_name, O_RDONLY);
+			free(file_name);
+			close(fd);
+			i++;
+		}
+		cmd_list->fds_of_heredoc[i] = -1;
+	}
+	idx_last_fd = 0;
+	while (cmd_list->fds_of_heredoc[idx_last_fd] != -1)
+		idx_last_fd++;
+	idx_last_fd--;
+	int z = 0;
+	while ((tmp_line = get_next_line(cmd_list->fds_of_heredoc[idx_last_fd])))
+	{
+		if (!tmp_line)
+			break ;
+		printf("%d: %s", z, tmp_line);
+		free(tmp_line);
+		z++;
+	}
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
-	free_tokens(tokens);
-	free_commands(cmd_list);
+	// free_tokens(tokens);
+	// free_commands(cmd_list);
 }
 
 void	sig_int_handler(int sig)
@@ -168,7 +274,8 @@ int	main(int ac, char **av, char **envp)
 	setup_signal();
 	while (1)
 	{
-		input = readline("minishell> ");
+		// input = readline("minishell> ");
+		input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) > 0)
