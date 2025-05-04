@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/02 09:41:18 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/04 16:36:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,6 @@ void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
 
 //       execution-part function's declaration
 
-# include "../execution-part/parsing-testing-file.h"
-// warning: just for testing
 
 //						#________ functions used for only testing purposes ________#
 int					tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env);
@@ -134,5 +132,9 @@ void					manage_shell_errors(char *arg, char *path);
 //						#________utils________#
 char					**copy_env(char **envp);
 void					free_double_array(char **arr);
+
+//						#________signals________#
+void					handle_parent_signals();
+void					handle_child_signals();
 
 #endif
