@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 17:41:28 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 11:27:27 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,6 @@ static int	is_only_spaces(char *input)
 		i++;
 	}
 	return (1);
-}
-
-static char	*ft_strjoin_char(char *str, char c)
-{
-	char	*new_str;
-	int		i;
-
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + 2));
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	while (str[i])
-	{
-		new_str[i] = str[i];
-		i++;
-	}
-	new_str[i] = c;
-	new_str[i + 1] = '\0';
-	free(str);
-	return (new_str);
 }
 
 // paring the command
@@ -153,67 +133,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
 	// create heredoc and store the fd in the cmd list
-	if (heredoc(cmd_list, exec_env->env) != -1)
+	if (heredoc(cmd_list, env_list) == -1)
 	{
-		i = 0;
-		while (cmd_list->fds_of_heredoc[i] != -1)
-		{
-			file_name = get_tmp_file();
-			fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
-			{
-				perror("failed to open temporary file: ");
-				return ;
-			}
-			while ((line_of_heredoc = get_next_line(cmd_list->fds_of_heredoc[i])))
-			{
-				if (!line_of_heredoc)
-					break ;
-				j = 0;
-				result = ft_strdup("");
-				// expand the env variables in the heredoc
-				while (line_of_heredoc[j])
-				{
-					if (line_of_heredoc[j] == '\n')
-						break ;
-					if (line_of_heredoc[j] == '$' && line_of_heredoc[j + 1]
-						&& (ft_isalpha(line_of_heredoc[j + 1])
-							|| line_of_heredoc[j + 1] == '_'))
-					{
-						j++;
-						start = j;
-						while (line_of_heredoc[j]
-							&& (ft_isalnum(line_of_heredoc[j])
-								|| line_of_heredoc[j] == '_'))
-							j++;
-						key = ft_substr(line_of_heredoc, start, j - start);
-						value = get_env_value(env_list, key);
-						if (!value)
-							value = ft_strdup("");
-						tmp = ft_strjoin(result, value);
-						free(result);
-						result = tmp;
-						free(key);
-					}
-					else
-					{
-						result = ft_strjoin_char(result, line_of_heredoc[j]);
-						j++;
-					}
-				}
-				write(fd, result, ft_strlen(result));
-				write(fd, "\n", 1);
-				free(line_of_heredoc);
-				free(result);
-			}
-			// unlink(file_name);
-			cmd_list->fds_of_heredoc[i] = open(file_name, O_RDONLY);
-			free(file_name);
-			close(fd);
-			i++;
-		}
-		cmd_list->fds_of_heredoc[i] = -1;
+		printf("Error: heredoc failed\n");
+		return ;
 	}
+	
 	idx_last_fd = 0;
 	while (cmd_list->fds_of_heredoc[idx_last_fd] != -1)
 		idx_last_fd++;

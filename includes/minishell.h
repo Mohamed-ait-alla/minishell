@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 17:41:35 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 11:21:09 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);
 void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
-int						heredoc(t_commands *cmd, char **env);
+int						heredoc(t_commands *cmd, t_env *env);
 
 //       execution-part function's declaration
 
