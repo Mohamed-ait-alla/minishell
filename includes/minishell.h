@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 14:21:44 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:18:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ typedef struct s_env
 
 }						t_env;
 
+typedef struct s_gc
+{
+	void				*ptr;
+	struct s_gc	*next;
+}						t_gc;
+
+
 // for testing purposes
 typedef struct s_exec_env
 {
@@ -93,6 +100,8 @@ char					*get_env_value(t_env *env, char *key);
 void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
 int						heredoc(t_commands *cmd, t_env *env);
+void					*alloc_gc(size_t size, t_gc **gc_list);
+void					free_gc(t_gc **gc_list);
 
 //       execution-part function's declaration
 
