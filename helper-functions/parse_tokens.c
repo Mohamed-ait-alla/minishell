@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 16:16:32 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 13:08:56 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 
 t_commands	*parse_tokens(t_token *tokens)
 {
-	t_commands	*cmd_list;
-	t_commands	*current_cmd;
-	t_commands	*tmp;
+	t_commands		*cmd_list;
+	t_commands		*current_cmd;
+	t_quote_type	quote_type;
+	t_commands		*tmp;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
+	quote_type = NO_QUOTE;
 	while (tokens)
 	{
 		// if we found a new command or | pipe
@@ -76,8 +78,11 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			tokens = tokens->next;
 			if (tokens)
+			{
 				current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
 						tokens->value);
+				current_cmd->quote_type = tokens->quote_type;
+			}
 			// heredoc = 1 because when we use heredoc (<<) we using heredoc
 			current_cmd->heredoc = 1;
 		}
