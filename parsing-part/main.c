@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 16:34:32 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:40:14 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,15 +126,6 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// free token list and command list after execution
 	free_tokens(tokens);
 	free_commands(cmd_list);
-}
-
-void	sig_int_handler(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
 }
 
 // any where you use execve, you need to fork the process
