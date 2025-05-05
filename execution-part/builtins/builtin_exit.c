@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 19:50:52 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:21:17 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static int	is_numeric(char *arg)
 	return (1);
 }
 
-void	builtin_exit(char	**args)
+void	builtin_exit(char	**args, t_exec_env *exec_env)
 {
+	update_shell_level(exec_env->env, 0);
 	if (!args[1])
 		exit(EXIT_SUCCESS); // exit with the last cmd's status
 	if (!is_numeric(args[1]))
