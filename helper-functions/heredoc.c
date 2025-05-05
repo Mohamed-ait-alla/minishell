@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 11:22:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 13:09:31 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 					if (!heredoc_input || ft_strcmp(heredoc_input,
 							tmp_cmd->input_file[i]) == 0)
 						break ;
-					heredoc_input = expand_the_heredoc(heredoc_input, tmp_cmd,
-							env);
+					if (cmd->quote_type == NO_QUOTE)
+						heredoc_input = expand_the_heredoc(heredoc_input, tmp_cmd, env);
 					write(fd, heredoc_input, ft_strlen(heredoc_input));
 					write(fd, "\n", 1);
 					free(heredoc_input);

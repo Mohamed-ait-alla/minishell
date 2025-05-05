@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 11:21:09 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 13:01:20 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,18 @@ typedef enum s_token_type
 	TOKEN_HEREDOC,
 }						t_token_type;
 
+typedef enum s_quote_type
+{
+	NO_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+}						t_quote_type;
+
 typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
+	t_quote_type		quote_type;
 	struct s_token		*next;
 }						t_token;
 
@@ -54,6 +62,7 @@ typedef struct s_commands
 	int					append;
 	int					heredoc;
 	int					fds_of_heredoc[1024];
+	t_quote_type		quote_type;
 	struct s_commands	*next;
 }						t_commands;
 
@@ -86,7 +95,6 @@ void					expand_variables_and_remove_quotes(t_token *tokens,
 int						heredoc(t_commands *cmd, t_env *env);
 
 //       execution-part function's declaration
-
 
 //						#________ functions used for only testing purposes ________#
 int						tested_main_with_parsing(t_commands *cmds,
@@ -136,7 +144,7 @@ char					**copy_env(char **envp);
 void					free_double_array(char **arr);
 
 //						#________signals________#
-void					handle_parent_signals();
-void					handle_child_signals();
+void					handle_parent_signals(void);
+void					handle_child_signals(void);
 
 #endif
