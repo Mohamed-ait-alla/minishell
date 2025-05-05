@@ -10,6 +10,7 @@ SRCS = main.c \
 	   ../helper-functions/init_env.c \
 	   ../helper-functions/get_env_value.c \
 	   ../helper-functions/expand_variables_and_remove_quotes.c \
+	   ../helper-functions/heredoc.c \
 	   ../execution-part/main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \

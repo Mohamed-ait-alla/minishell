@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/01 15:40:44 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/05 11:56:49 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@
 // 	return (str);
 // }
 
-static char	*get_operator(char *input, int *i)
+static char	*get_operator(char *input, int *i, t_quote_type *quote_type)
 {
 	char	*operator;
 
@@ -97,10 +97,14 @@ static char	*get_operator(char *input, int *i)
 		if (input[*i] == '|')
 			return (NULL);
 	}
+	if (input[*i] == '\'')
+			*quote_type = SINGLE_QUOTE;
+	else if (input[*i] == '"')
+			*quote_type = DOUBLE_QUOTE;
 	return (operator);
 }
 
-static char	*get_word(char *input, int *i)
+static char	*get_word(char *input, int *i, t_quote_type *quote_type)
 {
 	int	start;
 	char quote;
@@ -117,6 +121,10 @@ static char	*get_word(char *input, int *i)
 				(*i)++;
 			if (input[*i] != quote)
 				return (NULL);
+			if (quote == '\'')
+				*quote_type = SINGLE_QUOTE;
+			else if (quote == '"') 
+				*quote_type = DOUBLE_QUOTE;
 		}
 		(*i)++;
 	}
@@ -138,7 +146,7 @@ static t_token_type	get_token_type(char *value)
 	return (TOKEN_WORD);
 }
 
-static t_token	*new_token(char *value, t_token_type type)
+static t_token	*new_token(char *value, t_token_type type, t_quote_type quote_type)
 {
 	t_token	*new_token;
 
@@ -147,6 +155,7 @@ static t_token	*new_token(char *value, t_token_type type)
 		return (NULL);
 	new_token->value = value;
 	new_token->type = type;
+	new_token->quote_type = quote_type;
 	new_token->next = NULL;
 	return (new_token);
 }
@@ -173,9 +182,11 @@ t_token	*tokenize_input(char *input)
 	int				i;
 	char			*value;
 	t_token_type	type;
+	t_quote_type	quote_type;
 
 	tokens = NULL;
 	i = 0;
+	quote_type = NO_QUOTE;
 	while (input[i])
 	{
 		while (input[i] <= 32)
@@ -197,7 +208,7 @@ t_token	*tokenize_input(char *input)
 		// get the opearator
 		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
-			value = get_operator(input, &i);
+			value = get_operator(input, &i, &quote_type);
 			if (!value)
 			{
 				tokens = NULL;
@@ -207,7 +218,7 @@ t_token	*tokenize_input(char *input)
 		// get the word
 		else
 		{
-			value = get_word(input, &i);
+			value = get_word(input, &i, &quote_type);
 			if (!value)
 			{
 				tokens = NULL;
@@ -219,7 +230,7 @@ t_token	*tokenize_input(char *input)
 		{
 			type = get_token_type(value);
 			// add a new token to list of tokens
-			add_token(&tokens, new_token(value, type));
+			add_token(&tokens, new_token(value, type, quote_type));
 		}
 	}
 	return (tokens);

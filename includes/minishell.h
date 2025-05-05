@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/04 16:36:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:01:20 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <signal.h>
 
 typedef enum s_token_type
 {
@@ -36,13 +36,20 @@ typedef enum s_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_SEMICOLON,
 }						t_token_type;
+
+typedef enum s_quote_type
+{
+	NO_QUOTE,
+	SINGLE_QUOTE,
+	DOUBLE_QUOTE,
+}						t_quote_type;
 
 typedef struct s_token
 {
 	t_token_type		type;
 	char				*value;
+	t_quote_type		quote_type;
 	struct s_token		*next;
 }						t_token;
 
@@ -54,6 +61,8 @@ typedef struct s_commands
 	char				**output_file;
 	int					append;
 	int					heredoc;
+	int					fds_of_heredoc[1024];
+	t_quote_type		quote_type;
 	struct s_commands	*next;
 }						t_commands;
 
@@ -68,9 +77,8 @@ typedef struct s_env
 // for testing purposes
 typedef struct s_exec_env
 {
-	char	**env;
-}	t_exec_env;
-
+	char				**env;
+}						t_exec_env;
 
 //       parsing-part function's declaration
 void					custom_error(char *err_msg, char *arg, int exit_code);
@@ -82,20 +90,22 @@ void					free_tokens(t_token *tokens);
 void					free_commands(t_commands *cmds);
 t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);
-void					expand_variables_and_remove_quotes(t_token *tokens, t_env *env);
+void					expand_variables_and_remove_quotes(t_token *tokens,
+							t_env *env);
+int						heredoc(t_commands *cmd, t_env *env);
 
 //       execution-part function's declaration
 
-
 //						#________ functions used for only testing purposes ________#
-int					tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env);
+int						tested_main_with_parsing(t_commands *cmds,
+							t_exec_env *exec_env);
 
 //						#________redirections________#
 void					redirect_output_to_file(char *file, char mode);
 void					redirect_output_to_pipe(int write_pipe_end);
 void					redirect_input_to_file(char *file);
-void					redirect_input_to_file_here_doc(t_commands *cmds, char *limitter,
-							char *tmpfile);
+void					redirect_input_to_file_here_doc(t_commands *cmds,
+							char *limitter, char *tmpfile);
 char					*get_tmp_file(void);
 int						check_for_here_doc(char **av);
 void					redirect_input_to_pipe(int read_pipe_end);
@@ -122,7 +132,7 @@ bool					is_valid_identifier(char *arg);
 void					print_sorted_env(t_exec_env *exec_env);
 void					sort_env(char **env);
 void					ft_swap(char **s1, char **s2);
-int 					ft_max(int value1, int value2);
+int						ft_max(int value1, int value2);
 int						ft_get_env_var_len(char *env_var);
 int						ft_get_env_len(char **env);
 
@@ -134,7 +144,7 @@ char					**copy_env(char **envp);
 void					free_double_array(char **arr);
 
 //						#________signals________#
-void					handle_parent_signals();
-void					handle_child_signals();
+void					handle_parent_signals(void);
+void					handle_child_signals(void);
 
 #endif

@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/02 17:02:10 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:22:46 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_tmp_file(void)
+char	*get_tmp_file(void)
 {
-	char	*file_name;
-	char	*tmpfile;
-	int	 i;
+	char		*file_name;
+	char		*tmpfile;
+	static int	i;
+	char		*heredoc_name;
 
-	file_name = ft_itoa((unsigned long long) &i);
+	heredoc_name = "heredoc_";
+	file_name = ft_strjoin(heredoc_name, ft_itoa(i));
 	tmpfile = ft_strjoin("/tmp/", file_name);
 	free(file_name);
+	i++;
 	return (tmpfile);
 }
 
@@ -42,13 +45,10 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	return (ft_strcmp(cmd, "echo") == 0 ||
-			ft_strcmp(cmd, "cd") == 0 ||
-			ft_strcmp(cmd, "pwd") == 0 ||
-			ft_strcmp(cmd, "export") == 0 ||
-			ft_strcmp(cmd, "unset") == 0 ||
-			ft_strcmp(cmd, "env") == 0 ||
-			ft_strcmp(cmd, "exit") == 0);
+	return (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
+		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
+		|| ft_strcmp(cmd, "exit") == 0);
 }
 
 char	**copy_env(char **envp)
@@ -82,7 +82,7 @@ char	**copy_env(char **envp)
 
 void	free_double_array(char **arr)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (arr && arr[i])

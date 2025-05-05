@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 13:40:14 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:48:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	t_token		*tmp_token;
 	t_env		*tmp_env;
 	int			x;
+	char		*line_of_heredoc;
+	int			j;
+	char		*result;
+	char		*tmp;
+	int			start;
+	char		*key;
+	char		*value;
+	char		*file_name;
+	int			fd;
+	int			idx_last_fd;
+	char		*tmp_line;
 
 	// char		*value_of_env;
 	i = 0;
@@ -59,7 +70,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// tmp_token = tokens;
 	// while (tmp_token)
 	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
 	// 	tmp_token = tmp_token->next;
 	// }
 	// store the env variables in the env list
@@ -92,6 +103,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
+
 	// print commands
 	// x = 1;
 	// tmp_cmd_list = cmd_list;
@@ -121,11 +133,31 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
+	// create heredoc and store the fd in the cmd list
+	if (heredoc(cmd_list, env_list) == -1)
+	{
+		printf("Error: heredoc failed\n");
+		return ;
+	}
+	
+	idx_last_fd = 0;
+	while (cmd_list->fds_of_heredoc[idx_last_fd] != -1)
+		idx_last_fd++;
+	idx_last_fd--;
+	int z = 0;
+	while ((tmp_line = get_next_line(cmd_list->fds_of_heredoc[idx_last_fd])))
+	{
+		if (!tmp_line)
+			break ;
+		printf("%d: %s", z, tmp_line);
+		free(tmp_line);
+		z++;
+	}
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
-	free_tokens(tokens);
-	free_commands(cmd_list);
+	// free_tokens(tokens);
+	// free_commands(cmd_list);
 }
 
 // any where you use execve, you need to fork the process
@@ -150,7 +182,8 @@ int	main(int ac, char **av, char **envp)
 	handle_parent_signals();
 	while (1)
 	{
-		input = readline("minishell> ");
+		// input = readline("minishell> ");
+		input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) > 0)
