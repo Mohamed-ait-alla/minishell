@@ -11,6 +11,8 @@ SRCS = main.c \
 	   ../helper-functions/get_env_value.c \
 	   ../helper-functions/expand_variables_and_remove_quotes.c \
 	   ../helper-functions/heredoc.c \
+	   ../helper-functions/gc_malloc.c \
+	   ../helper-functions/free_gc.c \
 	   ../execution-part/main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
