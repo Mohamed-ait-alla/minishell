@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/04 16:37:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/04 16:59:04 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 		status = execute_builtin(cmds->args, exec_env);
 		// exit(status);
 	}
+	handle_child_signals();
 	pid = fork();
 	if (pid == -1)
-		perror("fork: ");
+	perror("fork: ");
 	if (pid == 0)
 	{
 		check_for_redirections(cmds, tmpfile);
-		handle_child_signals();
 		execute_command(cmds->args, exec_env->env);
 	}
 	waitpid(pid, &status, 0);
