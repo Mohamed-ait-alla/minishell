@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:50:05 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/17 13:34:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 13:42:17 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**ft_realloc_array(char **arr, char *new_str)
 	if (arr)
 		while (arr[len])
 			len++;
-	new_arr = malloc(sizeof(char *) * (len + 2));
+	new_arr = ft_malloc(sizeof(char *) * (len + 2), 1);
 	if (!new_arr)
 		return (NULL);
 	i = 0;

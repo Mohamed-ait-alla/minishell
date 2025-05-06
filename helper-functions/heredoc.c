@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 13:09:31 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 13:44:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	char	*new_str;
 	int		i;
 
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	new_str = ft_malloc(sizeof(char) * (ft_strlen(str) + 2), 1);
 	if (!new_str)
 		return (NULL);
 	i = 0;

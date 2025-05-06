@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 19:18:08 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:38:14 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
+	// ft_malloc(0, 0);
 }
 
 // any where you use execve, you need to fork the process

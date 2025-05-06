@@ -11,8 +11,7 @@ SRCS = main.c \
 	   ../helper-functions/get_env_value.c \
 	   ../helper-functions/expand_variables_and_remove_quotes.c \
 	   ../helper-functions/heredoc.c \
-	   ../helper-functions/gc_malloc.c \
-	   ../helper-functions/free_gc.c \
+	   ../helper-functions/ft_malloc.c \
 	   ../execution-part/main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
@@ -30,7 +29,7 @@ SRCS = main.c \
 	   ../execution-part/utils.c \
 	   ../execution-part/signals.c \
 	   ../get_next_line/get_next_line.c \
-	   ../get_next_line/get_next_line_utils.c
+	   ../get_next_line/get_next_line_utils.c \
 	   
 
 LIBFT_DIR = ../libft
@@ -49,7 +48,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) -lreadline -o $(NAME) $(OBJS) $(LIBFT)
 
 $(LIBFT):
-	make -C $(LIBFT_DIR)
+	make bonus -C $(LIBFT_DIR)
 
 all: $(NAME)
 

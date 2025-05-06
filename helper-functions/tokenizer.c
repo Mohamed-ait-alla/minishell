@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 11:56:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 13:29:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static t_token	*new_token(char *value, t_token_type type, t_quote_type quote_typ
 {
 	t_token	*new_token;
 
-	new_token = malloc(sizeof(t_token));
+	new_token = ft_malloc(sizeof(t_token), 1);
 	if (!new_token)
 		return (NULL);
 	new_token->value = value;
