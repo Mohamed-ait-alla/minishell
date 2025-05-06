@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/05 19:14:47 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:51:42 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile)
 		i = 0;
 		while (tmp->input_file && tmp->input_file[i]) 
 		{
-			if (tmp->heredoc)
-				redirect_input_to_file_here_doc(cmds, tmp->input_file[i], tmpfile);
-			else
+			// if (tmp->heredoc)
+				// redirect_input_to_file_here_doc(cmds, tmp->input_file[i], tmpfile);
+			// else
 				redirect_input_to_file(tmp->input_file[i]);
 			i++;
 		}

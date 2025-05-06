@@ -28,8 +28,6 @@ SRCS = main.c \
 	   ../execution-part/builtins/builtin_pwd.c \
 	   ../execution-part/utils.c \
 	   ../execution-part/signals.c \
-	   ../get_next_line/get_next_line.c \
-	   ../get_next_line/get_next_line_utils.c \
 	   
 
 LIBFT_DIR = ../libft
@@ -38,7 +36,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -g3 #-Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c

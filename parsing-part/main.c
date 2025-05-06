@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 14:38:14 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 14:52:38 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+		tmp_token = tmp_token->next;
+	}
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
 	// // print env list
@@ -154,11 +154,11 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
-	// ft_malloc(0, 0);
+	ft_malloc(0, 0);
 }
 
 // any where you use execve, you need to fork the process

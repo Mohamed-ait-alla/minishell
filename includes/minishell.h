@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 13:25:34 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 14:49:06 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define ERR_CMD_NOT_FOUND "minishell: command not found: "
 # define PATH_MAX 1024
 # define MAX_HEREDOCS 16
-# include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <readline/readline.h>
