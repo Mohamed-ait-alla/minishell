@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 15:11:44 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:47:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ static char	*expand_variable_value(char *word, t_env *env)
 					if (!value)
 						value = ft_strdup("");
 					tmp = ft_strjoin(result, value);
-					free(result);
+					// free(result);
 					result = tmp;
-					free(key);
+					// free(key);
 				}
 				else
 				{

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 13:44:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:49:27 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	free(str);
+	// free(str);
 	return (new_str);
 }
 
@@ -56,9 +56,9 @@ char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
 			if (!value)
 				value = ft_strdup("");
 			tmp = ft_strjoin(result, value);
-			free(result);
+			// free(result);
 			result = tmp;
-			free(key);
+			// free(key);
 		}
 		else
 		{
@@ -114,7 +114,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 				}
 				tmp_cmd->fds_of_heredoc[i] = fd;
 				// unlink(file_name);
-				free(file_name);
+				// free(file_name);
 				i++;
 			}
 			tmp_cmd->fds_of_heredoc[i] = -1;
