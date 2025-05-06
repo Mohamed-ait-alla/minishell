@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 15:49:27 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:08:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,27 @@ int	heredoc(t_commands *cmd, t_env *env)
 	char		*file_name;
 	int			i;
 	int			fd;
+	t_commands	*tmp2_cmd;
+	int			count_heredoc;
 
+	// handle max heredoc
+	tmp2_cmd = cmd;
+	count_heredoc = 0;
+	while (tmp2_cmd)
+	{
+		if (tmp2_cmd->heredoc)
+		{
+			i = 0;
+			while (tmp2_cmd->input_file && tmp2_cmd->input_file[i])
+			{
+				i++;
+				count_heredoc++;
+			}
+		}
+		tmp2_cmd = tmp2_cmd->next;
+	}
+	if (count_heredoc > 16)
+		return (-1);
 	tmp_cmd = cmd;
 	while (tmp_cmd)
 	{
@@ -99,7 +119,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 							tmp_cmd->input_file[i]) == 0)
 						break ;
 					if (cmd->quote_type == NO_QUOTE)
-						heredoc_input = expand_the_heredoc(heredoc_input, tmp_cmd, env);
+						heredoc_input = expand_the_heredoc(heredoc_input,
+								tmp_cmd, env);
 					write(fd, heredoc_input, ft_strlen(heredoc_input));
 					write(fd, "\n", 1);
 					free(heredoc_input);

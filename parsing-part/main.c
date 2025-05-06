@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 14:52:38 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:40:30 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
-	ft_malloc(0, 0);
+	// ft_malloc(0, 0);
 }
 
 // any where you use execve, you need to fork the process
