@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_gc.c                                          :+:      :+:    :+:   */
+/*   alloc_gc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 15:44:18 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 17:41:42 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/05 14:37:52 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/05 17:26:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_gc(t_gc **gc_list)
+void	*ft_malloc(size_t size, int mode)
 {
-	t_gc	*tmp;
+	static t_list	*head_list;
+	t_list			*new_node;
+	void			*content;
 
-	while (*gc_list)
+	new_node = NULL;
+	content = NULL;
+	if (mode == 1)
 	{
-		tmp = *gc_list;
-		if (tmp->ptr)
-			free(tmp->ptr);
-		*gc_list = (*gc_list)->next;
-		free(tmp);
+		content = malloc(size);
+		if (!content)
+			return (NULL);
+		new_node = ft_lstnew(content);
+		ft_lstadd_back(&head_list, new_node);
 	}
-	*gc_list = NULL;
+	else if (mode == 0)
+	{
+		ft_lstclear(&head_list, free);
+		head_list = NULL;
+	}
+	return (content);
 }

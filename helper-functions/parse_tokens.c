@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 13:08:56 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 13:41:21 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_commands	*parse_tokens(t_token *tokens)
 		// if we found a new command or | pipe
 		if (!current_cmd || tokens->type == TOKEN_PIPE)
 		{
-			current_cmd = malloc(sizeof(t_commands));
+			current_cmd = ft_malloc(sizeof(t_commands), 1);
 			if (!current_cmd)
 				return (NULL);
 			ft_bzero(current_cmd, sizeof(t_commands));

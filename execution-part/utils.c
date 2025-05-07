@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/05 19:15:00 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:48:32 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_tmp_file(void)
 	heredoc_name = "heredoc_";
 	file_name = ft_strjoin(heredoc_name, ft_itoa(i));
 	tmpfile = ft_strjoin("/tmp/", file_name);
-	free(file_name);
+	// free(file_name);
 	i++;
 	return (tmpfile);
 }
@@ -59,7 +59,7 @@ char	**copy_env(char **envp)
 	i = 0;
 	while (envp && envp[i])
 		i++;
-	new_env = (char **)malloc(sizeof(char *) * (i + 1));
+	new_env = (char **)ft_malloc(sizeof(char *) * (i + 1), 1);
 	if (!new_env)
 	{
 		perror("malloc: ");
