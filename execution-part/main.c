@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 10:05:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:11:41 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
-	// check for pipes
 	if (n_of_cmds > 1)
 	{
 		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
@@ -68,16 +67,12 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	}
 	else
 	{
-		// if no pipes are included execute other commands as normal
-		// // check for buit-ins
+		// check for builtins
 		if (cmds->args && is_builtin(cmds->args[0]))
 		{
 			status = execute_builtin(cmds->args, exec_env);
 			// exit(status);
 		}
-		// update the shell level if ./minishell is specified
-		if (cmds->args && ft_strcmp("./minishell", cmds->args[0]) == 0)
-			update_shell_level(exec_env, 1);
 		handle_child_signals();
 		pid = fork();
 		if (pid == -1)

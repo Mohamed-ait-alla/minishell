@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/06 14:40:13 by mait-all         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/06 14:49:06 by mdahani          ###   ########.fr       */
->>>>>>> 1b469e25a51ac1fd7bb5920dca596d4711355c5f
+/*   Updated: 2025/05/07 10:16:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +149,7 @@ void					manage_shell_errors(char *arg, char *path);
 //						#________utils________#
 char					**copy_env(char **envp);
 void					free_double_array(char **arr);
-void					update_shell_level(t_exec_env *exec_env, int mode);
+void					update_shell_level(t_exec_env *exec_env);
 
 //						#________signals________#
 void					handle_parent_signals(void);

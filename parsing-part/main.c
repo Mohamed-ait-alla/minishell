@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 10:04:27 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:26:28 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
-		tmp_token = tmp_token->next;
-	}
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
 	// // print env list
@@ -154,7 +154,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	// tested_main_with_parsing(cmd_list, exec_env);
+	tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
@@ -179,6 +179,8 @@ int	main(int ac, char **av, char **envp)
 	// check if we have any args
 	if (ac != 1)
 		custom_error("Error: run only the programme", "", 1);
+	// update shell level
+	update_shell_level(&envir);
 	// handle the signal SIGQUIT (Ctrl-\)
 	handle_parent_signals();
 	while (1)
