@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 17:35:09 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 19:47:46 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 13:30:15 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*init_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		new = malloc(sizeof(t_env));
+		new = ft_malloc(sizeof(t_env), 1);
 		if (!new)
 			return (NULL);
 		equal = ft_strchr(env[i], '=');

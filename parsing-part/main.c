@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 19:18:08 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:04:27 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+		tmp_token = tmp_token->next;
+	}
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
 	// // print env list
@@ -104,35 +104,35 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
-	// print commands
-	x = 1;
-	tmp_cmd_list = cmd_list;
-	while (tmp_cmd_list)
-	{
-		printf("Command %d:\n", x++);
-		if (tmp_cmd_list->args)
-		{
-			printf("  Args:\n");
-			for (int j = 0; tmp_cmd_list->args[j]; j++)
-				printf("    %s\n", tmp_cmd_list->args[j]);
-		}
-		if (tmp_cmd_list->input_file)
-		{
-			for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-				printf("  Input file[%d]: %s\n", i + 1,
-					tmp_cmd_list->input_file[i]);
-		}
-		if (tmp_cmd_list->output_file)
-		{
-			for (int i = 0; tmp_cmd_list->output_file[i]; i++)
-			{
-				printf("  Output file[%d]: %s (%s)\n", i + 1,
-					tmp_cmd_list->output_file[i],
-					tmp_cmd_list->append ? "append" : "overwrite");
-			}
-		}
-		tmp_cmd_list = tmp_cmd_list->next;
-	}
+	// // print commands
+	// x = 1;
+	// tmp_cmd_list = cmd_list;
+	// while (tmp_cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
+	// 	if (tmp_cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 	}
+	// 	if (tmp_cmd_list->input_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+	// 			printf("  Input file[%d]: %s\n", i + 1,
+	// 				tmp_cmd_list->input_file[i]);
+	// 	}
+	// 	if (tmp_cmd_list->output_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+	// 		{
+	// 			printf("  Output file[%d]: %s (%s)\n", i + 1,
+	// 				tmp_cmd_list->output_file[i],
+	// 				tmp_cmd_list->append ? "append" : "overwrite");
+	// 		}
+	// 	}
+	// 	tmp_cmd_list = tmp_cmd_list->next;
+	// }
 	// create heredoc and store the fd in the cmd list
 	if (heredoc(cmd_list, env_list) == -1)
 	{
@@ -154,10 +154,11 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
+	// ft_malloc(0, 0);
 }
 
 // any where you use execve, you need to fork the process

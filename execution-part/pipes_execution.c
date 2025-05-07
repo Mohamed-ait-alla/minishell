@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/26 11:49:18 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 09:54:03 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	}
 	else if (i == n_of_cmds - 1) // last command
 	{
-		redirect_input_to_pipe(pipes[i - 1][0]);
 		check_for_redirections(cmds, tmpfile); // take care when here_doc is found
+		redirect_input_to_pipe(pipes[i - 1][0]);
 	}
 	else // middle commands
 	{
@@ -31,7 +31,7 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	}
 }
 
-static void	wait_for_childs(int pids[], int n_of_cmds, char *tmpfile)
+static void	wait_for_childs(t_commands *cmds, int pids[], int n_of_cmds, char *tmpfile)
 {
 	int	status;
 	int	i;
@@ -43,13 +43,7 @@ static void	wait_for_childs(int pids[], int n_of_cmds, char *tmpfile)
 		waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status) && (i == n_of_cmds - 1))
 		{
-			if (tmpfile) // when here doc is founded, remove the tmpfile
-			{
-				printf("tmpfile %s\n", tmpfile);
-				if (unlink(tmpfile) == -1)
-					perror("unlink: ");
-			}
-			exit(WEXITSTATUS(status));
+			cmds->exit_status = WEXITSTATUS(status);
 		}
 		i++;
 	}
@@ -69,37 +63,36 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, char *
 	{
 		if (pipe(pipes[i]) == -1)
 		{
-			perror("an error occured while creating pipes: ");
-			exit (EXIT_FAILURE);
+			perror("pipe: ");
+			cmds->exit_status = EXIT_FAILURE;
+			return ;
 		}
 		i++;
 	}
 	i = 0;
-	while (i < n_of_cmds)
+	while (tmp && i < n_of_cmds)
 	{
 		pids[i] = fork();
 		if (pids[i] == -1)
 		{
 			perror("an error occured while forking processes: ");
-			exit (EXIT_FAILURE);
+			cmds->exit_status = EXIT_FAILURE;
+			return ;
 		}
 		if (pids[i] == 0) // child processes
 		{
 			configure_pipeline_io(tmp, pipes, i, n_of_cmds, tmpfile);
 			close_unused_pipes(pipes, n_of_cmds - 1, -1);
-			execute_command(tmp->args, env);
+			execute_command(tmp, tmp->args, env);
 		}
 		i++;
 		tmp = tmp -> next;
 	}
 	close_unused_pipes(pipes, n_of_cmds - 1, -1);
-	wait_for_childs(pids, n_of_cmds, tmpfile);
+	wait_for_childs(cmds, pids, n_of_cmds, tmpfile);
 }
 
 void	handle_pipes(t_commands *cmds, char *tmpfile, int n_of_cmds, char **env)
 {
-	// int n_of_pipes;
-
-	// n_of_pipes = calculate_number_of_pipes(av);
 	execute_pipes(cmds, n_of_cmds, tmpfile, env);
 }

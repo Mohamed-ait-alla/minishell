@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 13:09:31 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:08:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	char	*new_str;
 	int		i;
 
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	new_str = ft_malloc(sizeof(char) * (ft_strlen(str) + 2), 1);
 	if (!new_str)
 		return (NULL);
 	i = 0;
@@ -28,7 +28,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	free(str);
+	// free(str);
 	return (new_str);
 }
 
@@ -56,9 +56,9 @@ char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
 			if (!value)
 				value = ft_strdup("");
 			tmp = ft_strjoin(result, value);
-			free(result);
+			// free(result);
 			result = tmp;
-			free(key);
+			// free(key);
 		}
 		else
 		{
@@ -76,7 +76,27 @@ int	heredoc(t_commands *cmd, t_env *env)
 	char		*file_name;
 	int			i;
 	int			fd;
+	t_commands	*tmp2_cmd;
+	int			count_heredoc;
 
+	// handle max heredoc
+	tmp2_cmd = cmd;
+	count_heredoc = 0;
+	while (tmp2_cmd)
+	{
+		if (tmp2_cmd->heredoc)
+		{
+			i = 0;
+			while (tmp2_cmd->input_file && tmp2_cmd->input_file[i])
+			{
+				i++;
+				count_heredoc++;
+			}
+		}
+		tmp2_cmd = tmp2_cmd->next;
+	}
+	if (count_heredoc > 16)
+		return (-1);
 	tmp_cmd = cmd;
 	while (tmp_cmd)
 	{
@@ -99,7 +119,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 							tmp_cmd->input_file[i]) == 0)
 						break ;
 					if (cmd->quote_type == NO_QUOTE)
-						heredoc_input = expand_the_heredoc(heredoc_input, tmp_cmd, env);
+						heredoc_input = expand_the_heredoc(heredoc_input,
+								tmp_cmd, env);
 					write(fd, heredoc_input, ft_strlen(heredoc_input));
 					write(fd, "\n", 1);
 					free(heredoc_input);
@@ -114,7 +135,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 				}
 				tmp_cmd->fds_of_heredoc[i] = fd;
 				// unlink(file_name);
-				free(file_name);
+				// free(file_name);
 				i++;
 			}
 			tmp_cmd->fds_of_heredoc[i] = -1;

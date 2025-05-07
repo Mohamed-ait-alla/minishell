@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 19:18:33 by mait-all         ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2025/05/06 14:40:13 by mait-all         ###   ########.fr       */
+=======
+/*   Updated: 2025/05/06 14:49:06 by mdahani          ###   ########.fr       */
+>>>>>>> 1b469e25a51ac1fd7bb5920dca596d4711355c5f
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +21,6 @@
 # define ERR_CMD_NOT_FOUND "minishell: command not found: "
 # define PATH_MAX 1024
 # define MAX_HEREDOCS 16
-# include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -59,6 +62,7 @@ typedef struct s_commands
 	char				**env;
 	char				**input_file;
 	char				**output_file;
+	int					exit_status;
 	int					append;
 	int					heredoc;
 	int					fds_of_heredoc[1024];
@@ -77,9 +81,8 @@ typedef struct s_env
 typedef struct s_gc
 {
 	void				*ptr;
-	struct s_gc	*next;
+	struct s_gc			*next;
 }						t_gc;
-
 
 // for testing purposes
 typedef struct s_exec_env
@@ -100,8 +103,7 @@ char					*get_env_value(t_env *env, char *key);
 void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
 int						heredoc(t_commands *cmd, t_env *env);
-void					*alloc_gc(size_t size, t_gc **gc_list);
-void					free_gc(t_gc **gc_list);
+void					*ft_malloc(size_t size, int mode);
 
 //       execution-part function's declaration
 
@@ -130,7 +132,7 @@ void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 // bool	check_for_pipes(char **av);
 
 //						#________external commands________#
-void					execute_command(char **args, char **env);
+void					execute_command(t_commands *cmds, char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/29 12:22:55 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:47:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	char	*new_str;
 	int		i;
 
-	new_str = malloc(sizeof(char) * (ft_strlen(str) + 2));
+	new_str = ft_malloc(sizeof(char) * (ft_strlen(str) + 2), 1);
 	if (!new_str)
 		return (NULL);
 	i = 0;
@@ -29,7 +29,7 @@ static char	*ft_strjoin_char(char *str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	free(str);
+	// free(str);
 	return (new_str);
 }
 
@@ -69,9 +69,9 @@ static char	*expand_variable_value(char *word, t_env *env)
 			if (!value)
 				value = ft_strdup("");
 			tmp = ft_strjoin(result, value);
-			free(result);
+			// free(result);
 			result = tmp;
-			free(key);
+			// free(key);
 		}
 		else if (word[i] == '"')
 		{
@@ -90,9 +90,9 @@ static char	*expand_variable_value(char *word, t_env *env)
 					if (!value)
 						value = ft_strdup("");
 					tmp = ft_strjoin(result, value);
-					free(result);
+					// free(result);
 					result = tmp;
-					free(key);
+					// free(key);
 				}
 				else
 				{
@@ -150,7 +150,7 @@ void	expand_variables_and_remove_quotes(t_token *tokens, t_env *env)
 		if (tokens->type == TOKEN_WORD)
 		{
 			expanded_value = expand_variable_value(tokens->value, env);
-			free(tokens->value);
+			// free(tokens->value);
 			tokens->value = expanded_value;
 		}
 		tokens = tokens->next;
