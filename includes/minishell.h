@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 19:18:33 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:40:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_commands
 	char				**env;
 	char				**input_file;
 	char				**output_file;
+	int					exit_status;
 	int					append;
 	int					heredoc;
 	int					fds_of_heredoc[1024];
@@ -130,7 +131,7 @@ void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 // bool	check_for_pipes(char **av);
 
 //						#________external commands________#
-void					execute_command(char **args, char **env);
+void					execute_command(t_commands *cmds, char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/04 13:29:06 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:40:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,17 @@ static char	*get_exec_path(char **env, char *cmd)
 	return (get_path_name(cmd, env));
 }
 
-void	execute_command(char **args, char **env)
+void	execute_command(t_commands *cmds, char **args, char **env)
 {
 	char	*path;
 
 	if (!args)
-		return ;
+		exit (EXIT_FAILURE);
 	path = get_exec_path(env, args[0]);
 	manage_shell_errors(args[0], path);
 	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)
-	{
-			printf("permission denied\n");
-			exit(126);
-	}
+		custom_error(ERR_PERMISSION, path, 126);
 	execve(path, args, env);
 	perror("execve: ");
-	exit(EXIT_FAILURE);
+	exit (EXIT_FAILURE);
 }
