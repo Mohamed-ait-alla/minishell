@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 13:28:32 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:44:19 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
-	// // print commands
+	// print commands
 	// x = 1;
 	// tmp_cmd_list = cmd_list;
 	// while (tmp_cmd_list)

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 11:05:13 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:49:32 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define ERR_NO_FILE "minishell: no such file or directory: "
 # define ERR_PERMISSION "minishell: permission denied: "
 # define ERR_CMD_NOT_FOUND "minishell: command not found: "
+# define ERR_AMBIG_REDIRECT "minishell: ambiguous redirect: "
 # define PATH_MAX 1024
 # define MAX_HEREDOCS 16
 # include "../libft/libft.h"

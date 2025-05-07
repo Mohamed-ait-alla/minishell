@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 10:22:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:53:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	redirect_output_to_file(char *file, char mode)
 {
 	int fd;
 
+	if (!file || !file[0])
+		custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE);
 	if (mode == 'o') // overwriting mode
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (mode == 'a') // appending mode
