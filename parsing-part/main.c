@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 10:26:28 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:20:38 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// char		*value_of_env;
 	i = 0;
 	// handle the exit cmd
-	if ((input == NULL || !ft_strcmp(input, "exit")) && (ft_strlen(input) == 4))
-	{
-		printf("exit\n");
-		free(input);
-		exit(0);
-	}
+	// if ((input == NULL || !ft_strcmp(input, "exit")) && (ft_strlen(input) == 4))
+	// {
+	// 	printf("exit\n");
+	// 	free(input);
+	// 	exit(0);
+	// }
 	// split the cmd to tokens
 	tokens = tokenize_input(input);
 	if (!tokens)

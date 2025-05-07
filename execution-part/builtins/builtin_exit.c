@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 10:21:09 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:59:24 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ static int	is_numeric(char *arg)
 	return (1);
 }
 
-void	builtin_exit(char	**args, t_exec_env *exec_env)
+int	builtin_exit(char	**args, int last_cmd_exit_status)
 {
 	if (!args[1])
-		exit(EXIT_SUCCESS); // exit with the last cmd's status
+		return (last_cmd_exit_status); // exit with the last cmd's status
 	if (!is_numeric(args[1]))
 	{
 		ft_putstr_fd("bash: exit: numeric argument required\n", STDERR_FILENO);
-		exit(255);
+		return (255);
 	}
 	if (args[2])
 	{
 		ft_putstr_fd("bash: exit: too many arguments\n", STDERR_FILENO);
-		return ;
+		return (EXIT_FAILURE);
 	}
-	exit (ft_atoi(args[1]));
+	return (ft_atoi(args[1]));
 }

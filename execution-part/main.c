@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 10:11:41 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:04:57 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,28 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 		// check for builtins
 		if (cmds->args && is_builtin(cmds->args[0]))
 		{
-			status = execute_builtin(cmds->args, exec_env);
-			// exit(status);
+			status = execute_builtin(cmds->args, exec_env, cmds->exit_status);
+			cmds->exit_status = status;
+			printf("exit status in builtins is %d\n", cmds->exit_status);
+			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)
+				exit (cmds->exit_status);
 		}
-		handle_child_signals();
-		pid = fork();
-		if (pid == -1)
-			perror("fork: ");
-		if (pid == 0)
+		// single external command
+		else
 		{
-			check_for_redirections(cmds, tmpfile);
-			execute_command(cmds, cmds->args, exec_env->env);
+			handle_child_signals();
+			pid = fork();
+			if (pid == -1)
+				perror("fork: ");
+			if (pid == 0)
+			{
+				check_for_redirections(cmds, tmpfile);
+				execute_command(cmds, cmds->args, exec_env->env);
+			}
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				cmds->exit_status = WEXITSTATUS(status);
+			printf("exit status is %d\n", cmds->exit_status);
 		}
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			cmds->exit_status = WEXITSTATUS(status);
-		printf("exit status is %d\n", cmds->exit_status);
 	}
 }

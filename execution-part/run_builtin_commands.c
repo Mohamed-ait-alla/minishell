@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/29 11:53:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:04:03 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	has_equal_sign(char *var)
 	return (true);
 }
 
-int	execute_builtin(char **args, t_exec_env *exec_env)
+int	execute_builtin(char **args, t_exec_env *exec_env, int last_cmd_exit_status)
 {
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (builtin_cd(args, exec_env->env));
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		return (builtin_pwd(exec_env->env));
 	else if (ft_strcmp(args[0], "exit") == 0)
-		builtin_exit(args);
+		return (builtin_exit(args, last_cmd_exit_status));
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (builtin_env(exec_env->env));
 	else if (ft_strcmp(args[0], "unset") == 0)

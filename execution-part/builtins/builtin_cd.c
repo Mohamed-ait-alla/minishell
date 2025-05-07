@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/27 09:56:09 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:47:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	builtin_cd(char **args, char **env)
 		return (EXIT_FAILURE);
 	if (chdir(args[1]) != 0)
 	{
-		perror("cd: ");
+		perror("chdir: ");
 		return (EXIT_FAILURE);
 	}
 	if (getcwd(cwd, sizeof(cwd)) == NULL)

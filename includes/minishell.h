@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 10:16:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:05:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void					execute_command(t_commands *cmds, char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);
-int						execute_builtin(char **args, t_exec_env *exec_env);
+int						execute_builtin(char **args, t_exec_env *exec_env, int last_cmd_exit_status);
 int						search_for_env_var(char **env, char *var);
 int						has_equal_sign(char *var);
 bool					is_valid_identifier(char *arg);
