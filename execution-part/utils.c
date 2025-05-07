@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/06 15:48:32 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/07 10:20:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**copy_env(char **envp)
 	return (new_env);
 }
 
-void	update_shell_level(t_exec_env *exec_env, int mode)
+void	update_shell_level(t_exec_env *exec_env)
 {
 	char	*tmp;
 	int		value;
@@ -91,10 +91,7 @@ void	update_shell_level(t_exec_env *exec_env, int mode)
 	if (is_found)
 	{
 		value = ft_atoi(ft_strchr(exec_env->env[is_found], '=') + 1);
-		if (mode) // new program runed so increment shell level
-			++value;
-		else
-			--value;
+		++value;
 		new_value = ft_itoa(value);
 		tmp = ft_strjoin("SHLVL=", new_value);
 		free(exec_env->env[is_found]);

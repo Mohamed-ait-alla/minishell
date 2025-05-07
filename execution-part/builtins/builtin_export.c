@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/04 16:37:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 11:32:54 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,9 @@ int	builtin_export(char **args, t_exec_env *exec_env)
 		else
 		{
 			printf("bash: export: `%s\': not a valid identifier\n", args[i]);
-			exit (EXIT_FAILURE);
+			return (EXIT_FAILURE);
 		}
 		i++;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

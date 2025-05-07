@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/06 14:40:13 by mait-all         ###   ########.fr       */
-=======
-/*   Updated: 2025/05/06 14:49:06 by mdahani          ###   ########.fr       */
->>>>>>> 1b469e25a51ac1fd7bb5920dca596d4711355c5f
+/*   Updated: 2025/05/07 11:05:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +132,7 @@ void					execute_command(t_commands *cmds, char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);
-int						execute_builtin(char **args, t_exec_env *exec_env);
+int						execute_builtin(char **args, t_exec_env *exec_env, int last_cmd_exit_status);
 int						search_for_env_var(char **env, char *var);
 int						has_equal_sign(char *var);
 bool					is_valid_identifier(char *arg);
@@ -153,7 +149,7 @@ void					manage_shell_errors(char *arg, char *path);
 //						#________utils________#
 char					**copy_env(char **envp);
 void					free_double_array(char **arr);
-void					update_shell_level(t_exec_env *exec_env, int mode);
+void					update_shell_level(t_exec_env *exec_env);
 
 //						#________signals________#
 void					handle_parent_signals(void);
