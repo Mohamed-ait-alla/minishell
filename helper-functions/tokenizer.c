@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 14:49:52 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/07 10:53:50 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ t_token	*tokenize_input(char *input)
 	quote_type = NO_QUOTE;
 	while (input[i])
 	{
-		while (input[i] <= 32)
+		while (input[i] && input[i] <= 32)
 			i++;
 		if (input[i] == '\0')
 			break ;
