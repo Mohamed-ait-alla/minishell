@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 14:49:06 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/07 10:16:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_commands
 	char				**env;
 	char				**input_file;
 	char				**output_file;
+	int					exit_status;
 	int					append;
 	int					heredoc;
 	int					fds_of_heredoc[1024];
@@ -127,7 +128,7 @@ void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 // bool	check_for_pipes(char **av);
 
 //						#________external commands________#
-void					execute_command(char **args, char **env);
+void					execute_command(t_commands *cmds, char **args, char **env);
 
 //						#________built-in commands________#
 int						is_builtin(char *cmd);
@@ -148,7 +149,7 @@ void					manage_shell_errors(char *arg, char *path);
 //						#________utils________#
 char					**copy_env(char **envp);
 void					free_double_array(char **arr);
-void					update_shell_level(t_exec_env *exec_env, int mode);
+void					update_shell_level(t_exec_env *exec_env);
 
 //						#________signals________#
 void					handle_parent_signals(void);
