@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 13:49:32 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:51:08 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_exec_env
 }						t_exec_env;
 
 //       parsing-part function's declaration
-void					custom_error(char *err_msg, char *arg, int exit_code);
+int					custom_error(char *err_msg, char *arg, int exit_code, int is_builtin);
 t_token					*tokenize_input(char *input);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 t_commands				*parse_tokens(t_token *tokens);
@@ -109,15 +109,15 @@ int						tested_main_with_parsing(t_commands *cmds,
 							t_exec_env *exec_env);
 
 //						#________redirections________#
-void					redirect_output_to_file(char *file, char mode);
+void					redirect_output_to_file(char *file, char mode, int is_builtin, int *exit_status, int *has_return);
 void					redirect_output_to_pipe(int write_pipe_end);
-void					redirect_input_to_file(char *file);
+void					redirect_input_to_file(char *file, int is_builtin, int *exit_status, int *has_return);
 void					redirect_input_to_file_here_doc(t_commands *cmds,
 							char *limitter, char *tmpfile);
 char					*get_tmp_file(void);
 int						check_for_here_doc(char **av);
 void					redirect_input_to_pipe(int read_pipe_end);
-void					check_for_redirections(t_commands *cmds, char *tmpfile);
+void					check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return);
 
 //						#________pipes________#
 bool					check_for_pipes(char **av);

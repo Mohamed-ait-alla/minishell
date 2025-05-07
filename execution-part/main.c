@@ -6,13 +6,13 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 13:52:36 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:50:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_for_redirections(t_commands *cmds, char *tmpfile)
+void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
 {
 	int	i;
 
@@ -22,16 +22,16 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile)
 		if (cmds->heredoc)
 				redirect_input_to_file_here_doc(cmds, cmds->input_file[i], tmpfile);
 		else
-				redirect_input_to_file(cmds->input_file[i]);
+				redirect_input_to_file(cmds->input_file[i], is_builtin, &(cmds->exit_status), has_return);
 		i++;
 	}
 	i = 0;
 	while (cmds->output_file && cmds->output_file[i])
 	{
 		if (cmds->append)
-			redirect_output_to_file(cmds->output_file[i], 'a');
+			redirect_output_to_file(cmds->output_file[i], 'a', is_builtin, &(cmds->exit_status), has_return);
 		else
-			redirect_output_to_file(cmds->output_file[i], 'o');
+			redirect_output_to_file(cmds->output_file[i], 'o', is_builtin, &(cmds->exit_status), has_return);
 		i++;
 	}
 }
@@ -59,6 +59,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	int		n_of_cmds;
 	int		saved_stdin;
 	int		saved_stdout;
+	int		has_return;
 	
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
@@ -75,7 +76,13 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 		{
 			saved_stdout = dup(STDOUT_FILENO);
 			saved_stdin = dup(STDIN_FILENO);
-			check_for_redirections(cmds, tmpfile);
+			has_return = false;
+			check_for_redirections(cmds, tmpfile, true, &has_return);
+			if (has_return)
+			{
+				printf("exit status in builtins is %d\n", cmds->exit_status);
+				return (0);		
+			}
 			status = execute_builtin(cmds->args, exec_env, cmds->exit_status);
 			cmds->exit_status = status;
 			printf("exit status in builtins is %d\n", cmds->exit_status);
@@ -95,7 +102,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 				perror("fork: ");
 			if (pid == 0)
 			{
-				check_for_redirections(cmds, tmpfile);
+				check_for_redirections(cmds, tmpfile, false, false);
 				execute_command(cmds, cmds->args, exec_env->env);
 			}
 			waitpid(pid, &status, 0);
