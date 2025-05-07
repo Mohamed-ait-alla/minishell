@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 11:04:57 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:52:36 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	int		pid;
 	int		status;
 	int		n_of_cmds;
+	int		saved_stdin;
+	int		saved_stdout;
+	
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
@@ -70,11 +73,18 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 		// check for builtins
 		if (cmds->args && is_builtin(cmds->args[0]))
 		{
+			saved_stdout = dup(STDOUT_FILENO);
+			saved_stdin = dup(STDIN_FILENO);
+			check_for_redirections(cmds, tmpfile);
 			status = execute_builtin(cmds->args, exec_env, cmds->exit_status);
 			cmds->exit_status = status;
 			printf("exit status in builtins is %d\n", cmds->exit_status);
 			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)
 				exit (cmds->exit_status);
+			dup2 (saved_stdout, STDOUT_FILENO);
+			dup2 (saved_stdin, STDIN_FILENO);
+			close (saved_stdout);
+			close (saved_stdin);
 		}
 		// single external command
 		else

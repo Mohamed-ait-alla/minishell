@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 11:35:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:44:19 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,17 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// // expand the env variables
 	expand_variables_and_remove_quotes(tokens, env_list);
 	// print tokens after expanding the env variables
-	printf("Tokens after expanding:\n");
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// printf("Tokens after expanding:\n");
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
-	// // print commands
+	// print commands
 	// x = 1;
 	// tmp_cmd_list = cmd_list;
 	// while (tmp_cmd_list)
