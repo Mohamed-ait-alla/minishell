@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 13:44:19 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:32:47 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	// check if we have any args
 	if (ac != 1)
-		custom_error("Error: run only the programme", "", 1);
+		custom_error("Error: run only the programme", "", EXIT_FAILURE, false);
 	// update shell level
 	update_shell_level(&envir);
 	// handle the signal SIGQUIT (Ctrl-\)

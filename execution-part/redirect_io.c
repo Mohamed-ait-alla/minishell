@@ -6,35 +6,62 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 13:53:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:49:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redirect_output_to_file(char *file, char mode)
+void	redirect_output_to_file(char *file, char mode, int is_builtin, int *exit_status, int *has_return)
 {
 	int fd;
 
 	if (!file || !file[0])
-		custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE);
+	{
+		if (is_builtin)
+		{
+			*exit_status = custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
+			*has_return = true;
+			return ;
+		}
+		else
+			custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
+	}
 	if (mode == 'o') // overwriting mode
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (mode == 'a') // appending mode
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
-		custom_error(ERR_PERMISSION, file, 1);
+	{
+		if (is_builtin)
+		{
+			*exit_status = custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
+			*has_return = true;
+			return ;
+		}
+		else
+			custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
+	}
 	dup2(fd, STDOUT_FILENO);
 	close (fd);
 }
 
-void	redirect_input_to_file(char *file)
+void	redirect_input_to_file(char *file, int is_builtin, int *exit_status, int *has_return)
 {
 	int fd;
 
 	fd = open (file, O_RDONLY);
 	if (fd < 0)
-		custom_error(ERR_PERMISSION, file, 1);
+	{
+		if (is_builtin)
+		{
+			*exit_status = custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
+			*has_return = true;
+			return ;
+		}
+		else
+			custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
+	}
 	dup2(fd, STDIN_FILENO);
 	close (fd);
 }
@@ -78,5 +105,5 @@ void	redirect_input_to_file_here_doc(t_commands *cmds, char *limitter, char *tmp
 	close (fd);
 	if (!cmds->args || !cmds->args[0])
 		return ;
-	redirect_input_to_file(tmpfile);
+	// redirect_input_to_file(tmpfile);
 }

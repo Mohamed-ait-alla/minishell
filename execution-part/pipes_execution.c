@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 09:54:03 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:51:30 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 {
 	if (i == 0) // first command 
 	{
-		check_for_redirections(cmds, tmpfile);
+		check_for_redirections(cmds, tmpfile, false, false);
 		redirect_output_to_pipe(pipes[i][1]);
 	}
 	else if (i == n_of_cmds - 1) // last command
 	{
-		check_for_redirections(cmds, tmpfile); // take care when here_doc is found
+		check_for_redirections(cmds, tmpfile, false, false); // take care when here_doc is found
 		redirect_input_to_pipe(pipes[i - 1][0]);
 	}
 	else // middle commands
