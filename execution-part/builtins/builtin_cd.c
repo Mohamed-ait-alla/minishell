@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 10:47:44 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:40:40 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,12 @@ static void	ft_set_env(char **env, char *key, char *value)
 	if (is_found)
 	{
 		key_value = ft_strjoin(key, value);
-		free(env[is_found]);
 		env[is_found] = ft_strdup(key_value);
 		if (!env[is_found])
 		{
 			perror ("ft_strdup: ");
 			return ;
 		}
-		free(key_value);
 	}
 }
 

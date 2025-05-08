@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:56 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/27 11:56:33 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:43:08 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_unset(char **args, char **env)
 			is_found = search_for_env_var(env, args[i]);
 			if (is_found)
 			{
-				free(env[is_found]);
+				// free(env[is_found]);
 				while (env && env[is_found])
 				{
 					env[is_found] = env[is_found + 1];

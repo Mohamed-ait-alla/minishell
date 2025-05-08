@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 22:20:43 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/30 22:22:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:43:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	print_sorted_env(t_exec_env *exec_env)
 			continue;
 		}
 		printf("declare -x %s=\"%s\"\n", key, value + 1);
-		free(key);
+		// free(key);
 		i++;
 	}
 }

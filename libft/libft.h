@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 08:58:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/02/27 13:39:07 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:48:49 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <stdlib.h>
 # include <unistd.h>
+# include "../includes/minishell.h"
 
 typedef struct s_list
 {

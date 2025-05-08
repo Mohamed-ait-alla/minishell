@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 18:50:41 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:43:26 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ static char	*get_path_name(char *cmd, char **env)
 		{
 				holder = ft_strjoin(exec_dirs[i], "/");
 				binary_path = ft_strjoin(holder, cmd);
-				free(holder);
+				// free(holder);
 				if (access(binary_path, F_OK) == 0 && access(binary_path, X_OK) == 0)
 					return (binary_path);
-				free(binary_path);
+				// free(binary_path);
 				i++;
 		}
 		return (NULL);

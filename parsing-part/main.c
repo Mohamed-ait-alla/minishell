@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 11:48:56 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:24:27 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	tokens = tokenize_input(input);
 	if (!tokens)
 	{
+		g_exit_status = 1;
 		printf("syntax error\n");
+		printf("exit status is %d\n", g_exit_status);
 		return ;
 	}
 	// printf("====================================================================>\n");
@@ -203,6 +205,7 @@ int	main(int ac, char **av, char **envp)
 		parsing_cmd(input, &envir);
 		free(input);
 	}
+	ft_malloc(0, 0);
 	// clear history
 	clear_history();
 }
