@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 12:14:48 by mait-all          #+#    #+#             */
-/*   Updated: 2025/02/27 13:39:21 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:48:14 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_itoa(int n)
 
 	nb = n;
 	len = ft_count_len(n);
-	str = (char *)malloc((len + 1) * sizeof(char));
+	str = (char *)ft_malloc((len + 1) * sizeof(char), 1);
 	if (!str)
 		return (NULL);
 	str[len] = '\0';

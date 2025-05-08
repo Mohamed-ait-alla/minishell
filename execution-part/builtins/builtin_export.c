@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 11:32:54 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:42:59 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	add_var_to_env(t_exec_env *exec_env, char *var)
 	int		len;
 	int		j;
 	len = ft_get_env_len(exec_env->env);
-	new_env = malloc(sizeof(char *) * (len + 2));
+	new_env = ft_malloc(sizeof(char *) * (len + 2), 1);
 	if (!new_env)
 		return ;
 	j = 0;
@@ -29,7 +29,7 @@ void	add_var_to_env(t_exec_env *exec_env, char *var)
 	}
 	new_env[j] = ft_strdup(var);
 	new_env[j + 1] = NULL;
-	free(exec_env->env);
+	// free(exec_env->env);
 	exec_env->env = new_env;
 }
 
@@ -46,13 +46,13 @@ void	append_env_var(t_exec_env *exec_env, char *new_key, char *new_value, int is
 	holder = ft_strjoin(value, new_value);
 	tmp_1 = ft_strjoin(key, "=");
 	tmp_2 = ft_strjoin(tmp_1, holder);
-	free(holder);
-	free(tmp_1);
-	free(exec_env->env[is_found]);
+	// free(holder);
+	// free(tmp_1);
+	// free(exec_env->env[is_found]);
 	exec_env->env[is_found] = ft_strdup(tmp_2);
-	free(tmp_2);
-	free(key);
-	free(new_key);
+	// free(tmp_2);
+	// free(key);
+	// free(new_key);
 }
 
 // this function responsible for handling += feature in export
@@ -74,8 +74,8 @@ void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
 		holder = ft_strjoin(new_key, "=");
 		tmp = ft_strjoin(holder, new_value);
 		add_var_to_env(exec_env, tmp);
-		free(holder);
-		free(tmp);
+		// free(holder);
+		// free(tmp);
 	}
 }
 
@@ -86,10 +86,10 @@ void	handle_equal_sign_feature(t_exec_env *exec_env, char *var)
 
 	key = ft_substr(var, 0, ft_strchr(var, '=') - var);
 	is_found = search_for_env_var(exec_env->env, key);
-	free(key);
+	// free(key);
 	if (is_found) // if var has = and exist in env update it
 	{
-		free(exec_env->env[is_found]);
+		// free(exec_env->env[is_found]);
 		exec_env->env[is_found] = ft_strdup(var);
 	}
 	else // if var has = but doesn't exist in env add it

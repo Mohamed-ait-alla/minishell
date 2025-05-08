@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 19:28:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 20:19:50 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,11 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			g_exit_status = status;
 			printf("exit status in builtins is %d\n", g_exit_status);
 			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)
+			{
+				printf("exit\n");
+				ft_malloc(0, 0);
 				exit (g_exit_status);
+			}
 			dup2 (saved_stdout, STDOUT_FILENO);
 			dup2 (saved_stdin, STDIN_FILENO);
 			close (saved_stdout);
