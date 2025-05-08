@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 19:51:08 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 10:24:22 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
+
+
+extern int	g_exit_status;
 
 typedef enum s_token_type
 {
