@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 19:51:30 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:38:59 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ static void	wait_for_childs(t_commands *cmds, int pids[], int n_of_cmds, char *t
 		waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status) && (i == n_of_cmds - 1))
 		{
-			cmds->exit_status = WEXITSTATUS(status);
+			g_exit_status = WEXITSTATUS(status);
 		}
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
 		i++;
 	}
 }
@@ -64,7 +66,7 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, char *
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe: ");
-			cmds->exit_status = EXIT_FAILURE;
+			g_exit_status = EXIT_FAILURE;
 			return ;
 		}
 		i++;
@@ -76,7 +78,7 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, char *
 		if (pids[i] == -1)
 		{
 			perror("an error occured while forking processes: ");
-			cmds->exit_status = EXIT_FAILURE;
+			g_exit_status = EXIT_FAILURE;
 			return ;
 		}
 		if (pids[i] == 0) // child processes

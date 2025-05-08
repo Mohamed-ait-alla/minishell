@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 11:48:50 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/06 14:25:10 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:26:41 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,27 @@
 void	sig_handler_parent(int signum)
 {
 	(void)	signum;
-	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
+	g_exit_status = 1;
 }
 
 void	sig_handler_child(int signum)
 {
 	if (signum == SIGQUIT)
 	{
-		// printf("Quit (core dumped)\n");
-		write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
-		exit (131);
+		// write(STDOUT_FILENO, "Quit (core dumped)\n", 20);
+		printf("Quit (core dumped)\n");
+		g_exit_status = 131;
 	}
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		exit (130);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_exit_status = 130;
 	}
 }
 
