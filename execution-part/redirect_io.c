@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/07 19:49:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 19:26:50 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,32 +78,8 @@ void	redirect_output_to_pipe(int write_pipe_end)
 	close (write_pipe_end);
 }
 
-void	redirect_input_to_file_here_doc(t_commands *cmds, char *limitter, char *tmpfile)
+void	redirect_input_to_file_here_doc(int here_doc_fd)
 {
-	char	*line;
-	char	*tmp_limitter;
-	int		fd;
-
-	fd = open (tmpfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		perror("failed to open temporary file: ");
-		exit (EXIT_FAILURE);
-	}
-	tmp_limitter = ft_strjoin(limitter, "\n");
-	write(1, "> ", 2);
-	// line = get_next_line(0);
-	while (line && (ft_strncmp(line, tmp_limitter, ft_strlen(line)) != 0))
-	{
-		write(1, "> ", 2);
-		write(fd, line, ft_strlen(line));
-		free(line);
-		// line = get_next_line(0);
-	}
-	free(line);
-	free(tmp_limitter);
-	close (fd);
-	if (!cmds->args || !cmds->args[0])
-		return ;
-	// redirect_input_to_file(tmpfile);
+	dup2(here_doc_fd, STDIN_FILENO);
+	close(here_doc_fd);
 }
