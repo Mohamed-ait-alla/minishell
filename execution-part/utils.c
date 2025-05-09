@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 19:53:05 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:02:18 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	update_shell_level(t_exec_env *exec_env)
 		tmp = ft_strjoin("SHLVL=", new_value);
 		// free(exec_env->env[is_found]);
 		exec_env->env[is_found] = ft_strdup(tmp);
-		free(new_value);
+		// free(new_value);
 		// free(tmp);
 	}
 }

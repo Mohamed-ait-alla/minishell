@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc_array.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:50:05 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 13:42:17 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:08:16 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ char	**ft_realloc_array(char **arr, char *new_str)
 	}
 	new_arr[len] = ft_strdup(new_str);
 	new_arr[len + 1] = NULL;
-	free(arr);
 	return (new_arr);
 }
