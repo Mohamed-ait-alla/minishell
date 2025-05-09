@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 10:04:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:25:07 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		// input = readline("minishell> ");
 		handle_parent_signals();
-		input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
+		// input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
+		input = readline("minishell> ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) > 0)
