@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 21:53:00 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:43:45 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,8 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			tokens = tokens->next;
 			if (tokens)
-			{
 				current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
 						tokens->value);
-				current_cmd->quote_type = tokens->quote_type;
-			}
 			// apped = 0 because when we use redirect out (>) we using over write
 			current_cmd->append = 0;
 		}
@@ -81,14 +78,12 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			tokens = tokens->next;
 			if (tokens)
-			{
 				current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
 						tokens->value);
-				current_cmd->quote_type = tokens->quote_type;
-			}
 			// heredoc = 1 because when we use heredoc (<<) we using heredoc
 			current_cmd->heredoc = 1;
 		}
+		current_cmd->quote_type = tokens->quote_type;
 		tokens = tokens->next;
 	}
 	return (cmd_list);

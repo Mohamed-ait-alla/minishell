@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 21:39:21 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:55:40 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 			redirect_input_to_file_here_doc(here_doc_fd);
 		}
 		else
-				redirect_input_to_file(cmds->input_file[i], is_builtin, &g_exit_status, has_return);
+			redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
 		i++;
 	}
 	i = 0;
@@ -94,13 +94,9 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			has_return = false;
 			check_for_redirections(cmds, tmpfile, true, &has_return);
 			if (has_return)
-			{
-				printf("exit status in builtins is %d\n", g_exit_status);
 				return (0);		
-			}
 			status = execute_builtin(cmds->args, exec_env, g_exit_status);
 			g_exit_status = status;
-			printf("exit status in builtins is %d\n", g_exit_status);
 			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)
 			{
 				printf("exit\n");
@@ -128,7 +124,6 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 				g_exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
 				g_exit_status = 128 + WTERMSIG(status); // 128 + which sig has occured SIGQUIT = 3, SIGINT = 2
-			printf("exit status is %d\n", g_exit_status);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 21:50:46 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:54:20 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ static char	*expand_variable_value(char *word, t_env *env)
 		{
 			i += 2;
 			// resplace the 0 with the last return value
-			result = ft_strjoin(result, "0");
+			result = ft_strjoin(result, ft_itoa(g_exit_status));
 		}
 		else
 		{
