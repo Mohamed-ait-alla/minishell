@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 10:25:07 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:43:04 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,10 +211,10 @@ int	main(int ac, char **av, char **envp)
 	update_shell_level(&envir);
 	// handle the signal SIGQUIT (Ctrl-\)
 	// handle_parent_signals();
+	handle_parent_signals();
 	while (1)
 	{
 		// input = readline("minishell> ");
-		handle_parent_signals();
 		// input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
 		input = readline("minishell> ");
 		if (!input)
