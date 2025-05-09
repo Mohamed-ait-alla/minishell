@@ -6,17 +6,32 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 19:26:50 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:42:38 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redirect_output_to_file(char *file, char mode, int is_builtin, int *exit_status, int *has_return)
+bool has_space(char *str)
 {
+	int	i;
+
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] <= ' ')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_builtin, int *exit_status, int *has_return)
+{
+	printf("quote is %d\n", cmds->quote_type);
 	int fd;
 
-	if (!file || !file[0])
+	if (!file || !file[0] || (cmds->quote_type == NO_QUOTE && has_space(file)))
 	{
 		if (is_builtin)
 		{

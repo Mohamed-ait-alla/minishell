@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 20:19:50 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:39:21 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	while (cmds->output_file && cmds->output_file[i])
 	{
 		if (cmds->append)
-			redirect_output_to_file(cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
+			redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
 		else
-			redirect_output_to_file(cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
+			redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
 		i++;
 	}
 }

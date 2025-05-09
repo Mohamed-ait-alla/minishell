@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 19:28:34 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:35:11 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int						tested_main_with_parsing(t_commands *cmds,
 							t_exec_env *exec_env);
 
 //						#________redirections________#
-void					redirect_output_to_file(char *file, char mode, int is_builtin, int *exit_status, int *has_return);
+void					redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_builtin, int *exit_status, int *has_return);
 void					redirect_output_to_pipe(int write_pipe_end);
 void					redirect_input_to_file(char *file, int is_builtin, int *exit_status, int *has_return);
 void					redirect_input_to_file_here_doc(int here_doc_fd);
