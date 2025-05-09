@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 20:24:27 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/08 21:47:42 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+		tmp_token = tmp_token->next;
+	}
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
 	// // print env list
@@ -98,45 +98,70 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// // expand the env variables
 	expand_variables_and_remove_quotes(tokens, env_list);
 	// print tokens after expanding the env variables
-	// printf("Tokens after expanding:\n");
-	// tmp_token = tokens;
-	// while (tmp_token)
-	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-	// 	tmp_token = tmp_token->next;
-	// }
+	printf("Tokens after expanding:\n");
+	tmp_token = tokens;
+	while (tmp_token)
+	{
+		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+		tmp_token = tmp_token->next;
+	}
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
-	// print commands
-	// x = 1;
-	// tmp_cmd_list = cmd_list;
-	// while (tmp_cmd_list)
-	// {
-	// 	printf("Command %d:\n", x++);
-	// 	if (tmp_cmd_list->args)
-	// 	{
-	// 		printf("  Args:\n");
-	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
-	// 			printf("    %s\n", tmp_cmd_list->args[j]);
-	// 	}
-	// 	if (tmp_cmd_list->input_file)
-	// 	{
-	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-	// 			printf("  Input file[%d]: %s\n", i + 1,
-	// 				tmp_cmd_list->input_file[i]);
-	// 	}
-	// 	if (tmp_cmd_list->output_file)
-	// 	{
-	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
-	// 		{
-	// 			printf("  Output file[%d]: %s (%s)\n", i + 1,
-	// 				tmp_cmd_list->output_file[i],
-	// 				tmp_cmd_list->append ? "append" : "overwrite");
-	// 		}
-	// 	}
-	// 	tmp_cmd_list = tmp_cmd_list->next;
-	// }
+	// print commands	x = 1;
+	tmp_cmd_list = cmd_list;
+	while (tmp_cmd_list)
+	{
+		printf("Command %d:\n", x++);
+		if (tmp_cmd_list->args)
+		{
+			printf("  Args:\n");
+			for (int j = 0; tmp_cmd_list->args[j]; j++)
+				printf("    %s\n", tmp_cmd_list->args[j]);
+		}
+		if (tmp_cmd_list->input_file)
+		{
+			for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+				printf("  Input file[%d]: %s\n", i + 1,
+					tmp_cmd_list->input_file[i]);
+		}
+		if (tmp_cmd_list->output_file)
+		{
+			for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+			{
+				printf("  Output file[%d]: %s (%s)\n", i + 1,
+					tmp_cmd_list->output_file[i],
+					tmp_cmd_list->append ? "append" : "overwrite");
+			}
+		}
+		tmp_cmd_list = tmp_cmd_list->next;
+	}
+	while (tmp_cmd_list)
+	{
+		printf("Command %d:\n", x++);
+		if (tmp_cmd_list->args)
+		{
+			printf("  Args:\n");
+			for (int j = 0; tmp_cmd_list->args[j]; j++)
+				printf("    %s\n", tmp_cmd_list->args[j]);
+		}
+		if (tmp_cmd_list->input_file)
+		{
+			for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+				printf("  Input file[%d]: %s\n", i + 1,
+					tmp_cmd_list->input_file[i]);
+		}
+		if (tmp_cmd_list->output_file)
+		{
+			for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+			{
+				printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
+					tmp_cmd_list->output_file[i],
+					tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
+			}
+		}
+		tmp_cmd_list = tmp_cmd_list->next;
+	}
 	// create heredoc and store the fd in the cmd list
 	if (heredoc(cmd_list, env_list) == -1)
 	{
