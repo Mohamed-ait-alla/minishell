@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables_and_remove_quotes.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 09:54:20 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:28:54 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,17 @@ static char	*expand_variable_value(char *word, t_env *env)
 		{
 			i++;
 			while (word[i] && word[i] != '\'')
+			{
+				result = ft_strjoin_char(result, word[i]);
+				i++;
+			}
+			if (word[i])
+				i++;
+		}
+		else if (word[i + 1] && word[i] == '$' && word[i + 1] == '\"')
+		{
+			i++;
+			while (word[i] && word[i] != '\"')
 			{
 				result = ft_strjoin_char(result, word[i]);
 				i++;
