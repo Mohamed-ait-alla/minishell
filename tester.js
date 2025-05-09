@@ -15,6 +15,8 @@ const refOutput = path.join(logDir, "bash_output.txt");
 let errorStatus = false;
 let commandsFailed = [];
 let programName = process.argv[2];
+let syntaxErrorOfSquote = "";
+let syntaxErrorOfDquote = "";
 
 if (!programName) {
   console.error(
@@ -28,18 +30,59 @@ if (!programName) {
 
 // Add your test commands here
 const tests = [
+  // tests of quotes
   "",
-  // "echo hello",
-  // "ls",
-  // "pwd",
-  // "cd ..",
-  // "cd .",
-  // "cd /",
-  // "cd /tmp",
-  // "cd -",
-  // "export VAR=value",
-  // "unset VAR",
-  // "env",
+  '"',
+  "'",
+  "echo ''",
+  'echo ""',
+  "echo ' '",
+  'echo " "',
+  "echo hello",
+  "echo 'hello world'",
+  'echo "hello world"',
+  "echo 'hello\"world'",
+  'echo "hello\'world"',
+  "echo 'hello'\"world\"",
+  "echo \"hello\"'world'",
+  "echo \"'hello'\"",
+  "echo \"'hello'\"\"\"",
+  "echo \"'hello'\'\'\"",
+  "echo '\"hello\"'",
+  "echo '\"hello\"\"\"'",
+  "echo '\"hello\"\'\''",
+  // test of expanding
+  'echo "hello $USER',
+  "echo 'hello $USER'",
+  'echo "hello $USER"',
+  "echo '$USER $USER'",
+  'echo "$USER $USER"',
+  "echo 'hello $USER' world",
+  "echo \"hello 'world' $USER\"",
+  "echo 'hello \"world\" $USER'",
+  "echo \"$USER 'hello' world\"",
+  "echo \"hello $USER\"' world'",
+  "echo 'hello' \"world $USER\"",
+  'echo "hello world $USER"',
+  'echo ""$USER""',
+  "echo '$USER'$USER\"$USER\"",
+  "echo 'hello' \"world\" '\"$USER\"'",
+  'echo "hello" "world"',
+  "echo $USER'$USER'$USER",
+  "echo $'USER'",
+  "echo $\"USER\"",
+  // test cmds
+  "ls",
+  "pwd",
+  "cd ..",
+  "cd .",
+  "cd /",
+  "cd /tmp",
+  "export VAR=value",
+  "unset VAR",
+  // test exit status
+  "echo $?",
+  // test exit
   "exit",
 ];
 
@@ -66,9 +109,20 @@ const comparisonCommands = (command) => {
     .replace("\n", "")
     .replace(programName, "")
     .replace(command, "");
-  fs.writeFileSync(refOutput, bashOutput);
-  fs.writeFileSync(testOutput, minishellOutput);
+  if (command === '"' || command === "'") {
+    syntaxErrorOfDquote = minishellOutput;
+    syntaxErrorOfSquote = minishellOutput;
+  }
+  if (
+    minishellOutput === syntaxErrorOfDquote ||
+    minishellOutput === syntaxErrorOfSquote
+  ) {
+    minishellOutput = "";
+  }
   if (bashOutput !== minishellOutput) {
+    fs.mkdirSync(logDir, { recursive: true });
+    fs.writeFileSync(refOutput, bashOutput);
+    fs.writeFileSync(testOutput, minishellOutput);
     console.log(`\x1b[31m[FAIL]\x1b[0m Command: ${command}`);
     commandsFailed.push(command);
     printDiff(bashOutput, minishellOutput);
@@ -97,7 +151,6 @@ const runTests = () => {
     );
     process.exit(1);
   }
-  fs.mkdirSync(logDir, { recursive: true });
   console.log("\n\x1b[1m\x1b[37m🐚 Running Minishell tests...\x1b[0m\n");
   for (const command of tests) {
     comparisonCommands(command);

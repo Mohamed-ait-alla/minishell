@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 21:47:42 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:25:07 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,16 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	{
 		g_exit_status = 1;
 		printf("syntax error\n");
-		printf("exit status is %d\n", g_exit_status);
 		return ;
 	}
 	// printf("====================================================================>\n");
 	// print tokens => value & type
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
-		tmp_token = tmp_token->next;
-	}
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
 	// // print env list
@@ -98,70 +97,70 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// // expand the env variables
 	expand_variables_and_remove_quotes(tokens, env_list);
 	// print tokens after expanding the env variables
-	printf("Tokens after expanding:\n");
-	tmp_token = tokens;
-	while (tmp_token)
-	{
-		printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
-		tmp_token = tmp_token->next;
-	}
+	// printf("Tokens after expanding:\n");
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	tmp_token = tmp_token->next;
+	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
 	// print commands	x = 1;
-	tmp_cmd_list = cmd_list;
-	while (tmp_cmd_list)
-	{
-		printf("Command %d:\n", x++);
-		if (tmp_cmd_list->args)
-		{
-			printf("  Args:\n");
-			for (int j = 0; tmp_cmd_list->args[j]; j++)
-				printf("    %s\n", tmp_cmd_list->args[j]);
-		}
-		if (tmp_cmd_list->input_file)
-		{
-			for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-				printf("  Input file[%d]: %s\n", i + 1,
-					tmp_cmd_list->input_file[i]);
-		}
-		if (tmp_cmd_list->output_file)
-		{
-			for (int i = 0; tmp_cmd_list->output_file[i]; i++)
-			{
-				printf("  Output file[%d]: %s (%s)\n", i + 1,
-					tmp_cmd_list->output_file[i],
-					tmp_cmd_list->append ? "append" : "overwrite");
-			}
-		}
-		tmp_cmd_list = tmp_cmd_list->next;
-	}
-	while (tmp_cmd_list)
-	{
-		printf("Command %d:\n", x++);
-		if (tmp_cmd_list->args)
-		{
-			printf("  Args:\n");
-			for (int j = 0; tmp_cmd_list->args[j]; j++)
-				printf("    %s\n", tmp_cmd_list->args[j]);
-		}
-		if (tmp_cmd_list->input_file)
-		{
-			for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-				printf("  Input file[%d]: %s\n", i + 1,
-					tmp_cmd_list->input_file[i]);
-		}
-		if (tmp_cmd_list->output_file)
-		{
-			for (int i = 0; tmp_cmd_list->output_file[i]; i++)
-			{
-				printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
-					tmp_cmd_list->output_file[i],
-					tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
-			}
-		}
-		tmp_cmd_list = tmp_cmd_list->next;
-	}
+	// tmp_cmd_list = cmd_list;
+	// while (tmp_cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
+	// 	if (tmp_cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 	}
+	// 	if (tmp_cmd_list->input_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+	// 			printf("  Input file[%d]: %s\n", i + 1,
+	// 				tmp_cmd_list->input_file[i]);
+	// 	}
+	// 	if (tmp_cmd_list->output_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+	// 		{
+	// 			printf("  Output file[%d]: %s (%s)\n", i + 1,
+	// 				tmp_cmd_list->output_file[i],
+	// 				tmp_cmd_list->append ? "append" : "overwrite");
+	// 		}
+	// 	}
+	// 	tmp_cmd_list = tmp_cmd_list->next;
+	// }
+	// while (tmp_cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
+	// 	if (tmp_cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 	}
+	// 	if (tmp_cmd_list->input_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
+	// 			printf("  Input file[%d]: %s\n", i + 1,
+	// 				tmp_cmd_list->input_file[i]);
+	// 	}
+	// 	if (tmp_cmd_list->output_file)
+	// 	{
+	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+	// 		{
+	// 			printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
+	// 				tmp_cmd_list->output_file[i],
+	// 				tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
+	// 		}
+	// 	}
+	// 	tmp_cmd_list = tmp_cmd_list->next;
+	// }
 	// create heredoc and store the fd in the cmd list
 	if (heredoc(cmd_list, env_list) == -1)
 	{
@@ -216,7 +215,8 @@ int	main(int ac, char **av, char **envp)
 	{
 		// input = readline("minishell> ");
 		handle_parent_signals();
-		input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
+		// input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
+		input = readline("minishell> ");
 		if (!input)
 			break ;
 		if (ft_strlen(input) > 0)

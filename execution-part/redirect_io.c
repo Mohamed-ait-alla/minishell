@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 21:42:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 09:47:39 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ bool has_space(char *str)
 
 void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_builtin, int *exit_status, int *has_return)
 {
-	printf("quote is %d\n", cmds->quote_type);
 	int fd;
 
 	if (!file || !file[0] || (cmds->quote_type == NO_QUOTE && has_space(file)))
@@ -61,10 +60,21 @@ void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_bui
 	close (fd);
 }
 
-void	redirect_input_to_file(char *file, int is_builtin, int *exit_status, int *has_return)
+void	redirect_input_to_file(t_commands *cmds, char *file, int is_builtin, int *exit_status, int *has_return)
 {
 	int fd;
 
+	if (!file || !file[0] || (cmds->quote_type == NO_QUOTE && has_space(file)))
+	{
+		if (is_builtin)
+		{
+			*exit_status = custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
+			*has_return = true;
+			return ;
+		}
+		else
+			custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
+	}
 	fd = open (file, O_RDONLY);
 	if (fd < 0)
 	{

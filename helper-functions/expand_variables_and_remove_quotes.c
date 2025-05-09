@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables_and_remove_quotes.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/08 21:50:46 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:28:54 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,17 @@ static char	*expand_variable_value(char *word, t_env *env)
 			if (word[i])
 				i++;
 		}
+		else if (word[i + 1] && word[i] == '$' && word[i + 1] == '\"')
+		{
+			i++;
+			while (word[i] && word[i] != '\"')
+			{
+				result = ft_strjoin_char(result, word[i]);
+				i++;
+			}
+			if (word[i])
+				i++;
+		}
 		else if (word[i] == '$' && word[i + 1] && ft_isdigit(word[i + 1]))
 		{
 			i+= 2;
@@ -138,7 +149,7 @@ static char	*expand_variable_value(char *word, t_env *env)
 		{
 			i += 2;
 			// resplace the 0 with the last return value
-			result = ft_strjoin(result, "0");
+			result = ft_strjoin(result, ft_itoa(g_exit_status));
 		}
 		else
 		{
