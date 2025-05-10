@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 09:48:06 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:35:45 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ t_token					*tokenize_input(char *input);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 t_commands				*parse_tokens(t_token *tokens);
 char					**ft_realloc_array(char **arr, char *new_str);
-void					free_tokens(t_token *tokens);
-void					free_commands(t_commands *cmds);
 t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);
 void					expand_variables_and_remove_quotes(t_token *tokens,

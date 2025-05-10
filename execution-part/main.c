@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 09:55:40 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:00:22 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	int		saved_stdout;
 	int		has_return;
 	
-	handle_child_signals();
 	status = 0;
 	n_of_cmds = count_n_of_cmds(cmds);
 	tmpfile = NULL;
@@ -116,14 +115,21 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 				perror("fork: ");
 			if (pid == 0)
 			{
+				handle_child_signals();
 				check_for_redirections(cmds, tmpfile, false, false);
 				execute_command(cmds, cmds->args, exec_env->env);
 			}
+			signal (SIGINT, SIG_IGN);
 			waitpid(pid, &status, 0);
+			handle_parent_signals();
 			if (WIFEXITED(status))
 				g_exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
+			else if (WIFSIGNALED(status)) 
 				g_exit_status = 128 + WTERMSIG(status); // 128 + which sig has occured SIGQUIT = 3, SIGINT = 2
+			if (g_exit_status == 130)
+				printf("\n");
+			if (g_exit_status == 131)
+				printf("Quit (core dumped)\n"); 
 		}
 	}
 }
