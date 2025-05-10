@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 20:09:56 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:32:31 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,11 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// tmp_token = tokens;
 	// while (tmp_token)
 	// {
-	// 	printf("TOKEN: [%s] Type: %d\n", tmp_token->value, tmp_token->type);
+	// 	printf("TOKEN: [%s] Type: %d Quote type: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
 	// 	tmp_token = tmp_token->next;
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
-
 	// print commands	
 	// x = 1;
 	// tmp_cmd_list = cmd_list;
@@ -118,6 +117,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 		printf("  Args:\n");
 	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
 	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 		printf("Quote type: %d\n", tmp_cmd_list->quote_type);
 	// 	}
 	// 	if (tmp_cmd_list->input_file)
 	// 	{
@@ -129,9 +129,9 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	{
 	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
 	// 		{
-	// 			printf("  Output file[%d]: %s (%s)\n", i + 1,
+	// 			printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
 	// 				tmp_cmd_list->output_file[i],
-	// 				tmp_cmd_list->append ? "append" : "overwrite");
+	// 				tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
 	// 		}
 	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
