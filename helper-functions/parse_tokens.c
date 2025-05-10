@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 09:43:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 15:02:47 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_commands	*parse_tokens(t_token *tokens)
 	t_commands		*current_cmd;
 	t_quote_type	quote_type;
 	t_commands		*tmp;
+	char			**cmd_in_env_var;
+	int				i;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
@@ -45,8 +47,23 @@ t_commands	*parse_tokens(t_token *tokens)
 		}
 		// add token to args (struct commands)
 		if (tokens->type == TOKEN_WORD)
-			current_cmd->args = ft_realloc_array(current_cmd->args,
-					tokens->value);
+		{
+			// this condition handle if have a command in var
+			if (tokens->quote_type == NO_QUOTE)
+			{
+				cmd_in_env_var = ft_split(tokens->value, ' ');
+				i = 0;
+				while (cmd_in_env_var && cmd_in_env_var[i])
+				{
+					current_cmd->args = ft_realloc_array(current_cmd->args,
+							cmd_in_env_var[i]);
+					i++;
+				}
+			}
+			else
+				current_cmd->args = ft_realloc_array(current_cmd->args,
+						tokens->value);
+		}
 		else if (tokens->type == TOKEN_REDIRECT_IN)
 		{
 			// move to the next token
