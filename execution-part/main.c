@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 19:00:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:27:46 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	int	here_doc_fd;
 
 	i = 0;
-	while (cmds->input_file && cmds->input_file[i]) 
+	while (cmds->input_file && cmds->input_file[i])
 	{
 		if (cmds->heredoc)
 		{

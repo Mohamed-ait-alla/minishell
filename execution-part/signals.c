@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 11:48:50 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 18:39:04 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 19:52:07 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	sig_handler_parent(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_exit_status = 1;
+	g_exit_status = 130;
 }
 
 void	sig_handler_child(int signum)
@@ -35,6 +35,23 @@ void	sig_handler_child(int signum)
 		printf("\n");
 		g_exit_status = 130;
 	}
+}
+
+void	sig_handler_here_doc(int signum)
+{
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		exit (130);
+	}
+}
+
+void	handle_here_doc_signals()
+{
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, sig_handler_here_doc);
 }
 
 void	handle_parent_signals()

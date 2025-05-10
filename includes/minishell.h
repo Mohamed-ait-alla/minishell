@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 18:35:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 10:29:40 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,11 @@ void					manage_shell_errors(char *arg, char *path);
 
 //						#________utils________#
 char					**copy_env(char **envp);
-void					free_double_array(char **arr);
 void					update_shell_level(t_exec_env *exec_env);
 
 //						#________signals________#
 void					handle_parent_signals(void);
 void					handle_child_signals(void);
+void					handle_here_doc_signals();
 
 #endif

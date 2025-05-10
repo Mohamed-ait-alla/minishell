@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 18:43:04 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:09:56 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
 
-	// print commands	x = 1;
+	// print commands	
+	// x = 1;
 	// tmp_cmd_list = cmd_list;
 	// while (tmp_cmd_list)
 	// {
@@ -135,39 +136,19 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
-	// while (tmp_cmd_list)
-	// {
-	// 	printf("Command %d:\n", x++);
-	// 	if (tmp_cmd_list->args)
-	// 	{
-	// 		printf("  Args:\n");
-	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
-	// 			printf("    %s\n", tmp_cmd_list->args[j]);
-	// 	}
-	// 	if (tmp_cmd_list->input_file)
-	// 	{
-	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-	// 			printf("  Input file[%d]: %s\n", i + 1,
-	// 				tmp_cmd_list->input_file[i]);
-	// 	}
-	// 	if (tmp_cmd_list->output_file)
-	// 	{
-	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
-	// 		{
-	// 			printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
-	// 				tmp_cmd_list->output_file[i],
-	// 				tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
-	// 		}
-	// 	}
-	// 	tmp_cmd_list = tmp_cmd_list->next;
-	// }
 	// create heredoc and store the fd in the cmd list
 	if (heredoc(cmd_list, env_list) == -1)
 	{
 		printf("Error: heredoc failed\n");
 		return ;
 	}
-	
+	// if (!cmd_list->args)
+	// 	return;
+	// if (cmd_list->args)
+	// {
+	// 	printf("yesfjk\n");
+	// 	printf("cmd args is %s\n", cmd_list->args[0]);
+	// }
 	// idx_last_fd = 0;
 	// while (cmd_list->fds_of_heredoc[idx_last_fd] != -1)
 	// 	idx_last_fd++;
