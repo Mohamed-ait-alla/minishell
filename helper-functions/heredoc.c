@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 20:26:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 10:08:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,69 +80,76 @@ int	heredoc(t_commands *cmd, t_env *env)
 	int			count_heredoc;
 
 	// signal (SIGINT, SIG_IGN);
-	// handle max heredo	
-		tmp2_cmd = cmd;
-		count_heredoc = 0;
-		while (tmp2_cmd)
-		{
-			if (tmp2_cmd->heredoc)
-			{
-				i = 0;
-				while (tmp2_cmd->input_file && tmp2_cmd->input_file[i])
-				{
-					i++;
-					count_heredoc++;
-				}
-			}
-			tmp2_cmd = tmp2_cmd->next;
-		}
-		if (count_heredoc > 16)
-			return (-1);
-		tmp_cmd = cmd;
-		while (tmp_cmd)
+	// handle max heredo
+	tmp2_cmd = cmd;
+	count_heredoc = 0;
+	while (tmp2_cmd)
+	{
+		if (tmp2_cmd->heredoc)
 		{
 			i = 0;
-			if (tmp_cmd->heredoc)
+			while (tmp2_cmd->input_file && tmp2_cmd->input_file[i])
 			{
-				while (tmp_cmd->input_file && tmp_cmd->input_file[i])
-				{
-					file_name = get_tmp_file();
-					fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-					if (fd < 0)
-					{
-						perror("failed to open temporary file: ");
-						return (-1);
-					}
-						while (1)
-						{
-							// handle_here_doc_signals();
-							heredoc_input = readline("> ");
-							if (!heredoc_input || ft_strcmp(heredoc_input,
-									tmp_cmd->input_file[i]) == 0)
-								break ;
-							if (cmd->quote_type == NO_QUOTE)
-								heredoc_input = expand_the_heredoc(heredoc_input,
-										tmp_cmd, env);
-							write(fd, heredoc_input, ft_strlen(heredoc_input));
-							write(fd, "\n", 1);
-							free(heredoc_input);
-						}
-						free(heredoc_input);
-						close(fd);
-					fd = open(file_name, O_RDONLY);
-					if (fd < 0)
-					{
-						perror("file_name: ");
-						return (-1);
-					}
-					tmp_cmd->fds_of_heredoc[i] = fd;
-					unlink(file_name);
-					// free(file_name);
-					i++;
-				}
-				tmp_cmd->fds_of_heredoc[i] = -1;
+				i++;
+				count_heredoc++;
 			}
-			tmp_cmd = tmp_cmd->next;
 		}
+		tmp2_cmd = tmp2_cmd->next;
+	}
+	if (count_heredoc > 16)
+		return (-1);
+	tmp_cmd = cmd;
+	while (tmp_cmd)
+	{
+		i = 0;
+		if (tmp_cmd->heredoc)
+		{
+			while (tmp_cmd->input_file && tmp_cmd->input_file[i])
+			{
+				file_name = get_tmp_file();
+				fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				if (fd < 0)
+				{
+					perror("failed to open temporary file: ");
+					return (-1);
+				}
+				// int malloc_count = 0;
+				// while (tmp_cmd->input_file[i][malloc_count])
+				// 	malloc_count++;
+				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char) * malloc_count, 1);
+				char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
+				while (1)
+				{
+					// handle_here_doc_signals();
+					// heredoc_input = readline("> ");
+					write(1, "> ", 2);
+					heredoc_input = get_next_line(0);
+					if (!heredoc_input || ft_strcmp(heredoc_input,
+							limiter) == 0)
+						break ;
+					if (cmd->quote_type == NO_QUOTE)
+						heredoc_input = expand_the_heredoc(heredoc_input,
+								tmp_cmd, env);
+					write(fd, heredoc_input, ft_strlen(heredoc_input));
+					// write(fd, "\n", 1);
+					// free(heredoc_input);
+				}
+				// free(heredoc_input);
+				close(fd);
+				fd = open(file_name, O_RDONLY);
+				if (fd < 0)
+				{
+					perror("file_name: ");
+					return (-1);
+				}
+				tmp_cmd->fds_of_heredoc[i] = fd;
+				unlink(file_name);
+				// free(file_name);
+				i++;
+			}
+			tmp_cmd->fds_of_heredoc[i] = -1;
+		}
+		tmp_cmd = tmp_cmd->next;
+	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 10:29:40 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 21:45:39 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
 int						heredoc(t_commands *cmd, t_env *env);
 void					*ft_malloc(size_t size, int mode);
+char					*get_next_line(int fd);
 
 //       execution-part function's declaration
 

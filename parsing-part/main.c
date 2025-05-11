@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 20:32:31 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 10:17:16 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 		printf("Error: heredoc failed\n");
 		return ;
 	}
+	if (!cmd_list->args && cmd_list->heredoc)
+		return ;
 	// if (!cmd_list->args)
 	// 	return;
 	// if (cmd_list->args)
