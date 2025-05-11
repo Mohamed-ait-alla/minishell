@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/10 10:21:09 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:05:22 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_bui
 		else
 			custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
 	}
+	if (is_builtin)
+		*has_return = -1;
 	dup2(fd, STDOUT_FILENO);
 	close (fd);
 }
