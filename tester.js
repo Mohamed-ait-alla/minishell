@@ -31,6 +31,7 @@ if (!programName) {
 // Add your test commands here
 const tests = [
   ``,
+  ` `,
   `"`,
   `'`,
   `echo ''`,
@@ -107,9 +108,6 @@ const runCommand = (shell, command) => {
       encoding: "utf-8",
       shell: false,
     });
-    if (command === "exit" && shell === "bash") {
-      return "exit\n";
-    }
     return result.stdout;
   } catch (error) {
     return `Error: ${error.message}`;
@@ -122,7 +120,12 @@ const comparisonCommands = (command) => {
     .replace(programName, "")
     .replace("\n", "")
     .replace(programName, "")
-    .replace(command, "");
+    .replace(command, "")
+    .replace("exit\n", "");
+  if (!command) {
+    minishellOutput = "";
+  }
+  // console.log(`========>${minishellOutput}`);
   if (command === '"' || command === "'") {
     syntaxErrorOfDquote = minishellOutput;
     syntaxErrorOfSquote = minishellOutput;
