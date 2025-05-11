@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 10:17:16 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/11 11:51:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	tokens = tokenize_input(input);
 	if (!tokens)
 	{
-		g_exit_status = 1;
-		printf("syntax error\n");
+		g_exit_status = 2;
+		printf("minishell: syntax error\n");
 		return ;
 	}
 	// printf("====================================================================>\n");
@@ -106,6 +106,13 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
+	if (!cmd_list)
+	{
+		g_exit_status = 2;
+		printf("minishell: syntax error\n");
+		return ;
+	}
+	
 	// print commands	
 	// x = 1;
 	// tmp_cmd_list = cmd_list;

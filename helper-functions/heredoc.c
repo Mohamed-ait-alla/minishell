@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 10:08:28 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:37:57 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 	int			fd;
 	t_commands	*tmp2_cmd;
 	int			count_heredoc;
-
-	// signal (SIGINT, SIG_IGN);
+	
+	handle_here_doc_signals();
 	// handle max heredo
 	tmp2_cmd = cmd;
 	count_heredoc = 0;
@@ -120,7 +120,6 @@ int	heredoc(t_commands *cmd, t_env *env)
 				char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
 				while (1)
 				{
-					// handle_here_doc_signals();
 					// heredoc_input = readline("> ");
 					write(1, "> ", 2);
 					heredoc_input = get_next_line(0);
@@ -151,5 +150,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		}
 		tmp_cmd = tmp_cmd->next;
 	}
+	open("/dev/tty", O_RDONLY);
+	handle_parent_signals();
 	return (0);
 }
