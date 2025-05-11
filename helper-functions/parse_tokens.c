@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 20:32:50 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 11:47:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,28 @@ t_commands	*parse_tokens(t_token *tokens)
 		{
 			// move to the next token
 			tokens = tokens->next;
-			if (tokens)
-				current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
-						tokens->value);
+			if (!tokens)
+				return (NULL);
+			current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
+					tokens->value);
 		}
 		else if (tokens->type == TOKEN_REDIRECT_OUT)
 		{
 			tokens = tokens->next;
-			if (tokens)
-				current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
-						tokens->value);
+			if (!tokens)
+				return (NULL);
+			current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
+					tokens->value);
 			// apped = 0 because when we use redirect out (>) we using over write
 			current_cmd->append = 0;
 		}
 		else if (tokens->type == TOKEN_APPEND)
 		{
 			tokens = tokens->next;
-			if (tokens)
-				current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
-						tokens->value);
+			if (!tokens)
+				return (NULL);
+			current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
+					tokens->value);
 			// apped = 1 because when we use append (>>) we using append
 			current_cmd->append = 1;
 		}
@@ -94,9 +97,10 @@ t_commands	*parse_tokens(t_token *tokens)
 		else if (tokens->type == TOKEN_HEREDOC)
 		{
 			tokens = tokens->next;
-			if (tokens)
-				current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
-						tokens->value);
+			if (!tokens)
+				return (NULL);
+			current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
+					tokens->value);
 			// heredoc = 1 because when we use heredoc (<<) we using heredoc
 			current_cmd->heredoc = 1;
 		}

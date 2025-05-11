@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 21:59:21 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:56:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
 int						heredoc(t_commands *cmd, t_env *env);
 void					*ft_malloc(size_t size, int mode);
+char					*get_next_line(int fd);
 
 //       execution-part function's declaration
 

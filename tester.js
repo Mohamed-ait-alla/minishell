@@ -55,6 +55,7 @@ const tests = [
   'echo "hello $USER',
   "echo 'hello $USER'",
   'echo "hello $USER"',
+  "echo $",
   "echo '$USER $USER'",
   'echo "$USER $USER"',
   "echo 'hello $USER' world",

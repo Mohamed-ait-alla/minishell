@@ -10,6 +10,7 @@ SRCS = main.c \
 	   ../helper-functions/expand_variables_and_remove_quotes.c \
 	   ../helper-functions/heredoc.c \
 	   ../helper-functions/ft_malloc.c \
+	   ../get_next_line/get_next_line.c \
 	   ../execution-part/main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
