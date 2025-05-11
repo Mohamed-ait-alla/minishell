@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 19:00:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:49:27 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	int	here_doc_fd;
 
 	i = 0;
-	while (cmds->input_file && cmds->input_file[i]) 
+	while (cmds->input_file && cmds->input_file[i])
 	{
 		if (cmds->heredoc)
 		{
@@ -80,8 +80,8 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 	tmpfile = NULL;
 	if (n_of_cmds > 1)
 	{
-		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env->env);
-		printf("exit status in pipes is %d\n", g_exit_status);	
+		handle_pipes(cmds, tmpfile, n_of_cmds, exec_env);
+		// printf("exit status in pipes is %d\n", g_exit_status);	
 	}
 	else
 	{
@@ -92,8 +92,8 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			saved_stdin = dup(STDIN_FILENO);
 			has_return = false;
 			check_for_redirections(cmds, tmpfile, true, &has_return);
-			if (has_return)
-				return (0);		
+			if (has_return && has_return != -1)
+				return (0);
 			status = execute_builtin(cmds->args, exec_env, g_exit_status);
 			g_exit_status = status;
 			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)

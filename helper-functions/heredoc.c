@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/06 18:08:51 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/11 10:37:57 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ int	heredoc(t_commands *cmd, t_env *env)
 	int			fd;
 	t_commands	*tmp2_cmd;
 	int			count_heredoc;
-
-	// handle max heredoc
+	
+	handle_here_doc_signals();
+	// handle max heredo
 	tmp2_cmd = cmd;
 	count_heredoc = 0;
 	while (tmp2_cmd)
@@ -112,20 +113,27 @@ int	heredoc(t_commands *cmd, t_env *env)
 					perror("failed to open temporary file: ");
 					return (-1);
 				}
+				// int malloc_count = 0;
+				// while (tmp_cmd->input_file[i][malloc_count])
+				// 	malloc_count++;
+				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char) * malloc_count, 1);
+				char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
 				while (1)
 				{
-					heredoc_input = readline("> ");
+					// heredoc_input = readline("> ");
+					write(1, "> ", 2);
+					heredoc_input = get_next_line(0);
 					if (!heredoc_input || ft_strcmp(heredoc_input,
-							tmp_cmd->input_file[i]) == 0)
+							limiter) == 0)
 						break ;
 					if (cmd->quote_type == NO_QUOTE)
 						heredoc_input = expand_the_heredoc(heredoc_input,
 								tmp_cmd, env);
 					write(fd, heredoc_input, ft_strlen(heredoc_input));
-					write(fd, "\n", 1);
-					free(heredoc_input);
+					// write(fd, "\n", 1);
+					// free(heredoc_input);
 				}
-				free(heredoc_input);
+				// free(heredoc_input);
 				close(fd);
 				fd = open(file_name, O_RDONLY);
 				if (fd < 0)
@@ -134,7 +142,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 					return (-1);
 				}
 				tmp_cmd->fds_of_heredoc[i] = fd;
-				// unlink(file_name);
+				unlink(file_name);
 				// free(file_name);
 				i++;
 			}
@@ -142,5 +150,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		}
 		tmp_cmd = tmp_cmd->next;
 	}
+	open("/dev/tty", O_RDONLY);
+	handle_parent_signals();
 	return (0);
 }

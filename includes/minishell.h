@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/09 18:35:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/11 12:56:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void					expand_variables_and_remove_quotes(t_token *tokens,
 							t_env *env);
 int						heredoc(t_commands *cmd, t_env *env);
 void					*ft_malloc(size_t size, int mode);
+char					*get_next_line(int fd);
 
 //       execution-part function's declaration
 
@@ -122,7 +123,7 @@ void					check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin,
 //						#________pipes________#
 bool					check_for_pipes(char **av);
 void					handle_pipes(t_commands *cmds, char *tmpfile,
-							int n_of_cmds, char **env);
+							int n_of_cmds, t_exec_env *exec_env);
 void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 							int except);
 // int		calculate_number_of_pipes(char **av);
@@ -149,11 +150,11 @@ void					manage_shell_errors(char *arg, char *path);
 
 //						#________utils________#
 char					**copy_env(char **envp);
-void					free_double_array(char **arr);
 void					update_shell_level(t_exec_env *exec_env);
 
 //						#________signals________#
 void					handle_parent_signals(void);
 void					handle_child_signals(void);
+void					handle_here_doc_signals();
 
 #endif

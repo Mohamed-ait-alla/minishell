@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/07 10:53:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/11 12:01:51 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static char	*get_operator(char *input, int *i, t_quote_type *quote_type)
 	{
 		operator= ft_substr(input, *i, 1);
 		*i += 1;
-		if (input[*i] == '|')
+		if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
 			return (NULL);
 	}
 	if (input[*i] == '\'')
