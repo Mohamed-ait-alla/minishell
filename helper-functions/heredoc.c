@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 10:37:57 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/11 14:23:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 	int			fd;
 	t_commands	*tmp2_cmd;
 	int			count_heredoc;
-	
+	char		*limiter;
+
 	handle_here_doc_signals();
 	// handle max heredo
 	tmp2_cmd = cmd;
@@ -116,8 +117,9 @@ int	heredoc(t_commands *cmd, t_env *env)
 				// int malloc_count = 0;
 				// while (tmp_cmd->input_file[i][malloc_count])
 				// 	malloc_count++;
-				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char) * malloc_count, 1);
-				char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
+				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char)
+				// * malloc_count, 1);
+				limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
 				while (1)
 				{
 					// heredoc_input = readline("> ");
@@ -125,7 +127,14 @@ int	heredoc(t_commands *cmd, t_env *env)
 					heredoc_input = get_next_line(0);
 					if (!heredoc_input || ft_strcmp(heredoc_input,
 							limiter) == 0)
+					{
+						if (!heredoc_input)
+							printf("minishell: warning: here-document at line "
+									"%d delimited by end-of-file (wanted `%s')\n",
+									count_heredoc,
+									tmp_cmd->input_file[i]);
 						break ;
+					}
 					if (cmd->quote_type == NO_QUOTE)
 						heredoc_input = expand_the_heredoc(heredoc_input,
 								tmp_cmd, env);
