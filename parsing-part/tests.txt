@@ -18,3 +18,5 @@ echo $var, $var, "$var"
 
  Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='utf-8'>
 BrokenPipeError: [Errno 32] Broken pipe
+
+echo skf >file1 > file2 < file3 >o1

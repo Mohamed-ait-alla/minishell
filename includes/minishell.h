@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 10:29:40 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/10 21:59:21 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void					check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin,
 //						#________pipes________#
 bool					check_for_pipes(char **av);
 void					handle_pipes(t_commands *cmds, char *tmpfile,
-							int n_of_cmds, char **env);
+							int n_of_cmds, t_exec_env *exec_env);
 void					close_unused_pipes(int pipes[][2], int n_of_pipes,
 							int except);
 // int		calculate_number_of_pipes(char **av);
