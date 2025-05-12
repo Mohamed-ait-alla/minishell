@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/12 09:27:52 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:45:10 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	get_here_doc_fd(t_commands *cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds->fds_of_heredoc[i] != -1)
-		i++;
-	return (cmds->fds_of_heredoc[--i]);
-}
 
 void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
 {
@@ -31,10 +21,7 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	while (cmds->input_file && cmds->input_file[i])
 	{
 		if (cmds->heredoc)
-		{
-			here_doc_fd = get_here_doc_fd(cmds);
-			redirect_input_to_file_here_doc(here_doc_fd);
-		}
+			redirect_input_to_file_here_doc(cmds->here_doc_fd);
 		else
 			redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
 		i++;
