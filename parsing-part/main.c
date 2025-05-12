@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/12 15:00:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:05:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
-	if (!cmd_list)
+	if (!cmd_list || !check_cmds(cmd_list))
 	{
 		g_exit_status = 2;
 		printf("minishell: syntax error\n");
@@ -178,14 +178,6 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// free_commands(cmd_list);
 	// ft_malloc(0, 0);
 }
-
-// any where you use execve, you need to fork the process
-// if (pid == 0)
-// {
-// 	signal(SIGINT, SIG_DFL);
-// 	signal(SIGQUIT, SIG_DFL);
-// 	// execve(...)
-// }
 
 int	main(int ac, char **av, char **envp)
 {

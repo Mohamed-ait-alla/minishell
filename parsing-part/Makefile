@@ -4,6 +4,7 @@ SRCS = main.c \
        ../helper-functions/custom_error.c \
        ../helper-functions/tokenizer.c \
        ../helper-functions/parse_tokens.c \
+       ../helper-functions/check_cmds.c \
 	   ../helper-functions/ft_realloc_array.c \
 	   ../helper-functions/init_env.c \
 	   ../helper-functions/get_env_value.c \

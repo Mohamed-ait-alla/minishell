@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/12 15:14:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:05:13 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,17 @@ int	heredoc(t_commands *cmd, t_env *env)
 {
 	t_commands	*tmp_cmd;
 	char		*heredoc_input;
-	char		*file_name;
 	int			i;
 	int			fd;
+	int			status;
 	t_commands	*tmp2_cmd;
 	int			count_heredoc;
-	char		*limiter;
-	int saved;
+	char		**files_of_heredoc;
 
-	// handle_here_doc_signals();
 	// handle max heredo
 	tmp2_cmd = cmd;
 	count_heredoc = 0;
+	files_of_heredoc = NULL;
 	while (tmp2_cmd)
 	{
 		if (tmp2_cmd->heredoc)
@@ -91,6 +90,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 			i = 0;
 			while (tmp2_cmd->input_file && tmp2_cmd->input_file[i])
 			{
+				files_of_heredoc = ft_realloc_array(files_of_heredoc,
+						get_tmp_file());
 				i++;
 				count_heredoc++;
 			}
@@ -105,29 +106,21 @@ int	heredoc(t_commands *cmd, t_env *env)
 		i = 0;
 		if (tmp_cmd->heredoc)
 		{
-			while (tmp_cmd->input_file && tmp_cmd->input_file[i])
+			while (tmp_cmd->input_file && tmp_cmd->input_file[i]
+				&& i < count_heredoc)
 			{
-				file_name = get_tmp_file();
-				fd = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				fd = open(files_of_heredoc[i], O_WRONLY | O_CREAT | O_TRUNC,
+						0644);
 				if (fd < 0)
 				{
 					perror("failed to open temporary file: ");
 					return (-1);
 				}
-				// int malloc_count = 0;
-				// while (tmp_cmd->input_file[i][malloc_count])
-				// 	malloc_count++;
-				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char)
-				// * malloc_count, 1);
-				limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
 				while (1)
 				{
-					handle_here_doc_signals();
-					// heredoc_input = readline("> ");
-					// write(1, "> ", 2);
 					heredoc_input = readline("> ");
 					if (!heredoc_input || ft_strcmp(heredoc_input,
-							limiter) == 0)
+							tmp_cmd->input_file[i]) == 0)
 					{
 						if (!heredoc_input)
 							printf("minishell: warning: here-document at line "
@@ -140,27 +133,22 @@ int	heredoc(t_commands *cmd, t_env *env)
 						heredoc_input = expand_the_heredoc(heredoc_input,
 								tmp_cmd, env);
 					write(fd, heredoc_input, ft_strlen(heredoc_input));
-					// write(fd, "\n", 1);
-					// free(heredoc_input);
+					write(fd, "\n", 1);
 				}
-				// free(heredoc_input);
 				close(fd);
-				fd = open(file_name, O_RDONLY);
-				if (fd < 0)
-				{
-					perror("file_name: ");
-					return (-1);
-				}
-				tmp_cmd->fds_of_heredoc[i] = fd;
-				unlink(file_name);
-				// free(file_name);
+				// unlink(files_of_heredoc[i]);
 				i++;
 			}
-			tmp_cmd->fds_of_heredoc[i] = -1;
+			fd = open (files_of_heredoc[i - 1], O_RDONLY);
+			if (fd < 0)
+				{
+					perror("failed to open temporary file: ");
+					return (-1);
+				}
+			tmp_cmd->here_doc_fd = fd;
 		}
 		tmp_cmd = tmp_cmd->next;
 	}
-	// dup2(saved, STDIN_FILENO);
-	// close (saved); 
+	
 	return (0);
 }

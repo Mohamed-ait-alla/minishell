@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 11:48:50 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/12 10:15:28 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:51:50 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ void	sig_handler_here_doc(int signum)
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		g_exit_status = 130;
-		close(0);
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		exit (130);
 	}
 }
 
