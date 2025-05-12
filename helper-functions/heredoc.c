@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 10:37:57 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/12 09:29:08 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static char	*ft_strjoin_char(char *str, char c)
 	// free(str);
 	return (new_str);
 }
-
 // expand the env variables in the heredoc
 char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
 		t_env *env)
@@ -78,8 +77,8 @@ int	heredoc(t_commands *cmd, t_env *env)
 	int			fd;
 	t_commands	*tmp2_cmd;
 	int			count_heredoc;
-	
-	handle_here_doc_signals();
+
+	int saved = dup(STDIN_FILENO);
 	// handle max heredo
 	tmp2_cmd = cmd;
 	count_heredoc = 0;
@@ -117,14 +116,15 @@ int	heredoc(t_commands *cmd, t_env *env)
 				// while (tmp_cmd->input_file[i][malloc_count])
 				// 	malloc_count++;
 				// tmp_cmd->input_file[i] = ft_malloc(sizeof(char) * malloc_count, 1);
-				char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
+				// char *limiter = ft_strjoin_char(tmp_cmd->input_file[i], '\n');
 				while (1)
 				{
+					handle_here_doc_signals();
 					// heredoc_input = readline("> ");
-					write(1, "> ", 2);
-					heredoc_input = get_next_line(0);
+					// write(1, "> ", 2);
+					heredoc_input = readline("> ");
 					if (!heredoc_input || ft_strcmp(heredoc_input,
-							limiter) == 0)
+							tmp_cmd->input_file[i]) == 0)
 						break ;
 					if (cmd->quote_type == NO_QUOTE)
 						heredoc_input = expand_the_heredoc(heredoc_input,
@@ -150,7 +150,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		}
 		tmp_cmd = tmp_cmd->next;
 	}
-	open("/dev/tty", O_RDONLY);
-	handle_parent_signals();
+	dup2(saved, STDIN_FILENO);
+	close (saved); 
 	return (0);
 }

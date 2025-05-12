@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/11 12:49:27 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:27:52 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			if (g_exit_status == 130)
 				printf("\n");
 			if (g_exit_status == 131)
-				printf("Quit (core dumped)\n"); 
+				printf("Quit (core dumped)\n");
 		}
 	}
 }
