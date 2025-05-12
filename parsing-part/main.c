@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 19:33:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 10:18:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,10 @@ int	main(int ac, char **av, char **envp)
 		// input = readline("\033[1;92m➜  \033[1;36mminishell> \033[0m ");
 		input = readline("minishell> ");
 		if (!input)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (ft_strlen(input) > 0)
 			add_history(input);
 		// paring the command

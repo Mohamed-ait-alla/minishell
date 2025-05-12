@@ -30,70 +30,75 @@ if (!programName) {
 
 // Add your test commands here
 const tests = [
-  // tests of quotes
-  "",
-  '"',
-  "'",
-  "echo ''",
-  'echo ""',
-  "echo ' '",
-  'echo " "',
-  "echo hello",
-  "echo 'hello world'",
-  'echo "hello world"',
-  "echo 'hello\"world'",
-  'echo "hello\'world"',
-  "echo 'hello'\"world\"",
-  "echo \"hello\"'world'",
-  "echo \"'hello'\"",
-  'echo "\'hello\'"""',
-  "echo \"'hello'''\"",
-  "echo '\"hello\"'",
-  'echo \'"hello"""\'',
-  "echo '\"hello\"'''",
+  ``,
+  ` `,
+  `"`,
+  `'`,
+  `echo ''`,
+  `echo ""`,
+  `echo ' '`,
+  `echo " "`,
+  `echo hello`,
+  `echo 'hello world'`,
+  `echo "hello world"`,
+  `echo 'hello"world'`,
+  `echo "hello'world"`,
+  `echo 'hello'"world"`,
+  `echo "hello"'world'`,
+  `echo "'hello'"`,
+  `echo "'hello'"""`,
+  `echo "'hello'''"`,
+  `echo '"hello"'`,
+  `echo '"hello"""'`,
+  `echo '"hello"'''`,
+  `echo '"'$USER'"'`,
+
   // test of expanding
-  'echo "hello $USER',
-  "echo 'hello $USER'",
-  'echo "hello $USER"',
-  "echo $",
-  "echo '$USER $USER'",
-  'echo "$USER $USER"',
-  "echo 'hello $USER' world",
-  "echo \"hello 'world' $USER\"",
-  "echo 'hello \"world\" $USER'",
-  "echo \"$USER 'hello' world\"",
-  "echo \"hello $USER\"' world'",
-  "echo 'hello' \"world $USER\"",
-  'echo "hello world $USER"',
-  'echo ""$USER""',
-  "echo '$USER'$USER\"$USER\"",
-  "echo 'hello' \"world\" '\"$USER\"'",
-  'echo "hello" "world"',
-  "echo $USER'$USER'$USER",
-  "echo $'USER'",
-  'echo $"USER"',
-  "echo $215445",
-  "echo $UNKNOW",
+  `echo "hello $USER`,
+  `echo 'hello $USER'`,
+  `echo "hello $USER"`,
+  `echo $`,
+  `echo '$USER $USER'`,
+  `echo "$USER $USER"`,
+  `echo 'hello $USER' world`,
+  `echo "hello 'world' $USER"`,
+  `echo 'hello "world" $USER'`,
+  `echo "$USER 'hello' world"`,
+  `echo "hello $USER"' world'`,
+  `echo 'hello' "world $USER"`,
+  `echo "hello world $USER"`,
+  `echo ""$USER""`,
+  `echo '$USER'$USER"$USER"`,
+  `echo 'hello' "world" '"$USER"'`,
+  `echo "hello" "world"`,
+  `echo $USER'$USER'$USER`,
+  `echo $'USER'`,
+  `echo $"USER"`,
+  `echo $215445`,
+  `echo $UNKNOW`,
+
   // test cmds
-  "ls",
-  "pwd",
-  "cd ..",
-  "cd .",
-  "cd /",
-  "cd /tmp",
-  'export var="ls                         -l"',
-  "$var",
-  "'$var'",
-  '"$var"',
-  'export var+="ls                         -la"',
-  "$var",
-  "'$var'",
-  '"$var"',
-  "unset var",
+  `ls`,
+  `pwd`,
+  `cd ..`,
+  `cd .`,
+  `cd /`,
+  `cd /tmp`,
+  `export var="ls                         -l"`,
+  `$var`,
+  `'$var'`,
+  `"$var"`,
+  `export var+="ls                         -la"`,
+  `$var`,
+  `'$var'`,
+  `"$var"`,
+  `unset var`,
+
   // test exit status
-  "echo $?",
+  `echo $?`,
+
   // test exit
-  "exit",
+  `exit`,
 ];
 
 const runCommand = (shell, command) => {
@@ -103,9 +108,6 @@ const runCommand = (shell, command) => {
       encoding: "utf-8",
       shell: false,
     });
-    if (command === "exit" && shell === "bash") {
-      return "exit\n";
-    }
     return result.stdout;
   } catch (error) {
     return `Error: ${error.message}`;
@@ -118,7 +120,12 @@ const comparisonCommands = (command) => {
     .replace(programName, "")
     .replace("\n", "")
     .replace(programName, "")
-    .replace(command, "");
+    .replace(command, "")
+    .replace("exit\n", "");
+  if (!command) {
+    minishellOutput = "";
+  }
+  // console.log(`========>${minishellOutput}`);
   if (command === '"' || command === "'") {
     syntaxErrorOfDquote = minishellOutput;
     syntaxErrorOfSquote = minishellOutput;
