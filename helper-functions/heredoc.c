@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/12 10:18:54 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:14:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 	char		*limiter;
 	int saved;
 
-	handle_here_doc_signals();
+	// handle_here_doc_signals();
 	// handle max heredo
 	tmp2_cmd = cmd;
 	count_heredoc = 0;
@@ -160,7 +160,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		}
 		tmp_cmd = tmp_cmd->next;
 	}
-	dup2(saved, STDIN_FILENO);
-	close (saved); 
+	// dup2(saved, STDIN_FILENO);
+	// close (saved); 
 	return (0);
 }
