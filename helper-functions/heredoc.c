@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 12:05:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 12:31:54 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,12 @@ int	heredoc(t_commands *cmd, t_env *env)
 	iter = cmd;
 	count = 0;
 	heredoc_files = NULL;
-	int pid, status, i = 0;
+	int pid, status, i;
 	while (iter)
 	{
 		if (iter->heredoc)
 		{
+			i = 0;
 			while (iter->input_file && iter->input_file[i])
 			{
 				heredoc_files = ft_realloc_array(heredoc_files, get_tmp_file());
@@ -149,7 +150,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		}
 		i = 0;
 		while (heredoc_files && heredoc_files[i + 1])
-		{
+		{	
 			unlink(heredoc_files[i]);
 			i++;
 		}
@@ -159,6 +160,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 			perror("failed to open temporary file");
 			return (-1);
 		}
+		unlink(heredoc_files[i + 1]);
 		tmp = tmp->next;
 	}
 	handle_parent_signals();

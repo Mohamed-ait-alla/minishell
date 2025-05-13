@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 12:05:14 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:55:09 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int						custom_error(char *err_msg, char *arg, int exit_code,
 t_token					*tokenize_input(char *input);
 int						ft_strncmp(const char *s1, const char *s2, size_t n);
 t_commands				*parse_tokens(t_token *tokens);
-int						check_cmds(t_commands *cmds);
+int						check_cmds(t_token *tokens);
 char					**ft_realloc_array(char **arr, char *new_str);
 t_env					*init_env(char **env);
 char					*get_env_value(t_env *env, char *key);

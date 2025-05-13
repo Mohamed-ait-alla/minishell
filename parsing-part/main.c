@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 12:05:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:56:29 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
-	if (!cmd_list || !check_cmds(cmd_list))
+	// if (!cmd_list)
+	if (!cmd_list || !check_cmds(tokens))
 	{
 		g_exit_status = 2;
 		printf("minishell: syntax error\n");
@@ -144,13 +145,16 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
 	// create heredoc and store the fd in the cmd list
-	if (heredoc(cmd_list, env_list) == -1)
+	if (cmd_list->heredoc)
 	{
-		printf("Error: heredoc failed\n");
-		return ;
+		if (heredoc(cmd_list, env_list) == -1)
+		{
+			printf("Error: heredoc failed\n");
+			return ;
+		}
+		if (!cmd_list->args && cmd_list->heredoc)
+			return ;
 	}
-	if (!cmd_list->args && cmd_list->heredoc)
-		return ;
 	// if (!cmd_list->args)
 	// 	return;
 	// if (cmd_list->args)
