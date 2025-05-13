@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/12 15:45:10 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:29:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	while (cmds->input_file && cmds->input_file[i])
 	{
 		if (cmds->heredoc)
+		{
+			if (has_return)
+				*has_return = 2;
 			redirect_input_to_file_here_doc(cmds->here_doc_fd);
+		}
 		else
 			redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
 		i++;
@@ -103,7 +107,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			if (pid == 0)
 			{
 				handle_child_signals();
-				check_for_redirections(cmds, tmpfile, false, false);
+				check_for_redirections(cmds, tmpfile, false, NULL);
 				execute_command(cmds, cmds->args, exec_env->env);
 			}
 			signal (SIGINT, SIG_IGN);

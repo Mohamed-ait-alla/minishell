@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/11 12:30:48 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:36:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	if (i == 0) // first command 
 	{
 		check_for_redirections(cmds, tmpfile, is_builtin, has_return);
-		if (*has_return || *has_return == -1)
+		if (*has_return || *has_return == -1 || *has_return == -2)
 		{
 			if (*has_return == -1)
 				*has_return = false;
@@ -28,7 +28,7 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	else if (i == n_of_cmds - 1) // last command
 	{
 		check_for_redirections(cmds, tmpfile, is_builtin, has_return); // take care when here_doc is found
-		if (*has_return || *has_return == -1)
+		if (*has_return || *has_return == -1 || *has_return)
 		{
 			if (*has_return == -1)
 				*has_return = false;
@@ -38,6 +38,13 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	}
 	else // middle commands
 	{
+		check_for_redirections(cmds, tmpfile, is_builtin, has_return);
+		if (*has_return || *has_return == -1 || *has_return == -2)
+		{
+			if (*has_return == -1)
+				*has_return = false;
+			return ;
+		}
 		redirect_input_to_pipe(pipes[i - 1][0]);
 		redirect_output_to_pipe(pipes[i][1]);
 	}
@@ -109,6 +116,7 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, t_exec
 			}
 			else
 			{
+				// printf("yes external");
 				configure_pipeline_io(tmp, pipes, i, n_of_cmds, NULL, false, &has_return);
 				close_unused_pipes(pipes, n_of_cmds - 1, -1);
 				execute_command(tmp, tmp->args, exec_env->env);
