@@ -6,22 +6,20 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 11:48:50 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/12 14:51:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:42:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minishell.h"
 
-void	sig_handler_parent(int signum)
+void	sig_handler_parent(int sig)
 {
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_exit_status = 130;
-	}
+	(void) sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_exit_status = 130;
 }
 
 void	sig_handler_child(int signum)
