@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/14 15:36:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:49:38 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,16 +155,31 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	
 	// create heredoc and store the fd in the cmd list
-	if (cmd_list->heredoc)
+	t_commands *cmd_here_doc = cmd_list;
+	while (cmd_here_doc)
 	{
-		if (heredoc(cmd_list, env_list) == -1)
+		if (cmd_here_doc->heredoc)
 		{
-			printf("Error: heredoc failed\n");
-			return ;
+			if (heredoc(cmd_here_doc, env_list) == -1)
+			{
+				printf("Error: heredoc failed\n");
+				return ;
+			}
+			if (!cmd_list->args && cmd_list->heredoc)
+				return ;
 		}
-		if (!cmd_list->args && cmd_list->heredoc)
-			return ;
+		cmd_here_doc = cmd_here_doc->next;
 	}
+	// if (cmd_list->heredoc)
+	// {
+	// 	if (heredoc(cmd_list, env_list) == -1)
+	// 	{
+	// 		printf("Error: heredoc failed\n");
+	// 		return ;
+	// 	}
+	// 	if (!cmd_list->args && cmd_list->heredoc)
+	// 		return ;
+	// }
 	// if (!cmd_list->args)
 	// 	return;
 	// if (cmd_list->args)
@@ -186,7 +201,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	tested_main_with_parsing(cmd_list, exec_env);
+	// tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);

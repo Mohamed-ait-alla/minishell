@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/14 15:34:27 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/14 16:43:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	heredoc(t_commands *cmd, t_env *env)
 		tmp->here_doc_fd = open(heredoc_files[count - 1], O_RDONLY);
 		if (tmp->here_doc_fd < 0)
 		{
-			perror("failed to open temporary file 1");
+			perror("failed to open temporary file");
 			return (-1);
 		}
 		unlink(heredoc_files[i]);
