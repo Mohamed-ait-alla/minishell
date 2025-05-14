@@ -99,7 +99,7 @@ const tests = [
   `echo \$USER`,
   `echo "hello '$USER'"`,
   `echo '$USER'"$USER"`,
-  `Hello World 'mdahani'1337 test "=>"''if passed this $USER"$USER"$USERyour Mr.mdahani   but ' the next one will "be"more 'harder 0'  but you have" " to handle "exit status" 0`,
+  `echo Hello" "World"" "'$USER'"$11337 'test "'"=>"'"'"''"'if passed this $USER"$USER"$USER'your Mr.$USER " $NOTHING"' 'but "' the next one" will '"be"'"more 'harder $?'"""" " but 'you have" "' "to "'handle "exit 'status'"'' '$?`,
 
   // export test
   `export var1="hello " var2=world`,
