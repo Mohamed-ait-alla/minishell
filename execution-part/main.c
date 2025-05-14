@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/13 19:05:22 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:43:25 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,34 +17,28 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	int	i;
 	int	here_doc_fd;
 
-	if (cmds->input_file)
-	{
-		i = 0;
-		while (cmds->input_file && cmds->input_file[i])
-		{
-			if (cmds->heredoc)
-			{
-				if (has_return)
-					*has_return = 2;
-				redirect_input_to_file_here_doc(cmds->here_doc_fd);
-			}
-			else
-				redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
-			i++;
-		}	
-	}
-	if (cmds->output_file)
-	{
-		i = 0;
-		while (cmds->output_file && cmds->output_file[i])
-		{
-			if (cmds->append)
-				redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
-			else
-				redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
-			i++;
-		}	
-	}
+	i = 0;
+	// while (cmds->input_file && cmds->input_file[i])
+	// {
+	// 	if (cmds->heredoc)
+	// 	{
+	// 		if (has_return)
+	// 			*has_return = 2;
+	// 		redirect_input_to_file_here_doc(cmds->here_doc_fd);
+	// 	}
+	// 	else
+	// 		redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (cmds->output_file && cmds->output_file[i])
+	// {
+	// 	if (cmds->append)
+	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
+	// 	else
+	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
+	// 	i++;
+	// }
 }
 
 int	count_n_of_cmds(t_commands *cmds)

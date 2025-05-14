@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 14:15:44 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:43:46 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// parse the tokens
 	cmd_list = parse_tokens(tokens);
-	if (!cmd_list || !check_cmds(cmd_list))
+	// if (!cmd_list)
+	if (!cmd_list || !check_cmds(tokens))
 	{
 		g_exit_status = 2;
 		printf("minishell: syntax error\n");
@@ -119,38 +120,51 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// while (tmp_cmd_list)
 	// {
 	// 	printf("Command %d:\n", x++);
+		
 	// 	if (tmp_cmd_list->args)
 	// 	{
 	// 		printf("  Args:\n");
 	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
 	// 			printf("    %s\n", tmp_cmd_list->args[j]);
-	// 		printf("Quote type: %d\n", tmp_cmd_list->quote_type);
+	// 		printf("  Quote type: %d\n", tmp_cmd_list->quote_type);
 	// 	}
-	// 	if (tmp_cmd_list->input_file)
+	
+	// 	if (tmp_cmd_list->redirections)
 	// 	{
-	// 		for (int i = 0; tmp_cmd_list->input_file[i]; i++)
-	// 			printf("  Input file[%d]: %s\n", i + 1,
-	// 				tmp_cmd_list->input_file[i]);
-	// 	}
-	// 	if (tmp_cmd_list->output_file)
-	// 	{
-	// 		for (int i = 0; tmp_cmd_list->output_file[i]; i++)
+	// 		t_redirections *redir = tmp_cmd_list->redirections;
+	// 		i = 1;
+	// 		while (redir)
 	// 		{
-	// 			printf("  Output file[%d]: %s (%s) Type: %d\n", i + 1,
-	// 				tmp_cmd_list->output_file[i],
-	// 				tmp_cmd_list->append ? "append" : "overwrite", tmp_cmd_list->quote_type);
+	// 			const char *type_redir;
+	// 			if (redir->type == TOKEN_REDIRECT_IN)
+	// 				type_redir = "Input";
+	// 			else if (redir->type == TOKEN_REDIRECT_OUT)
+	// 				type_redir = "Output (overwrite)";
+	// 			else if (redir->type == TOKEN_APPEND)
+	// 				type_redir = "Output (append)";
+	// 			else if (redir->type == TOKEN_HEREDOC)
+	// 				type_redir = "Heredoc";
+	// 			else
+	// 				type_redir = "Unknown";
+	
+	// 			printf("  Redirection[%d]: %s (%s)\n", i++, redir->file, type_redir);
+	// 			redir = redir->next;
 	// 		}
 	// 	}
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
+	
 	// create heredoc and store the fd in the cmd list
-	// if (heredoc(cmd_list, env_list) == -1)
-	// {
-	// 	printf("Error: heredoc failed\n");
-	// 	return ;
-	// }
-	// if (!cmd_list->args && cmd_list->heredoc)
-	// 	return ;
+	if (cmd_list->heredoc)
+	{
+		if (heredoc(cmd_list, env_list) == -1)
+		{
+			printf("Error: heredoc failed\n");
+			return ;
+		}
+		if (!cmd_list->args && cmd_list->heredoc)
+			return ;
+	}
 	// if (!cmd_list->args)
 	// 	return;
 	// if (cmd_list->args)
