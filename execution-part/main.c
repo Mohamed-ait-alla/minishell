@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/13 11:29:55 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:08:58 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,27 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	int	here_doc_fd;
 
 	i = 0;
-	while (cmds->input_file && cmds->input_file[i])
-	{
-		if (cmds->heredoc)
-		{
-			if (has_return)
-				*has_return = 2;
-			redirect_input_to_file_here_doc(cmds->here_doc_fd);
-		}
-		else
-			redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
-		i++;
-	}
-	i = 0;
-	while (cmds->output_file && cmds->output_file[i])
-	{
-		if (cmds->append)
-			redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
-		else
-			redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
-		i++;
-	}
+	// while (cmds->input_file && cmds->input_file[i])
+	// {
+	// 	if (cmds->heredoc)
+	// 	{
+	// 		if (has_return)
+	// 			*has_return = 2;
+	// 		redirect_input_to_file_here_doc(cmds->here_doc_fd);
+	// 	}
+	// 	else
+	// 		redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
+	// 	i++;
+	// }
+	// i = 0;
+	// while (cmds->output_file && cmds->output_file[i])
+	// {
+	// 	if (cmds->append)
+	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
+	// 	else
+	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
+	// 	i++;
+	// }
 }
 
 int	count_n_of_cmds(t_commands *cmds)

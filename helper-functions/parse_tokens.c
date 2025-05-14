@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 12:48:37 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/13 22:25:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_commands	*parse_tokens(t_token *tokens)
 	t_commands		*tmp;
 	char			**cmd_in_env_var;
 	int				i;
+	t_redirections *new_redir;
+	t_redirections	*last;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
@@ -64,46 +66,65 @@ t_commands	*parse_tokens(t_token *tokens)
 				current_cmd->args = ft_realloc_array(current_cmd->args,
 						tokens->value);
 		}
-		else if (tokens->type == TOKEN_REDIRECT_IN)
+		else if (tokens->type == TOKEN_REDIRECT_IN
+			|| tokens->type == TOKEN_REDIRECT_OUT
+			|| tokens->type == TOKEN_APPEND || tokens->type == TOKEN_HEREDOC)
 		{
+			new_redir = ft_malloc(sizeof(t_redirections), 1);
+			if (!new_redir)
+				return (NULL);
+			ft_bzero(new_redir, sizeof(t_redirections));
 			// move to the next token
+			new_redir->type = tokens->type;
 			tokens = tokens->next;
 			if (!tokens)
 				return (NULL);
-			current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
-					tokens->value);
+			new_redir->file = ft_strdup(tokens->value);
+			if (!current_cmd->redirections)
+				current_cmd->redirections = new_redir;
+			else
+			{
+				last = current_cmd->redirections;
+				while (last->next)
+					last = last->next;
+				last->next = new_redir;
+			}
+			if (new_redir->type == TOKEN_APPEND)
+				current_cmd->append = 1;
+			else if (new_redir->type == TOKEN_HEREDOC)
+				current_cmd->heredoc = 1;
 		}
-		else if (tokens->type == TOKEN_REDIRECT_OUT)
-		{
-			tokens = tokens->next;
-			if (!tokens)
-				return (NULL);
-			current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
-					tokens->value);
-			// apped = 0 because when we use redirect out (>) we using over write
-			current_cmd->append = 0;
-		}
-		else if (tokens->type == TOKEN_APPEND)
-		{
-			tokens = tokens->next;
-			if (!tokens)
-				return (NULL);
-			current_cmd->output_file = ft_realloc_array(current_cmd->output_file,
-					tokens->value);
-			// apped = 1 because when we use append (>>) we using append
-			current_cmd->append = 1;
-		}
-		// condition of heredoc
-		else if (tokens->type == TOKEN_HEREDOC)
-		{
-			tokens = tokens->next;
-			if (!tokens)
-				return (NULL);
-			current_cmd->input_file = ft_realloc_array(current_cmd->input_file,
-					tokens->value);
-			// heredoc = 1 because when we use heredoc (<<) we using heredoc
-			current_cmd->heredoc = 1;
-		}
+		// else if (tokens->type == TOKEN_REDIRECT_OUT)
+		// {
+		// 	tokens = tokens->next;
+		// 	if (!tokens)
+		// 		return (NULL);
+		// 	current_cmd->redirections->file = ft_strdup(tokens->value);
+		// 	current_cmd->redirections->type = tokens->type;
+		// 	// apped = 0 because when we use redirect out (>) we using over write
+		// 	current_cmd->append = 0;
+		// }
+		// else if (tokens->type == TOKEN_APPEND)
+		// {
+		// 	tokens = tokens->next;
+		// 	if (!tokens)
+		// 		return (NULL);
+		// 	current_cmd->redirections->file = ft_strdup(tokens->value);
+		// 	current_cmd->redirections->type = tokens->type;
+		// 	// apped = 1 because when we use append (>>) we using append
+		// 	current_cmd->append = 1;
+		// }
+		// // condition of heredoc
+		// else if (tokens->type == TOKEN_HEREDOC)
+		// {
+		// 	tokens = tokens->next;
+		// 	if (!tokens)
+		// 		return (NULL);
+		// 	current_cmd->redirections->file = ft_strdup(tokens->value);
+		// 	current_cmd->redirections->type = tokens->type;
+		// 	// heredoc = 1 because when we use heredoc (<<) we using heredoc
+		// 	current_cmd->heredoc = 1;
+		// }
 		current_cmd->quote_type = tokens->quote_type;
 		tokens = tokens->next;
 	}
