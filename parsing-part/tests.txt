@@ -20,3 +20,9 @@ echo $var, $var, "$var"
 BrokenPipeError: [Errno 32] Broken pipe
 
 echo skf >file1 > file2 < file3 >o1
+
+  cat main.c > test | echo skf > test | <<l cat
+ echo ksj | cat < /etc/shadow  > test | <<l cat
+ cat main.c > test | echo skf  >  test1 | <<l cat
+ echo ksj | cat main.c > test | <<l cat
+  echo jfkdj | <<l cat

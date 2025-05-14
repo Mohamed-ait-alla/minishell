@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/14 15:43:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:58:36 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,18 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	int	i;
 	int	here_doc_fd;
 
-	i = 0;
+	while (cmds && cmds->redirections)
+	{
+		if (cmds->redirections->type == TOKEN_REDIRECT_IN)
+			redirect_input_to_file(cmds, cmds->redirections->file, is_builtin, &g_exit_status, has_return);
+		if (cmds->redirections->type == TOKEN_REDIRECT_OUT)
+			redirect_output_to_file(cmds, cmds->redirections->file, 'o', is_builtin, &g_exit_status, has_return);
+		if (cmds->redirections->type == TOKEN_APPEND)
+			redirect_output_to_file(cmds, cmds->redirections->file, 'a', is_builtin, &g_exit_status, has_return);
+		if (cmds->redirections->type == TOKEN_HEREDOC)
+			redirect_input_to_file_here_doc(cmds->here_doc_fd);
+		cmds->redirections = cmds->redirections->next;
+	}
 	// while (cmds->input_file && cmds->input_file[i])
 	// {
 	// 	if (cmds->heredoc)
