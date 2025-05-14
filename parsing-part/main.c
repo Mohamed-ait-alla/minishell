@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 12:05:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:15:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,13 +144,13 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	tmp_cmd_list = tmp_cmd_list->next;
 	// }
 	// create heredoc and store the fd in the cmd list
-	if (heredoc(cmd_list, env_list) == -1)
-	{
-		printf("Error: heredoc failed\n");
-		return ;
-	}
-	if (!cmd_list->args && cmd_list->heredoc)
-		return ;
+	// if (heredoc(cmd_list, env_list) == -1)
+	// {
+	// 	printf("Error: heredoc failed\n");
+	// 	return ;
+	// }
+	// if (!cmd_list->args && cmd_list->heredoc)
+	// 	return ;
 	// if (!cmd_list->args)
 	// 	return;
 	// if (cmd_list->args)
