@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:09:16 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/11 12:01:51 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/12 11:55:08 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@
 // 	return (str);
 // }
 
-
 // static char	*get_quote_value(char *input, int *i)
 // {
 // 	char	quote;
@@ -94,20 +93,21 @@ static char	*get_operator(char *input, int *i, t_quote_type *quote_type)
 	{
 		operator= ft_substr(input, *i, 1);
 		*i += 1;
-		if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
+		if (input[*i] == '|' || input[0] == '|' || input[*i] == '>'
+			|| input[*i] == '<')
 			return (NULL);
 	}
 	if (input[*i] == '\'')
-			*quote_type = SINGLE_QUOTE;
+		*quote_type = SINGLE_QUOTE;
 	else if (input[*i] == '"')
-			*quote_type = DOUBLE_QUOTE;
+		*quote_type = DOUBLE_QUOTE;
 	return (operator);
 }
 
 static char	*get_word(char *input, int *i, t_quote_type *quote_type)
 {
-	int	start;
-	char quote;
+	int		start;
+	char	quote;
 
 	start = *i;
 	while (input[*i] && (input[*i] != '|' && input[*i] != '>'
@@ -123,7 +123,7 @@ static char	*get_word(char *input, int *i, t_quote_type *quote_type)
 				return (NULL);
 			if (quote == '\'')
 				*quote_type = SINGLE_QUOTE;
-			else if (quote == '"') 
+			else if (quote == '"')
 				*quote_type = DOUBLE_QUOTE;
 		}
 		(*i)++;
@@ -146,7 +146,8 @@ static t_token_type	get_token_type(char *value)
 	return (TOKEN_WORD);
 }
 
-static t_token	*new_token(char *value, t_token_type type, t_quote_type quote_type)
+static t_token	*new_token(char *value, t_token_type type,
+		t_quote_type quote_type)
 {
 	t_token	*new_token;
 
@@ -212,7 +213,7 @@ t_token	*tokenize_input(char *input)
 			if (!value)
 			{
 				tokens = NULL;
-				break ;	
+				break ;
 			}
 		}
 		// get the word

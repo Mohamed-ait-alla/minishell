@@ -6,21 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/11 12:49:27 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/13 11:29:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	get_here_doc_fd(t_commands *cmds)
-{
-	int	i;
-
-	i = 0;
-	while (cmds->fds_of_heredoc[i] != -1)
-		i++;
-	return (cmds->fds_of_heredoc[--i]);
-}
 
 void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
 {
@@ -32,8 +22,9 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 	{
 		if (cmds->heredoc)
 		{
-			here_doc_fd = get_here_doc_fd(cmds);
-			redirect_input_to_file_here_doc(here_doc_fd);
+			if (has_return)
+				*has_return = 2;
+			redirect_input_to_file_here_doc(cmds->here_doc_fd);
 		}
 		else
 			redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
@@ -116,7 +107,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			if (pid == 0)
 			{
 				handle_child_signals();
-				check_for_redirections(cmds, tmpfile, false, false);
+				check_for_redirections(cmds, tmpfile, false, NULL);
 				execute_command(cmds, cmds->args, exec_env->env);
 			}
 			signal (SIGINT, SIG_IGN);
@@ -129,7 +120,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			if (g_exit_status == 130)
 				printf("\n");
 			if (g_exit_status == 131)
-				printf("Quit (core dumped)\n"); 
+				printf("Quit (core dumped)\n");
 		}
 	}
 }

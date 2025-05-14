@@ -6,15 +6,15 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 11:48:50 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/11 10:31:43 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/12 16:42:28 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "../includes/minishell.h"
 
-void	sig_handler_parent(int signum)
+void	sig_handler_parent(int sig)
 {
-	(void)	signum;
+	(void) sig;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -42,8 +42,9 @@ void	sig_handler_here_doc(int signum)
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		g_exit_status = 130;
-		close(0);
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		exit (130);
 	}
 }
 
@@ -55,12 +56,12 @@ void	handle_here_doc_signals()
 
 void	handle_parent_signals()
 {
-	signal (SIGQUIT, SIG_IGN); // when ctrl-\ is pressed in parent process
+	signal (SIGQUIT, SIG_IGN); // when ctrl-l is pressed in parent process
 	signal (SIGINT, sig_handler_parent); // when ctrl-c is pressed in parent process 
 }
 
 void	handle_child_signals()
 {
-	signal(SIGQUIT, sig_handler_child); // when ctrl-\ is pressed in a child process
+	signal(SIGQUIT, sig_handler_child); // when ctrl-l is pressed in a child process
 	signal(SIGINT, sig_handler_child); // when ctrl-c is pressed in a child process
 }

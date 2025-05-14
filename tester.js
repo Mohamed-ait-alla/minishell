@@ -23,77 +23,323 @@ if (!programName) {
     "\x1b[1m\x1b[31m\n⚠️  Please enter your minishell prompt exactly, including any trailing space (e.g., minishell$> ).\x1b[0m"
   );
   console.error(
-    '\x1b[1m\x1b[33m\nUsage: node tester.js "minishell$> "\n\x1b[0m'
+    '\x1b[1m\x1b[33m\nUsage: node file.js "minishell$> "\n\x1b[0m'
   );
   process.exit(1);
 }
 
 // Add your test commands here
 const tests = [
-  // tests of quotes
-  "",
-  '"',
-  "'",
-  "echo ''",
-  'echo ""',
-  "echo ' '",
-  'echo " "',
-  "echo hello",
-  "echo 'hello world'",
-  'echo "hello world"',
-  "echo 'hello\"world'",
-  'echo "hello\'world"',
-  "echo 'hello'\"world\"",
-  "echo \"hello\"'world'",
-  "echo \"'hello'\"",
-  'echo "\'hello\'"""',
-  "echo \"'hello'''\"",
-  "echo '\"hello\"'",
-  'echo \'"hello"""\'',
-  "echo '\"hello\"'''",
-  // test of expanding
-  'echo "hello $USER',
-  "echo 'hello $USER'",
-  'echo "hello $USER"',
-  "echo $",
-  "echo '$USER $USER'",
-  'echo "$USER $USER"',
-  "echo 'hello $USER' world",
-  "echo \"hello 'world' $USER\"",
-  "echo 'hello \"world\" $USER'",
-  "echo \"$USER 'hello' world\"",
-  "echo \"hello $USER\"' world'",
-  "echo 'hello' \"world $USER\"",
-  'echo "hello world $USER"',
-  'echo ""$USER""',
-  "echo '$USER'$USER\"$USER\"",
-  "echo 'hello' \"world\" '\"$USER\"'",
-  'echo "hello" "world"',
-  "echo $USER'$USER'$USER",
-  "echo $'USER'",
-  'echo $"USER"',
-  "echo $215445",
-  "echo $UNKNOW",
-  // test cmds
-  "ls",
+  // Empty & whitespace
+  ``,
+  ` `,
+  `# comment`,
+  `;`,
+  `.`,
+  `..`,
+  `...`,
+  `.............................................................`,
+  `;;`,
+  `;;;`,
+  `;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;`,
+  `                                                                                                                              `,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ``,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+  ` `,
+
+  // Quotes (single, double, unbalanced)
+  `'`,
+  `"`,
+  `echo 'unterminated`,
+  `echo "unterminated`,
+  `echo "hello 'world'"`,
+  `echo 'hello "world"'`,
+  `echo 'one'"two"'three'"four"`,
+  `echo "a"'b'"c"'d'"e'`,
+  `echo """"'''''`,
+  `echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<"`,
+  `echo '> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<'`,
+  `echo Hello" "World"" "'from the'"harder 'test "'"=>"'"'"''"'if passed this 'your good' 'but "' the next one" will '"be"'"more 'harder'"""`,
+
+  // Expansion
+  `echo $USER`,
+  `echo "$USER"`,
+  `echo '$USER'`,
+  `echo $HOME$USER$SHELL`,
+  `echo "$HOME$USER$SHELL"`,
+  `echo '$HOME$USER$SHELL'`,
+  `echo $NOT_EXISTING`,
+  `echo "$NOT_EXISTING"`,
+  `echo "$USER$NOT_EXISTING"`,
+  `echo $USER'$USER'$USER`,
+  `echo $USER$`,
+  `echo $USER_`,
+  `echo $USER$USER$`,
+  `echo "$USER"extra`,
+  `echo $""`,
+  `echo $"USER"`,
+  `echo $'USER'`,
+  `echo \$USER`,
+  `echo "hello '$USER'"`,
+  `echo '$USER'"$USER"`,
+  `Hello World 'mdahani'1337 test "=>"''if passed this $USER"$USER"$USERyour Mr.mdahani   but ' the next one will "be"more 'harder 0'  but you have" " to handle "exit status" 0`,
+
+  // export test
+  `export var1="hello " var2=world`,
+  `echo $var1$var2`,
+  `echo "$var1$var2"`,
+  `echo '$var1$var2'`,
+  `echo "'$var1$var2'"`,
+  `echo '"$var1$var2"'`,
+  `echo '"'$var1'"$var2"'`,
+  `echo '$var1'"$var2"`,
+  `unset var1 var2`,
+  `echo $var1$var2`,
+  `export var3="ls                                                                -l"`,
+  `$var`,
+  `'$var'`,
+  `"$var"`,
+  `echo $?`,
+  `echo $`,
+  `echo $2025`,
+  `echo $%`,
+  `echo $_`,
+  `export var4="hello"`,
+  `var4+=" world"`,
+  `echo var4`,
+  `var4-=" world"`,
+  `echo var4`,
+  `var4*=" world"`,
+  `echo var4`,
+  `var4/=" world"`,
+  `echo var4`,
+  `export =`,
+  `echo $?`,
+  `export 123`,
+  `export xyz`,
+  `echo $xyz`,
+  `export abc=`,
+  `echo $abc`,
+  `echo $?`,
+  `unset`,
+  `unset HELLO `,
+  `unset HELLO1 HELLO2 `,
+  `unset HOME `,
+  `unset PATH `,
+  `unset SHELL `,
+  `cd $PWD`,
+  `cd 123123`,
+
+  // cmds
+  // test mjnoun hhhhh
+  `mkdir a && cd a && mkdir b && cd b && mkdir c && cd c && rm -rf ../../../a`,
   "pwd",
-  "cd ..",
-  "cd .",
-  "cd /",
-  "cd /tmp",
-  'export var="ls                         -l"',
-  "$var",
-  "'$var'",
-  '"$var"',
-  'export var+="ls                         -la"',
-  "$var",
-  "'$var'",
-  '"$var"',
-  "unset var",
-  // test exit status
-  "echo $?",
-  // test exit
-  "exit",
+  `ls`,
+  `ls -l`,
+  `ls                                   -l`,
+  `ls -la`,
+  `pwd`,
+  `cd ..`,
+  `cd`,
+
+  // Pipes & Redirections
+  `|`,
+  `||`,
+  `| |`,
+  `    | |    `,
+  `|| ls`,
+  `| | ls`,
+  `ls | | ls`,
+  `ls |`,
+  `ls | |`,
+  `cat < Makefile`,
+  `cat < non_existing_file`,
+  `> file`,
+  `< file`,
+  `ls | | wc`,
+  `echo hello > file1.txt`,
+  `cat file1.txt`,
+  `echo hello >> file2.txt`,
+  `cat file2.txt`,
+  `echo hello >>> file3.txt`,
+  `cat file3.txt`,
+  `echo hello >>> `,
+  `echo hello < file4.txt`,
+  `cat file4.txt`,
+  `echo hello << file5.txt`,
+  `cat file5.txt`,
+  `echo hello <<< file6.txt`,
+  `cat file6.txt`,
+  `echo hello <<< `,
+
+  `echo "The Project Gutenberg eBook of Alice’s Adventures in Wonderland, by Lewis Carroll" > test.txt`,
+  `echo "" >> test.txt`,
+  `echo "This eBook is for the use of anyone anywhere in the United States and" >> test.txt`,
+  `echo "most other parts of the world at no cost and with almost no restrictions" >> test.txt`,
+
+  `cat test.txt`,
+  `grep eBook < test.txt`,
+  `grep 1337 >> test.txt`,
+  'echo eBook | cat <"test.txt"',
+  'echo eBook | cat "test.txt"',
+  `echo test > $NOTHINHG`,
+
+  // pipes
+  `echo hello | cat`,
+  `ls -l | grep .c | wc -l`,
+  `env | sort | grep -v SHLVL | grep -v ^_ `,
+  `cat ./test_files/infile_big | grep oi `,
+  `cat minishell.h | grep ");"$ `,
+  `export GHOST=123 | env | grep GHOST `,
+  `./minishell | ls`,
+
+  // Exit tests
+  `exit`,
+  `echo "exit_code ->$? user ->$USER home -> $HOME"`,
+  `exit 0`,
+  `echo $?`,
+  `exit +42`,
+  `echo $?`,
+  `exit -42`,
+  `echo $?`,
+  `exit +256`,
+  `echo $?`,
+  `exit -256`,
+  `echo $?`,
+  `exit -1`,
+  `echo $?`,
+  `exit -255`,
+  `echo $?`,
+  `exit +-75`,
+  `echo $?`,
+  `exit -+24`,
+  `echo $?`,
+  `exit ++25`,
+  `echo $?`,
+  `exit --55`,
+  `echo $?`,
+  `exit 123`,
+  `echo $?`,
+  `exit 298 `,
+  `echo $?`,
+  `exit +100 `,
+  `echo $?`,
+  `exit "+100"`,
+  `echo $?`,
+  `exit +"100"`,
+  `echo $?`,
+  `exit -100`,
+  `echo $?`,
+  `exit "-100" `,
+  `echo $?`,
+  ` exit -"100" `,
+  `echo $?`,
+  `exit hello `,
+  `echo $?`,
+  ` exit 42 world`,
+  `echo $?`,
+
+  // Combined
+  `echo "$USER" | grep . | wc -c > out.txt`,
+
+  // Syntax errors
+  `| echo`,
+  `echo |`,
+  `echo >`,
+  `echo <`,
+  `echo >>`,
+  `echo <<<`,
+
+  // minishell in minishell
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+  `./minishell`,
+
+  // remove all files
+  `rm -rf file`,
+  `rm -rf file1.txt`,
+  `rm -rf file2.txt`,
+  `rm -rf out.txt`,
+  `rm -rf test.txt`,
 ];
 
 const runCommand = (shell, command) => {
@@ -103,9 +349,6 @@ const runCommand = (shell, command) => {
       encoding: "utf-8",
       shell: false,
     });
-    if (command === "exit" && shell === "bash") {
-      return "exit\n";
-    }
     return result.stdout;
   } catch (error) {
     return `Error: ${error.message}`;
@@ -118,7 +361,12 @@ const comparisonCommands = (command) => {
     .replace(programName, "")
     .replace("\n", "")
     .replace(programName, "")
-    .replace(command, "");
+    .replace(command, "")
+    .replace("exit\n", "");
+  if (!command) {
+    minishellOutput = "";
+  }
+  // console.log(`========>${minishellOutput}`);
   if (command === '"' || command === "'") {
     syntaxErrorOfDquote = minishellOutput;
     syntaxErrorOfSquote = minishellOutput;
@@ -178,7 +426,21 @@ const runTests = () => {
     console.log(
       "\x1b[31m\x1b[1m╰─────────────────────────────────────────────────╯\x1b[0m"
     );
+    let totalCommands = tests.length;
+    let totalCommandsFailed = commandsFailed.length;
+    let grade = ((totalCommands - totalCommandsFailed) / totalCommands) * 100;
+
+    let color;
+    if (grade >= 70) color = "\x1b[32m";
+    else if (grade >= 50) color = "\x1b[33m";
+    else color = "\x1b[31m";
+
+    console.log(`${color}\x1b[1m╭──────────────────────────────╮`);
+    console.log(`│  Your Grade is: ${grade.toFixed(2)}%       │`);
+    console.log(`╰──────────────────────────────╯\x1b[0m`);
+
     console.log("\x1b[1m\x1b[37m\n🚨 Commands that failed:\x1b[0m\n");
+
     for (let i = 0; i < commandsFailed.length; i++) {
       console.log(
         `\x1b[31m${i + 1}.\x1b[0m \x1b[1m\x1b[37m${commandsFailed[i]}\x1b[0m`
