@@ -6,16 +6,16 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:25 by mait-all          #+#    #+#             */
-/*   Updated: 2025/04/25 19:44:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:30:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	builtin_env(char **env)
 {
 	int	i;
-	
+
 	i = 0;
 	while (env && env[i])
 	{

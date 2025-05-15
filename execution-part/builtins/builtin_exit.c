@@ -6,11 +6,11 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/12 10:12:03 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:31:38 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static int	is_numeric(char *arg)
 {
@@ -19,7 +19,8 @@ static int	is_numeric(char *arg)
 	i = 0;
 	if (arg)
 	{
-		if ((arg[0] == '+' && !ft_isdigit(arg[1])) || (arg[0] == '-' && !ft_isdigit(arg[1])))
+		if ((arg[0] == '+' && !ft_isdigit(arg[1]))
+			|| (arg[0] == '-' && !ft_isdigit(arg[1])))
 			return (0);
 		i = 1;
 	}
@@ -35,7 +36,7 @@ static int	is_numeric(char *arg)
 int	builtin_exit(char	**args, int last_cmd_exit_status)
 {
 	if (!args[1])
-		return (last_cmd_exit_status); // exit with the last cmd's status
+		return (last_cmd_exit_status);
 	if (!is_numeric(args[1]))
 	{
 		ft_putstr_fd("bash: exit: numeric argument required\n", STDERR_FILENO);
