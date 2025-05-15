@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 13:15:57 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:24:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,26 @@ static char	*get_path_name(char *cmd, char **env)
 		return (NULL);
 }
 
+static int	is_directory(char *path)
+{
+	struct stat sb;
+	
+	if (stat(path, &sb) == -1)
+		return (0);
+	return (S_ISDIR(sb.st_mode));
+}
+
 static char	*get_exec_path(char **env, char *cmd)
 {
 	if (!cmd || !cmd[0])
 		return (NULL);
 	if (cmd && (cmd[0] == '.' || cmd[0] == '/'))
 	{
+		if (is_directory(cmd))
+		{
+			printf("minishell: %s: Is a directory\n", cmd);
+			exit (126);
+		}
 		if (access(cmd, F_OK) == 0)
 		{
 			if (access(cmd, X_OK) == 0)
