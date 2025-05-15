@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 19:46:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/14 19:32:07 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_commands
 	int						exit_status;
 	int						append;
 	int						heredoc;
-	int						here_doc_fd;
+	char					*here_doc_file;
 	t_quote_type			quote_type;
 	t_redirections			*redirections;
 	struct s_commands		*next;

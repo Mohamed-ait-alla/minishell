@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 22:25:28 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:10:40 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_commands	*parse_tokens(t_token *tokens)
 			// move to the next token
 			new_redir->type = tokens->type;
 			tokens = tokens->next;
-			if (!tokens)
+			if (!tokens || tokens->type == TOKEN_REDIRECT_IN || tokens->type == TOKEN_REDIRECT_OUT || tokens->type == TOKEN_APPEND  || tokens->type == TOKEN_HEREDOC)
 				return (NULL);
 			new_redir->file = ft_strdup(tokens->value);
 			if (!current_cmd->redirections)
