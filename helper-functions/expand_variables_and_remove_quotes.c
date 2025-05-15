@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables_and_remove_quotes.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 11:22:15 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 11:29:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,6 @@ static char	*expand_variable_value(char *word, t_env *env)
 			result = ft_strjoin_char(result, word[i]);
 			i++;
 		}
-		printf("result: %s\n", result);
 	}
 	return (result);
 }

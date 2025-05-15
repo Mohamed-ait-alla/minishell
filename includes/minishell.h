@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 10:26:00 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 12:08:08 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,18 @@ int							tested_main_with_parsing(t_commands *cmds,
 								t_exec_env *exec_env);
 
 //						#________redirections________#
-void						redirect_output_to_file(t_commands *cmds,
+int						redirect_output_to_file(t_commands *cmds,
 								char *file, char mode, int is_builtin,
 								int *exit_status, int *has_return);
 void						redirect_output_to_pipe(int write_pipe_end);
-void						redirect_input_to_file(t_commands *cmds, char *file,
+int						redirect_input_to_file(t_commands *cmds, char *file,
 								int is_builtin, int *exit_status,
 								int *has_return);
 void						redirect_input_to_file_here_doc(char *here_doc_file);
 char						*get_tmp_file(void);
 int							check_for_here_doc(char **av);
 void						redirect_input_to_pipe(int read_pipe_end);
-void						check_for_redirections(t_commands *cmds,
+int						check_for_redirections(t_commands *cmds,
 								char *tmpfile, int is_builtin, int *has_return);
 
 //						#________pipes________#

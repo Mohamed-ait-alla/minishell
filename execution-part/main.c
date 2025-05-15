@@ -6,26 +6,41 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 11:27:25 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:06:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
+int	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
 {
 	while (cmds && cmds->redirections)
 	{
 		if (cmds->redirections->type == TOKEN_REDIRECT_IN)
-			redirect_input_to_file(cmds, cmds->redirections->file, is_builtin, &g_exit_status, has_return);
+		{
+			if (redirect_input_to_file(cmds, cmds->redirections->file, is_builtin, &g_exit_status, has_return) < 0)
+				return (-1);	
+		}
 		if (cmds->redirections->type == TOKEN_REDIRECT_OUT)
-			redirect_output_to_file(cmds, cmds->redirections->file, 'o', is_builtin, &g_exit_status, has_return);
+		{
+			if(redirect_output_to_file(cmds, cmds->redirections->file, 'o', is_builtin, &g_exit_status, has_return) < 0)
+				return (-1);
+		}
 		if (cmds->redirections->type == TOKEN_APPEND)
-			redirect_output_to_file(cmds, cmds->redirections->file, 'a', is_builtin, &g_exit_status, has_return);
+		{
+			if(redirect_output_to_file(cmds, cmds->redirections->file, 'a', is_builtin, &g_exit_status, has_return) < 0)
+				return (-1);
+		}
 		if (cmds->redirections->type == TOKEN_HEREDOC)
+		{
+			if (has_return)
+				*has_return = 2;	
 			redirect_input_to_file_here_doc(cmds->here_doc_file);
+			return (0);
+		}
 		cmds->redirections = cmds->redirections->next;
 	}
+	return (0);
 }
 
 int	count_n_of_cmds(t_commands *cmds)
@@ -69,10 +84,11 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			saved_stdout = dup(STDOUT_FILENO);
 			saved_stdin = dup(STDIN_FILENO);
 			has_return = false;
-			check_for_redirections(cmds, tmpfile, true, &has_return);
-			if (has_return && has_return != -1)
-				return (0);
-			status = execute_builtin(cmds->args, exec_env, g_exit_status);
+			status = check_for_redirections(cmds, tmpfile, true, &has_return);
+			if (status >= 0)
+				status = execute_builtin(cmds->args, exec_env, g_exit_status);
+			if (status == -1)
+				status = EXIT_FAILURE;
 			g_exit_status = status;
 			if (ft_strncmp(cmds->args[0], "exit", ft_strlen("exit")) == 0)
 			{
@@ -103,7 +119,7 @@ int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
 			if (WIFEXITED(status))
 				g_exit_status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status)) 
-				g_exit_status = 128 + WTERMSIG(status); // 128 + which sig has occured SIGQUIT = 3, SIGINT = 2
+				g_exit_status = 128 + WTERMSIG(status);
 			if (g_exit_status == 130)
 				printf("\n");
 			if (g_exit_status == 131)
