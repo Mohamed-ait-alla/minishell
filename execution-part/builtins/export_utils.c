@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 22:20:43 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 19:43:13 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:41:11 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	is_valid_identifier(char *arg)
 	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]) && arg[i] != '_' && (arg[i] == '+' && arg[i + 1] != '='))
+		if ((!ft_isalnum(arg[i]) && arg[i] != '_' && (arg[i] == '+' && arg[i + 1] != '=')) || arg[i] == '-')
 			return (false);
 		i++;
 	}

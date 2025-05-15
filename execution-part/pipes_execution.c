@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 13:03:12 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:40:52 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n
 	if (i == 0) // first command 
 	{
 		check_for_redirections(cmds, tmpfile, is_builtin, has_return);
-		if (*has_return || *has_return == -1 || *has_return == -2)
+		if (*has_return == 1 || *has_return == -1 || (*has_return == -2 && is_builtin))
 		{
 			if (*has_return == -1)
 				*has_return = false;
