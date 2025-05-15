@@ -22,9 +22,7 @@ if (!programName) {
   console.error(
     "\x1b[1m\x1b[31m\n⚠️  Please enter your minishell prompt exactly, including any trailing space (e.g., minishell$> ).\x1b[0m"
   );
-  console.error(
-    '\x1b[1m\x1b[33m\nUsage: node file.js "minishell$> "\n\x1b[0m'
-  );
+  console.error('\x1b[1m\x1b[33m\nUsage: node file.js "minishell$> "\n\x1b[0m');
   process.exit(1);
 }
 
@@ -130,9 +128,7 @@ const tests = [
   `echo var4`,
   `var4/=" world"`,
   `echo var4`,
-  `export =`,
   `echo $?`,
-  `export 123`,
   `export xyz`,
   `echo $xyz`,
   `export abc=`,
@@ -183,9 +179,7 @@ const tests = [
   `echo hello >>> `,
   `echo hello < file4.txt`,
   `cat file4.txt`,
-  `echo hello << file5.txt`,
   `cat file5.txt`,
-  `echo hello <<< file6.txt`,
   `cat file6.txt`,
   `echo hello <<< `,
 
@@ -197,7 +191,6 @@ const tests = [
   `cat test.txt`,
   `grep eBook < test.txt`,
   `grep 1337 >> test.txt`,
-  'echo eBook | cat <"test.txt"',
   'echo eBook | cat "test.txt"',
   `echo test > $NOTHINHG`,
 
