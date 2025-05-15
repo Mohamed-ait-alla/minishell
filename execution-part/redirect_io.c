@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/14 18:06:03 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:27:45 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,16 +109,21 @@ void	redirect_output_to_pipe(int write_pipe_end)
 	close (write_pipe_end);
 }
 
-void	redirect_input_to_file_here_doc(int heredoc_fd)
+void	redirect_input_to_file_here_doc(char *here_doc_file)
 {
-	// int	fd;
-
-	// fd = open (here_doc_file, O_RDONLY);
-	// if (fd < 0)
-	// {
-	// 	perror("error occured while opening here doc file: ");
-	// 	return ;
-	// }
-	dup2(heredoc_fd, STDIN_FILENO);
-	close(heredoc_fd);
+	int	fd;
+	
+	fd = open (here_doc_file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("error occured while opening here doc file: ");
+		return ;
+	}
+	if (unlink(here_doc_file) == -1)
+	{
+		perror("error occured while removing here_doc file: ");
+		return ;
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 }

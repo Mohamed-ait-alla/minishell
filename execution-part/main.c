@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 10:19:30 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:27:25 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 		if (cmds->redirections->type == TOKEN_APPEND)
 			redirect_output_to_file(cmds, cmds->redirections->file, 'a', is_builtin, &g_exit_status, has_return);
 		if (cmds->redirections->type == TOKEN_HEREDOC)
-		{
-			if (has_return)
-				*has_return = 2;
-			redirect_input_to_file_here_doc(cmds->here_doc_fd);
-		}
+			redirect_input_to_file_here_doc(cmds->here_doc_file);
 		cmds->redirections = cmds->redirections->next;
 	}
 }

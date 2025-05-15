@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variables_and_remove_quotes.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 19:42:12 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 11:22:15 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static char	*ft_strjoin_char(char *str, char c)
 	}
 	new_str[i] = c;
 	new_str[i + 1] = '\0';
-	// free(str);
 	return (new_str);
 }
 
@@ -71,12 +70,14 @@ static char	*expand_variable_value(char *word, t_env *env)
 			int j = 0;
 			while (value[j])
 			{
-				while (value[j] <= 32 && value[j + 1] <= 32)
+				while (value[j] && value[j] <= 32 && value[j + 1] <= 32)
 					j++;
-				result = ft_strjoin_char(result, value[j]);
-				j++;
+				if (value[j])
+				{
+					result = ft_strjoin_char(result, value[j]);
+					j++;
+				}
 			}
-			
 			// tmp = ft_strjoin(result, value);
 			// free(result);
 			// result = tmp;
@@ -102,6 +103,12 @@ static char	*expand_variable_value(char *word, t_env *env)
 					// free(result);
 					result = tmp;
 					// free(key);
+				}
+				else if (word[i] == '$' && word[i + 1] && word[i + 1] == '?')
+				{
+					i += 2;
+					// resplace the 0 with the last return value
+					result = ft_strjoin(result, ft_itoa(g_exit_status));
 				}
 				else
 				{
@@ -156,6 +163,7 @@ static char	*expand_variable_value(char *word, t_env *env)
 			result = ft_strjoin_char(result, word[i]);
 			i++;
 		}
+		printf("result: %s\n", result);
 	}
 	return (result);
 }

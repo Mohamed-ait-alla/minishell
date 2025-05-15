@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 19:46:03 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:26:00 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_commands
 	int						exit_status;
 	int						append;
 	int						heredoc;
-	int						here_doc_fd;
+	char					*here_doc_file;
 	t_quote_type			quote_type;
 	t_redirections			*redirections;
 	struct s_commands		*next;
@@ -128,7 +128,7 @@ void						redirect_output_to_pipe(int write_pipe_end);
 void						redirect_input_to_file(t_commands *cmds, char *file,
 								int is_builtin, int *exit_status,
 								int *has_return);
-void						redirect_input_to_file_here_doc(int heredoc_fd);
+void						redirect_input_to_file_here_doc(char *here_doc_file);
 char						*get_tmp_file(void);
 int							check_for_here_doc(char **av);
 void						redirect_input_to_pipe(int read_pipe_end);
