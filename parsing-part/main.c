@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/14 16:57:19 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:18:49 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,44 +115,44 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	}
 	
 	// print commands	
-	x = 1;
-	tmp_cmd_list = cmd_list;
-	while (tmp_cmd_list)
-	{
-		printf("Command %d:\n", x++);
+	// x = 1;
+	// tmp_cmd_list = cmd_list;
+	// while (tmp_cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
 		
-		if (tmp_cmd_list->args)
-		{
-			printf("  Args:\n");
-			for (int j = 0; tmp_cmd_list->args[j]; j++)
-				printf("    %s\n", tmp_cmd_list->args[j]);
-			printf("  Quote type: %d\n", tmp_cmd_list->quote_type);
-		}
+	// 	if (tmp_cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 		printf("  Quote type: %d\n", tmp_cmd_list->quote_type);
+	// 	}
 	
-		if (tmp_cmd_list->redirections)
-		{
-			t_redirections *redir = tmp_cmd_list->redirections;
-			i = 1;
-			while (redir)
-			{
-				const char *type_redir;
-				if (redir->type == TOKEN_REDIRECT_IN)
-					type_redir = "Input";
-				else if (redir->type == TOKEN_REDIRECT_OUT)
-					type_redir = "Output (overwrite)";
-				else if (redir->type == TOKEN_APPEND)
-					type_redir = "Output (append)";
-				else if (redir->type == TOKEN_HEREDOC)
-					type_redir = "Heredoc";
-				else
-					type_redir = "Unknown";
+	// 	if (tmp_cmd_list->redirections)
+	// 	{
+	// 		t_redirections *redir = tmp_cmd_list->redirections;
+	// 		i = 1;
+	// 		while (redir)
+	// 		{
+	// 			const char *type_redir;
+	// 			if (redir->type == TOKEN_REDIRECT_IN)
+	// 				type_redir = "Input";
+	// 			else if (redir->type == TOKEN_REDIRECT_OUT)
+	// 				type_redir = "Output (overwrite)";
+	// 			else if (redir->type == TOKEN_APPEND)
+	// 				type_redir = "Output (append)";
+	// 			else if (redir->type == TOKEN_HEREDOC)
+	// 				type_redir = "Heredoc";
+	// 			else
+	// 				type_redir = "Unknown";
 	
-				printf("  Redirection[%d]: %s (%s)\n", i++, redir->file, type_redir);
-				redir = redir->next;
-			}
-		}
-		tmp_cmd_list = tmp_cmd_list->next;
-	}
+	// 			printf("  Redirection[%d]: %s (%s)\n", i++, redir->file, type_redir);
+	// 			redir = redir->next;
+	// 		}
+	// 	}
+	// 	tmp_cmd_list = tmp_cmd_list->next;
+	// }
 	
 	// create heredoc and store the fd in the cmd list
 	t_commands *cmd_here_doc = cmd_list;
@@ -201,7 +201,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	// tested_main_with_parsing(cmd_list, exec_env);
+	tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);

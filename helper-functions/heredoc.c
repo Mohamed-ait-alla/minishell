@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/14 16:56:56 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:55:22 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	handle_child_heredoc(t_commands *cmd, t_redirections *redir,
 	i = 0;
 	while (redir)
 	{
-		if (redir->file && redir->type == TOKEN_HEREDOC)
+		if (redir->type == TOKEN_HEREDOC && redir->file)
 		{
 			fd = open(files[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd < 0)

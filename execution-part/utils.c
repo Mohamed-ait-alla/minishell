@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 18:02:18 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:12:43 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*get_tmp_file(void)
 	heredoc_name = "heredoc_";
 	file_name = ft_strjoin(heredoc_name, ft_itoa(i));
 	tmpfile = ft_strjoin("/tmp/", file_name);
-	// free(file_name);
 	i++;
 	return (tmpfile);
 }

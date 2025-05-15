@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/14 15:58:36 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 10:19:30 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int *has_return)
 {
-	int	i;
-	int	here_doc_fd;
-
 	while (cmds && cmds->redirections)
 	{
 		if (cmds->redirections->type == TOKEN_REDIRECT_IN)
@@ -26,30 +23,13 @@ void	check_for_redirections(t_commands *cmds, char *tmpfile, int is_builtin, int
 		if (cmds->redirections->type == TOKEN_APPEND)
 			redirect_output_to_file(cmds, cmds->redirections->file, 'a', is_builtin, &g_exit_status, has_return);
 		if (cmds->redirections->type == TOKEN_HEREDOC)
+		{
+			if (has_return)
+				*has_return = 2;
 			redirect_input_to_file_here_doc(cmds->here_doc_fd);
+		}
 		cmds->redirections = cmds->redirections->next;
 	}
-	// while (cmds->input_file && cmds->input_file[i])
-	// {
-	// 	if (cmds->heredoc)
-	// 	{
-	// 		if (has_return)
-	// 			*has_return = 2;
-	// 		redirect_input_to_file_here_doc(cmds->here_doc_fd);
-	// 	}
-	// 	else
-	// 		redirect_input_to_file(cmds, cmds->input_file[i], is_builtin, &g_exit_status, has_return);
-	// 	i++;
-	// }
-	// i = 0;
-	// while (cmds->output_file && cmds->output_file[i])
-	// {
-	// 	if (cmds->append)
-	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'a', is_builtin, &g_exit_status, has_return);
-	// 	else
-	// 		redirect_output_to_file(cmds, cmds->output_file[i], 'o', is_builtin, &g_exit_status, has_return);
-	// 	i++;
-	// }
 }
 
 int	count_n_of_cmds(t_commands *cmds)
