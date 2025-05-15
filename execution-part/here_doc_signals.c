@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_utils.c                                      :+:      :+:    :+:   */
+/*   here_doc_signals.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 22:15:05 by mait-all         ###   ########.fr       */
+/*   Created: 2025/05/15 22:09:01 by mait-all          #+#    #+#             */
+/*   Updated: 2025/05/15 22:19:20 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	close_unused_pipes(int pipes[][2], int n_of_pipes, int except)
+void	sig_handler_here_doc(int signum)
 {
-	int	i;
-
-	i = 0;
-	while (i < n_of_pipes)
+	if (signum == SIGINT)
 	{
-		if (i != except)
-		{
-			close (pipes[i][0]);
-			close (pipes[i][1]);
-		}
-		i++;
+		printf("\n");
+		exit (130);
 	}
+}
+
+void	handle_here_doc_signals(void)
+{
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, sig_handler_here_doc);
 }

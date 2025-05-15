@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 13:06:33 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:21:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	count_n_of_cmds(t_commands *cmds)
 	return (count);
 }
 
-int	tested_main_with_parsing(t_commands *cmds, t_exec_env *exec_env)
+int	launch_execution(t_commands *cmds, t_exec_env *exec_env)
 {
 	char	*tmpfile;
 	int		pid;

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 18:56:14 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:21:42 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char						*get_next_line(int fd);
 //       execution-part function's declaration
 
 //						#________ functions used for only testing purposes ________#
-int							tested_main_with_parsing(t_commands *cmds,
+int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
 
 //						#________redirections________#

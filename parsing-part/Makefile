@@ -12,7 +12,7 @@ SRCS = main.c \
 	   ../helper-functions/heredoc.c \
 	   ../helper-functions/ft_malloc.c \
 	   ../get_next_line/get_next_line.c \
-	   ../execution-part/main.c \
+	   ../execution-part/executor.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
 	   ../execution-part/redirect_io.c \
@@ -29,6 +29,7 @@ SRCS = main.c \
 	   ../execution-part/builtins/builtin_pwd.c \
 	   ../execution-part/utils.c \
 	   ../execution-part/signals.c \
+	   ../execution-part/here_doc_signals.c \
 	   
 
 LIBFT_DIR = ../libft
