@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 10:04:06 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:49:31 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int heredoc(t_commands *cmd, t_env *env)
         tmp_cmds = tmp_cmds->next;
     }
     int i = 0;
-    while (i < total)
+    while (i < total - 1)
     {
         unlink(files[i]);
         i++;

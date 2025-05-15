@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 10:15:19 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/15 10:26:55 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 	z++;
 	// }
 	// ---------- Execution Part ----------
-	// tested_main_with_parsing(cmd_list, exec_env);
+	tested_main_with_parsing(cmd_list, exec_env);
 	// free token list and command list after execution
 	// free_tokens(tokens);
 	// free_commands(cmd_list);
