@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   here_doc_signals.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 19:41:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 21:42:26 by mait-all         ###   ########.fr       */
+/*   Created: 2025/05/15 22:09:01 by mait-all          #+#    #+#             */
+/*   Updated: 2025/05/15 22:19:20 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	builtin_pwd(char **env)
+void	sig_handler_here_doc(int signum)
 {
-	int	pwd_index;
-
-	pwd_index = search_for_env_var(env, "PWD");
-	if (pwd_index)
+	if (signum == SIGINT)
 	{
-		printf("%s\n", env[pwd_index] + 4);
-		return (EXIT_SUCCESS);
+		printf("\n");
+		exit (130);
 	}
-	return (EXIT_FAILURE);
+}
+
+void	handle_here_doc_signals(void)
+{
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, sig_handler_here_doc);
 }

@@ -1,51 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   export_utils_1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 22:20:43 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/08 19:43:13 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:45:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	ft_get_env_len(char **env)
+void	add_var_to_env(t_exec_env *exec_env, char *var)
 {
-	int	count;
+	char	**new_env;
+	int		len;
+	int		j;
 
-	count = 0;
-	while (env && env[count])
-		count++;
-	return (count);
+	len = ft_get_env_len(exec_env->env);
+	new_env = ft_malloc(sizeof(char *) * (len + 2), 1);
+	if (!new_env)
+		return ;
+	j = 0;
+	while (j < len)
+	{
+		new_env[j] = exec_env->env[j];
+		j++;
+	}
+	new_env[j] = ft_strdup(var);
+	new_env[j + 1] = NULL;
+	exec_env->env = new_env;
 }
 
-int	ft_get_env_var_len(char *env_var)
+void	append_env_var(t_exec_env *exec_env, char *new_key,
+						char *new_value, int is_found)
 {
-	int	count;
+	char	*key;
+	char	*value;
+	char	*holder;
+	char	*tmp_1;
+	char	*tmp_2;
 
-	count = 0;
-	while (env_var[count] && env_var[count] != '=')
-		count++;
-	return (count);
-}
-
-int ft_max(int value1, int value2)
-{
-	if (value1 > value2)
-		return (value1);
-	return (value2);
-}
-
-void	ft_swap(char **s1, char **s2)
-{
-	char	*tmp;
-
-	tmp = *s1;
-	*s1 = *s2;
-	*s2 = tmp;	
+	value = ft_strchr(exec_env->env[is_found], '=') + 1;
+	key = ft_substr(exec_env->env[is_found], 0,
+			value - 1 - exec_env->env[is_found]);
+	holder = ft_strjoin(value, new_value);
+	tmp_1 = ft_strjoin(key, "=");
+	tmp_2 = ft_strjoin(tmp_1, holder);
+	exec_env->env[is_found] = ft_strdup(tmp_2);
 }
 
 void	sort_env(char **env)
@@ -87,10 +90,9 @@ void	print_sorted_env(t_exec_env *exec_env)
 		{
 			i++;
 			printf("declare -x %s\n", key);
-			continue;
+			continue ;
 		}
 		printf("declare -x %s=\"%s\"\n", key, value + 1);
-		// free(key);
 		i++;
 	}
 }
@@ -104,7 +106,8 @@ bool	is_valid_identifier(char *arg)
 	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]) && arg[i] != '_' && (arg[i] == '+' && arg[i + 1] != '='))
+		if ((!ft_isalnum(arg[i]) && arg[i] != '_'
+				&& (arg[i] == '+' && arg[i + 1] != '=')) || arg[i] == '-')
 			return (false);
 		i++;
 	}

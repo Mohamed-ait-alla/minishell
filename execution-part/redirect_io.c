@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 11:27:45 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:28:09 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool has_space(char *str)
 	return (false);
 }
 
-void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_builtin, int *exit_status, int *has_return)
+int	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_builtin, int *exit_status, int *has_return)
 {
 	int fd;
 
@@ -38,7 +38,7 @@ void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_bui
 		{
 			*exit_status = custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
 			*has_return = true;
-			return ;
+			return (-1);
 		}
 		else
 			custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
@@ -53,7 +53,7 @@ void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_bui
 		{
 			*exit_status = custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
 			*has_return = true;
-			return ;
+			return (-1);
 		}
 		else
 			custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
@@ -62,21 +62,22 @@ void	redirect_output_to_file(t_commands *cmds, char *file, char mode, int is_bui
 		*has_return = -1;
 	dup2(fd, STDOUT_FILENO);
 	close (fd);
+	return (0);
 }
 
-void	redirect_input_to_file(t_commands *cmds, char *file, int is_builtin, int *exit_status, int *has_return)
+int	redirect_input_to_file(t_commands *cmds, char *file, int is_builtin, int *exit_status, int *has_return)
 {
 	int fd;
 
-	// if (has_return && !is_builtin)
-	// 	*has_return = -2;
+	if (has_return && !is_builtin)
+		*has_return = -2;
 	if (!file || !file[0] || (cmds->quote_type == NO_QUOTE && has_space(file)))
 	{
 		if (is_builtin)
 		{
 			*exit_status = custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
 			*has_return = true;
-			return ;
+			return (-1);
 		}
 		else
 			custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
@@ -88,13 +89,14 @@ void	redirect_input_to_file(t_commands *cmds, char *file, int is_builtin, int *e
 		{
 			*exit_status = custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
 			*has_return = true;
-			return ;
+			return (-1);
 		}
 		else
 			custom_error(ERR_PERMISSION, file, EXIT_FAILURE, is_builtin);
 	}
 	dup2(fd, STDIN_FILENO);
 	close (fd);
+	return (0);
 }
 
 void	redirect_input_to_pipe(int read_pipe_end)

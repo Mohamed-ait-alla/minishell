@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 10:12:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:06:47 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ char	*get_tmp_file(void)
 	tmpfile = ft_strjoin("/tmp/", file_name);
 	i++;
 	return (tmpfile);
-}
-
-int	check_for_here_doc(char **av)
-{
-	int	i;
-
-	i = 1;
-	while (av[i])
-	{
-		if (ft_strncmp("<<", av[i], 2) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	is_builtin(char *cmd)
@@ -93,19 +79,6 @@ void	update_shell_level(t_exec_env *exec_env)
 		++value;
 		new_value = ft_itoa(value);
 		tmp = ft_strjoin("SHLVL=", new_value);
-		// free(exec_env->env[is_found]);
 		exec_env->env[is_found] = ft_strdup(tmp);
-		// free(new_value);
-		// free(tmp);
 	}
 }
-
-// void	free_double_array(char **arr)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (arr && arr[i])
-// 		free(arr[i++]);
-// 	free(arr);
-// }

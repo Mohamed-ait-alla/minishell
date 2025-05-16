@@ -17,7 +17,7 @@ SRCS = main.c \
 	   ../helper-functions/heredoc.c \
 	   ../helper-functions/heredoc_utils.c \
 	   ../helper-functions/ft_malloc.c \
-	   ../execution-part/main.c \
+	   ../execution-part/executor.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
 	   ../execution-part/redirect_io.c \
@@ -26,13 +26,15 @@ SRCS = main.c \
 	   ../execution-part/builtins/builtin_cd.c \
 	   ../execution-part/builtins/builtin_exit.c \
 	   ../execution-part/builtins/builtin_export.c \
-	   ../execution-part/builtins/export_utils.c \
+	   ../execution-part/builtins/export_utils_1.c \
+	   ../execution-part/builtins/export_utils_2.c \
 	   ../execution-part/builtins/builtin_env.c \
 	   ../execution-part/builtins/builtin_unset.c \
 	   ../execution-part/builtins/builtin_echo.c \
 	   ../execution-part/builtins/builtin_pwd.c \
 	   ../execution-part/utils.c \
 	   ../execution-part/signals.c \
+	   ../execution-part/here_doc_signals.c \
 	   
 
 LIBFT_DIR = ../libft
