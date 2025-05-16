@@ -16,6 +16,7 @@ SRCS = main.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \
 	   ../execution-part/redirect_io.c \
+	   ../execution-part/redirect_io_utils.c \
 	   ../execution-part/run_builtin_commands.c \
 	   ../execution-part/run_external_commands.c \
 	   ../execution-part/builtins/builtin_cd.c \

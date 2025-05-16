@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 22:21:42 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/16 21:56:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,17 @@ typedef struct s_exec_env
 	char					**env;
 }							t_exec_env;
 
+typedef struct s_exec_pipe
+{
+							int	index;
+							int n_of_cmds;
+							int	is_builtin;
+							int	has_return;
+							int	*pids;
+							int	(*pipes)[2];
+}							t_exec_pipe;
+
+
 //       parsing-part function's declaration
 int							custom_error(char *err_msg, char *arg,
 								int exit_code, int is_builtin);
@@ -122,28 +133,22 @@ int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
 
 //						#________redirections________#
-int						redirect_output_to_file(t_commands *cmds,
-								char *file, char mode, int is_builtin,
+int						redirect_output_to_file(t_commands *cmds, int is_builtin,
 								int *exit_status, int *has_return);
 void						redirect_output_to_pipe(int write_pipe_end);
-int						redirect_input_to_file(t_commands *cmds, char *file,
+int						redirect_input_to_file(t_commands *cmds,
 								int is_builtin, int *exit_status,
 								int *has_return);
 void						redirect_input_to_file_here_doc(char *here_doc_file);
 char						*get_tmp_file(void);
-int							check_for_here_doc(char **av);
 void						redirect_input_to_pipe(int read_pipe_end);
-int						check_for_redirections(t_commands *cmds,
-								char *tmpfile, int is_builtin, int *has_return);
+int						check_for_redirections(t_commands *cmds, int is_builtin, int *has_return);
 
 //						#________pipes________#
-bool						check_for_pipes(char **av);
-void						handle_pipes(t_commands *cmds, char *tmpfile,
+void						handle_pipes(t_commands *cmds,
 								int n_of_cmds, t_exec_env *exec_env);
 void						close_unused_pipes(int pipes[][2], int n_of_pipes,
 								int except);
-// int		calculate_number_of_pipes(char **av);
-// bool	check_for_pipes(char **av);
 
 //						#________external commands________#
 void						execute_command(t_commands *cmds, char **args,
