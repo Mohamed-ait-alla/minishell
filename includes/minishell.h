@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 10:26:00 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/16 22:05:15 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ int							custom_error(char *err_msg, char *arg,
 t_token						*tokenize_input(char *input);
 int							ft_strncmp(const char *s1, const char *s2,
 								size_t n);
+t_token_type				get_token_type(char *value);
+char						*process_input(char *input, int *i,
+								t_quote_type *quote_type);
 t_commands					*parse_tokens(t_token *tokens);
 int							check_cmds(t_token *tokens);
 char						**ft_realloc_array(char **arr, char *new_str);
@@ -110,9 +113,29 @@ t_env						*init_env(char **env);
 char						*get_env_value(t_env *env, char *key);
 void						expand_variables_and_remove_quotes(t_token *tokens,
 								t_env *env);
-int							heredoc(t_commands *cmd, t_env *env);
+char						*ft_strjoin_char(char *str, char c);
+char						*case_of_squote(char *word, int *i, char *result);
+char						*case_of_dquote(char *word, int *i, char *result,
+								t_env *env);
+char						*case_of_normal_var(char *word, int *i,
+								char *result, t_env *env);
+char						*case_of_var_with_next_char_squote(char *word,
+								int *i, char *result);
+char						*case_of_var_with_next_char_dquote(char *word,
+								int *i, char *result);
+char						*case_of_var_with_next_char_digit(char *word,
+								int *i, char *result);
+char						*case_of_var_with_exit_status(int *i, char *result);
+char						*case_of_word(char *word, int *i, char *result);
+int							heredoc(t_commands *cmds, t_env *env);
+int							count_here_doc(t_commands *cmds, char ***files);
+int							count_redirections(t_commands *cmds);
+char						*expand_the_heredoc(char *input_heredoc,
+								t_commands *cmd_list, t_env *env);
+void						ignore_ctrl_c_with_exit_status(int pid,
+								int *status);
+void						unlink_files(int total_here_doc, char **files);
 void						*ft_malloc(size_t size, int mode);
-char						*get_next_line(int fd);
 
 //       execution-part function's declaration
 
