@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   process_input.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 14:43:44 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 21:44:03 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/15 15:11:24 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/15 15:11:52 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../includes/minishell.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+char	*process_input(char *input, int *i, t_quote_type *quote_type)
+{
+	char	*value;
 
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "../includes/minishell.h"
-
-char	*get_next_line(int fd);
-#endif
+	if (input[*i] == '|' || input[*i] == '>' || input[*i] == '<')
+		value = get_operator(input, i, quote_type);
+	else
+		value = get_word(input, i, quote_type);
+	if (!value)
+		return (NULL);
+	return (value);
+}

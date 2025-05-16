@@ -3,15 +3,20 @@ NAME = minishell
 SRCS = main.c \
        ../helper-functions/custom_error.c \
        ../helper-functions/tokenizer.c \
+       ../helper-functions/get_token_type.c \
+       ../helper-functions/process_input.c \
        ../helper-functions/parse_tokens.c \
        ../helper-functions/check_cmds.c \
 	   ../helper-functions/ft_realloc_array.c \
 	   ../helper-functions/init_env.c \
 	   ../helper-functions/get_env_value.c \
 	   ../helper-functions/expand_variables_and_remove_quotes.c \
+	   ../helper-functions/cases_of_expanding.c \
+	   ../helper-functions/cases_of_expanding_plus.c \
+	   ../helper-functions/ft_strjoin_char.c \
 	   ../helper-functions/heredoc.c \
+	   ../helper-functions/heredoc_utils.c \
 	   ../helper-functions/ft_malloc.c \
-	   ../get_next_line/get_next_line.c \
 	   ../execution-part/executor.c \
 	   ../execution-part/pipes_execution.c \
 	   ../execution-part/pipes_utils.c \

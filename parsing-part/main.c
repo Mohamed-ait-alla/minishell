@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 22:21:24 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:07:41 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// }
 	// store the env variables in the env list
 	env_list = init_env(exec_env->env);
-	// // print env list
+	// print env list
 	// tmp_env = env_list;
 	// while (tmp_env)
 	// {
@@ -88,7 +88,7 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// 		printf("Env: %s\n", tmp_env->key);
 	// 	tmp_env = tmp_env->next;
 	// }
-	// // print value of env
+	// print value of env
 	// value_of_env = get_env_value(env_list, "USER");
 	// if (value_of_env)
 	// 	printf("value of env: %s\n", value_of_env);
