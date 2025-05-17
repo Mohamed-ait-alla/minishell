@@ -6,54 +6,66 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/16 20:27:00 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:08:23 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	setup_redirections_and_broken_pipes(t_commands *cmds, t_exec_pipe *t_pipe)
+static int	handle_output_redirections(t_redirections *redirections,
+										t_commands *cmds)
 {
-	int	broken_condition;
+	t_redirections	*current;
+	int				fd;
+	int				redirected;
 
-	broken_condition = -1;
-	check_for_redirections(cmds, t_pipe->is_builtin, &t_pipe->has_return);
-	if (t_pipe->index == 0)
-		broken_condition = t_pipe->has_return == 1 || t_pipe->has_return == -1
-			|| (t_pipe->has_return == -2 && t_pipe->is_builtin);
-	else
-		broken_condition = t_pipe->has_return || t_pipe->has_return == -1
-			|| t_pipe->has_return == -2;
-	if (broken_condition)
+	redirected = 0;
+	if (!redirections)
+		return (0);
+	current = redirections;
+	while (current)
 	{
-		if (t_pipe->has_return == -1)
-			t_pipe->has_return = false;
-		return (-1);
+		if (current->type == TOKEN_REDIRECT_OUT)
+		{
+			redirect_output_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirected = 1;
+		}
+		else if (current->type == TOKEN_APPEND)
+		{
+			redirect_output_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirected = 1;
+		}
+		current = current->next;
 	}
-	return (0);
+	return (redirected);
 }
 
 static void	configure_pipeline_io(t_commands *cmds, int (*pipes)[2],
 									t_exec_pipe *t_pipe)
 {
+	int (redirected_in), (redirected_out);
 	if (t_pipe->index == 0)
 	{
-		if (setup_redirections_and_broken_pipes(cmds, t_pipe) < 0)
-			return ;
-		redirect_output_to_pipe(pipes[t_pipe->index][1]);
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		redirected_out = handle_output_redirections(cmds->redirections, cmds);
+		if (!redirected_out)
+			redirect_output_to_pipe(pipes[t_pipe->index][1]);
 	}
 	else if (t_pipe->index == t_pipe->n_of_cmds - 1)
 	{
-		if (setup_redirections_and_broken_pipes(cmds, t_pipe) < 0)
-			return ;
-		redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		if (!redirected_in)
+			redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
+		handle_output_redirections(cmds->redirections, cmds);
 	}
 	else
 	{
-		if (setup_redirections_and_broken_pipes(cmds, t_pipe) < 0)
-			return ;
-		redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
-		redirect_output_to_pipe(pipes[t_pipe->index][1]);
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		if (!redirected_in)
+			redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
+		redirected_out = handle_output_redirections(cmds->redirections, cmds);
+		if (!redirected_out)
+			redirect_output_to_pipe(pipes[t_pipe->index][1]);
 	}
 }
 

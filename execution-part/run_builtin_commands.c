@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 11:05:34 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:19:47 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,7 @@ int	search_for_env_var(char **env, char *var)
 	while (env && env[i])
 	{
 		if (ft_strncmp(var, env[i], ft_strlen(var)) == 0)
-		{
-			// if (ft_get_env_len(env) == 3)
-			// 	return (-1);
-			// else
-				return (i);
-		}
+			return (i);
 		i++;
 	}
 	return (0);

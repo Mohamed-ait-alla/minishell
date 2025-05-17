@@ -6,11 +6,38 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/16 20:27:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:04:06 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	handle_input_redirections(t_redirections *redirections, t_commands *cmds)
+{
+	t_redirections	*current;
+	int				fd;
+	int				redirected;
+
+	redirected = 0;
+	if (!redirections)
+		return (0);
+	current = redirections;
+	while (current)
+	{
+		if (current->type == TOKEN_REDIRECT_IN)
+		{
+			redirect_input_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirected = 1;
+		}
+		else if (current->type == TOKEN_HEREDOC)
+		{
+			redirect_input_to_file_here_doc(cmds->here_doc_file);
+			redirected = 1;
+		}
+		current = current->next;
+	}
+	return (redirected);
+}
 
 void	close_unused_pipes(int (*pipes)[2], int n_of_pipes, int except)
 {
