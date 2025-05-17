@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 22:06:47 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:31:48 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,20 @@ void	update_shell_level(t_exec_env *exec_env)
 	if (is_found)
 	{
 		value = ft_atoi(ft_strchr(exec_env->env[is_found], '=') + 1);
-		++value;
-		new_value = ft_itoa(value);
-		tmp = ft_strjoin("SHLVL=", new_value);
-		exec_env->env[is_found] = ft_strdup(tmp);
+		if (value < 0)
+			ft_strdup("SHLVL=0");
+		else if (value > 999)
+		{
+			printf("%s%d%s", "minishell: warning: shell level(",
+				value, ") too high, resetting to 1\n");
+			exec_env->env[is_found] = ft_strdup("SHLVL=1");
+		}
+		else
+		{
+			++value;
+			new_value = ft_itoa(value);
+			tmp = ft_strjoin("SHLVL=", new_value);
+			exec_env->env[is_found] = ft_strdup(tmp);
+		}
 	}
 }
