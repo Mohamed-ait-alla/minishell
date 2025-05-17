@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/17 10:04:01 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:18:32 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 extern int					g_exit_status;
@@ -144,7 +144,7 @@ int							heredoc(t_commands *cmds, t_env *env);
 int							count_here_doc(t_commands *cmds, char ***files);
 int							count_redirections(t_commands *cmds);
 char						*expand_the_heredoc(char *input_heredoc,
-								t_commands *cmd_list, t_env *env);
+								t_env *env);
 void						ignore_ctrl_c_with_exit_status(int pid,
 								int *status);
 void						unlink_files(int total_here_doc, char **files);

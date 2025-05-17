@@ -6,14 +6,13 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:23:39 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 21:59:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 14:59:16 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
-		t_env *env)
+char	*expand_the_heredoc(char *input_heredoc, t_env *env)
 {
 	char	*result;
 	int		i;
@@ -26,6 +25,10 @@ char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
 			&& (ft_isalpha(input_heredoc[i + 1]) || input_heredoc[i
 					+ 1] == '_'))
 			result = case_of_normal_var(input_heredoc, &i, result, env);
+		else if (input_heredoc[i] == '$' && input_heredoc[i + 1] && ft_isdigit(input_heredoc[i + 1]))
+			result = case_of_var_with_next_char_digit(input_heredoc, &i, result);
+		else if (input_heredoc[i] == '$' && input_heredoc[i + 1] && input_heredoc[i + 1] == '?')
+			result = case_of_var_with_exit_status(&i, result);
 		else
 			result = case_of_word(input_heredoc, &i, result);
 	}
