@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 22:07:50 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 12:58:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 extern int					g_exit_status;
@@ -132,7 +132,7 @@ int							heredoc(t_commands *cmds, t_env *env);
 int							count_here_doc(t_commands *cmds, char ***files);
 int							count_redirections(t_commands *cmds);
 char						*expand_the_heredoc(char *input_heredoc,
-								t_commands *cmd_list, t_env *env);
+								t_env *env);
 void						ignore_ctrl_c_with_exit_status(int pid,
 								int *status);
 void						unlink_files(int total_here_doc, char **files);
@@ -145,18 +145,18 @@ int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
 
 //						#________redirections________#
-int						redirect_output_to_file(t_commands *cmds,
+int							redirect_output_to_file(t_commands *cmds,
 								char *file, char mode, int is_builtin,
 								int *exit_status, int *has_return);
 void						redirect_output_to_pipe(int write_pipe_end);
-int						redirect_input_to_file(t_commands *cmds, char *file,
+int							redirect_input_to_file(t_commands *cmds, char *file,
 								int is_builtin, int *exit_status,
 								int *has_return);
 void						redirect_input_to_file_here_doc(char *here_doc_file);
 char						*get_tmp_file(void);
 int							check_for_here_doc(char **av);
 void						redirect_input_to_pipe(int read_pipe_end);
-int						check_for_redirections(t_commands *cmds,
+int							check_for_redirections(t_commands *cmds,
 								char *tmpfile, int is_builtin, int *has_return);
 
 //						#________pipes________#

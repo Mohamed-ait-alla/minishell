@@ -6,14 +6,14 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 22:01:53 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 13:12:07 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 static void	write_in_here_doc_file(t_commands *cmd, t_redirections *redir,
-		int local_idx, t_env *env, int fd)
+		t_env *env, int fd)
 {
 	char	*line;
 
@@ -23,25 +23,26 @@ static void	write_in_here_doc_file(t_commands *cmd, t_redirections *redir,
 		if (!line || ft_strcmp(line, redir->file) == 0)
 		{
 			if (!line)
-				printf("minishell: warning: here-document at line "
-					"%d delimited by end-of-file (wanted `%s')\n",
-					local_idx + 1,
+				printf("minishell: warning: here-document "
+					"delimited by end-of-file (wanted `%s')\n",
 					redir->file);
 			break ;
 		}
 		if (cmd->quote_type == NO_QUOTE)
-			line = expand_the_heredoc(line, cmd, env);
+			line = expand_the_heredoc(line, env);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 	}
 }
 
-static void	handle_child_heredoc(t_commands *cmd, t_redirections *redir,
-		t_env *env, char **files, int start_idx)
+static void	handle_child_heredoc(t_commands *cmd, t_env *env, char **files,
+		int start_idx)
 {
-	int	fd;
-	int	local_idx;
+	t_redirections	*redir;
+	int				fd;
+	int				local_idx;
 
+	redir = cmd->redirections;
 	local_idx = start_idx;
 	while (redir)
 	{
@@ -53,7 +54,7 @@ static void	handle_child_heredoc(t_commands *cmd, t_redirections *redir,
 				perror("heredoc open");
 				exit(1);
 			}
-			write_in_here_doc_file(cmd, redir, local_idx, env, fd);
+			write_in_here_doc_file(cmd, redir, env, fd);
 			close(fd);
 			local_idx++;
 		}
@@ -78,8 +79,7 @@ static void	here_doc_process(t_commands *cmds, t_env *env, char **files)
 			if (pid == 0)
 			{
 				handle_here_doc_signals();
-				handle_child_heredoc(cmds, cmds->redirections, env, files,
-					start_idx);
+				handle_child_heredoc(cmds, env, files, start_idx);
 			}
 			ignore_ctrl_c_with_exit_status(pid, &status);
 			cmds->here_doc_file = ft_strdup(files[start_idx + nredir - 1]);

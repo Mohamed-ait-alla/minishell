@@ -6,14 +6,13 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:23:39 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 21:59:49 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 12:58:01 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*expand_the_heredoc(char *input_heredoc, t_commands *cmd_list,
-		t_env *env)
+char	*expand_the_heredoc(char *input_heredoc, t_env *env)
 {
 	char	*result;
 	int		i;
