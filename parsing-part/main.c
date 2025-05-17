@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 22:07:41 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 10:05:21 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,36 @@ void	parsing_cmd(char *input, t_exec_env *exec_env)
 	// ft_malloc(0, 0);
 }
 
+char	**create_new_env(void)
+{
+	char	**new_env;
+	char	*tmp;
+	new_env = malloc(sizeof(char *) * 4);
+	if (!new_env)
+		return (NULL);
+	tmp = ft_strjoin("PWD=", getcwd(NULL, 0));
+	new_env[0] = ft_strdup(tmp);
+	new_env[1] = ft_strdup("SHLVL=1");
+	new_env[2] = ft_strdup("_=./minishell");
+	new_env[3] = NULL;
+	return (new_env);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	char		*input;
 	t_exec_env	envir;
 
-	envir.env = copy_env(envp);
+	if (!envp || !envp[0])
+	{
+		envir.env = create_new_env();
+		envir.is_created = 1;
+	}
+	else
+	{
+		envir.env = copy_env(envp);
+		envir.is_created = 0;
+	}
 	(void)av;
 	// check if we have any args
 	if (ac != 1)

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 21:42:26 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 11:05:25 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ int	builtin_pwd(char **env)
 
 	pwd_index = search_for_env_var(env, "PWD");
 	if (pwd_index)
-	{
 		printf("%s\n", env[pwd_index] + 4);
-		return (EXIT_SUCCESS);
-	}
-	return (EXIT_FAILURE);
+	else
+		printf("%s\n", getcwd(NULL, 0));
+	return (EXIT_SUCCESS);
 }
