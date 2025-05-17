@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/16 22:37:21 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 10:04:01 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_gc
 // for testing purposes
 typedef struct s_exec_env
 {
+	int						is_created;
 	char					**env;
 }							t_exec_env;
 
