@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 14:15:21 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:21:17 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int	handle_output_redirections(t_redirections *redirections,
 	{
 		if (current->type == TOKEN_REDIRECT_OUT)
 		{
+			cmds->redirections->file = current->file;
 			redirect_output_to_file(cmds, 0, &g_exit_status, NULL);
 			redirected = 1;
 		}
@@ -77,9 +78,9 @@ void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
 		configure_pipeline_io(cmd, pipes, t_pipe);
 		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
 		if (t_pipe->has_return)
-			exit (g_exit_status);
+			ft_exit(g_exit_status);
 		execute_builtin(cmd->args, exec_env, 0);
-		exit (g_exit_status);
+		ft_exit(g_exit_status);
 	}
 	else
 	{
@@ -87,7 +88,7 @@ void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
 		configure_pipeline_io(cmd, pipes, t_pipe);
 		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
 		if (t_pipe->index != t_pipe->n_of_cmds - 1 && cmd->heredoc && cmd->args)
-			exit (0);
+			ft_exit(0);
 		execute_command(cmd->args, exec_env->env);
 	}
 }

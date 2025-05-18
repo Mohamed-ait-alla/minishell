@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 20:31:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:34:02 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ int	builtin_exit(char	**args, int last_cmd_exit_status)
 		ft_putstr_fd("bash: exit: too many arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	return (ft_atoi(args[1]));
+	return ((unsigned char)ft_atoi(args[1]));
 }

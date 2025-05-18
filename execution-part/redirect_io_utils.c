@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:01:20 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 11:20:04 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 19:45:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	check_for_redirections(t_commands *cmds, int is_builtin, int *has_return)
 			if (has_return)
 				*has_return = 2;
 			redirect_input_to_file_here_doc(cmds->here_doc_file);
-			return (0);
 		}
 		cmds->redirections = cmds->redirections->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 13:48:53 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:15:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	launch_builtin_cmd(t_commands *cmds, t_exec_env *exec_env)
 	{
 		printf("exit\n");
 		ft_malloc(0, 0);
-		exit (g_exit_status);
+		ft_exit(g_exit_status);
 	}
 	dup2 (saved_stdout, STDOUT_FILENO);
 	dup2 (saved_stdin, STDIN_FILENO);

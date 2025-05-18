@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 15:08:36 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:16:34 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,5 +230,6 @@ int							ft_get_env_len(char **env);
 int							ft_get_env_var_len(char *env_var);
 int							ft_max(int value1, int value2);
 void						ft_swap(char **s1, char **s2);
+void						ft_exit(int nb);
 
 #endif

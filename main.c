@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 16:10:24 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:12:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	read_line_process(t_exec_env *env)
 		if (!input)
 		{
 			printf("exit\n");
+			ft_malloc(0, 0);
 			break ;
 		}
 		if (ft_strlen(input) > 0)
@@ -73,7 +74,6 @@ static void	read_line_process(t_exec_env *env)
 			continue ;
 		}
 		parsing_cmd(input, env);
-		free(input);
 	}
 }
 

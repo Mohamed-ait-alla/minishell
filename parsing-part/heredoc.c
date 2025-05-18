@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 15:09:05 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:20:38 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	handle_child_heredoc(t_commands *cmd, t_env *env, char **files,
 			if (fd < 0)
 			{
 				perror("heredoc open");
+				ft_malloc(0, 0);
 				exit(1);
 			}
 			write_in_here_doc_file(cmd, redir, env, fd);
@@ -60,6 +61,7 @@ static void	handle_child_heredoc(t_commands *cmd, t_env *env, char **files,
 		}
 		redir = redir->next;
 	}
+	ft_malloc(0, 0);
 	exit(0);
 }
 
