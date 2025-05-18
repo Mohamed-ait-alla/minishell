@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:04:06 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:48:19 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ int	handle_input_redirections(t_redirections *redirections, t_commands *cmds)
 		}
 		else if (current->type == TOKEN_HEREDOC)
 		{
+			if(!cmds->args && cmds->heredoc)
+				return (0);
 			redirect_input_to_file_here_doc(cmds->here_doc_file);
+			return (1);
 			redirected = 1;
 		}
 		current = current->next;

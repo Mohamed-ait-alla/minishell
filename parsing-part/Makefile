@@ -2,6 +2,7 @@ NAME = minishell
 
 SRCS = main.c \
        ../helper-functions/custom_error.c \
+       ../helper-functions/is_only_spaces.c \
        ../helper-functions/tokenizer.c \
        ../helper-functions/get_token_type.c \
        ../helper-functions/process_input.c \

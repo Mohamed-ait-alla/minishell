@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_io.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 13:41:42 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/17 19:54:15 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,17 @@ void	redirect_output_to_pipe(int write_pipe_end)
 	close (write_pipe_end);
 }
 
-void	redirect_input_to_file_here_doc(char *here_doc_file)
+void	redirect_input_to_file_here_doc(char *heredoc_file)
 {
 	int	fd;
 
-	fd = open (here_doc_file, O_RDONLY);
+	fd = open (heredoc_file, O_RDONLY);
 	if (fd < 0)
 	{
 		perror("error occured while opening here doc file: ");
 		return ;
 	}
-	if (unlink(here_doc_file) == -1)
+	if (unlink(heredoc_file) == -1)
 	{
 		perror("error occured while removing here_doc file: ");
 		return ;
