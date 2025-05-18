@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/16 22:32:15 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:17:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ int	launch_execution(t_commands *cmds, t_exec_env *exec_env)
 		else
 			launch_external_cmd(cmds, exec_env);
 	}
+	return (0);
 }

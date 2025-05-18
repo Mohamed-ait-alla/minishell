@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:08:23 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:24:16 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static int	handle_output_redirections(t_redirections *redirections,
 	{
 		if (current->type == TOKEN_REDIRECT_OUT)
 		{
-			redirect_output_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirect_output_to_file(cmds, 0, &g_exit_status, NULL);
 			redirected = 1;
 		}
 		else if (current->type == TOKEN_APPEND)
 		{
-			redirect_output_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirect_output_to_file(cmds, 0, &g_exit_status, NULL);
 			redirected = 1;
 		}
 		current = current->next;

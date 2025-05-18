@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:04:06 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 10:49:29 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	handle_input_redirections(t_redirections *redirections, t_commands *cmds)
 	{
 		if (current->type == TOKEN_REDIRECT_IN)
 		{
-			redirect_input_to_file(cmds, NULL, &g_exit_status, NULL);
+			redirect_input_to_file(cmds, 0, &g_exit_status, NULL);
 			redirected = 1;
 		}
 		else if (current->type == TOKEN_HEREDOC)
