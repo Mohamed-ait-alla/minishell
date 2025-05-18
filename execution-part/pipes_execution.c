@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 11:28:44 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 14:15:21 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
 		t_pipe->is_builtin = false;
 		configure_pipeline_io(cmd, pipes, t_pipe);
 		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
+		if (t_pipe->index != t_pipe->n_of_cmds - 1 && cmd->heredoc && cmd->args)
+			exit (0);
 		execute_command(cmd->args, exec_env->env);
 	}
 }

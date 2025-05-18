@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:23:39 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/17 19:46:09 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 15:08:29 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,18 @@ int	count_redirections(t_commands *cmds)
 	return (total);
 }
 
-void	ignore_ctrl_c_with_exit_status(int pid, int *status)
+void	ign_ctrl_c_with_exit_status(int pid, int *status, int *signal_detected)
 {
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, status, 0);
-	g_exit_status = WEXITSTATUS(*status);
-	if (WIFSIGNALED(*status))
+	g_exit_status = 130;
+	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
+	{
 		g_exit_status = 130;
+		*signal_detected = 1;
+		printf("\n");
+		return ;
+	}
 }
 
 void	unlink_files(int total_here_doc, char **files)

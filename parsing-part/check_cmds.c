@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 11:46:47 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 14:53:54 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 14:35:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_cmds(t_token *tokens)
 	tmp_tokens = tokens;
 	while (tmp_tokens)
 	{
+		if (tmp_tokens->type == TOKEN_PIPE && tmp_tokens->next == NULL)
+			return (0);
 		if (tmp_tokens->type == TOKEN_PIPE)
 		{
 			tmp_tokens = tmp_tokens->next;

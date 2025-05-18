@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/17 13:12:07 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 15:09:05 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	here_doc_process(t_commands *cmds, t_env *env, char **files)
 {
 	int (pid), (status), (nredir), (idx), (start_idx);
 	idx = 0;
+	status = 0;
 	while (cmds)
 	{
 		nredir = count_redirections(cmds);
@@ -78,13 +79,15 @@ static void	here_doc_process(t_commands *cmds, t_env *env, char **files)
 				return ;
 			if (pid == 0)
 			{
-				handle_here_doc_signals();
+				signal(SIGINT, SIG_DFL);
 				handle_child_heredoc(cmds, env, files, start_idx);
 			}
-			ignore_ctrl_c_with_exit_status(pid, &status);
+			ign_ctrl_c_with_exit_status(pid, &status, &cmds->signal_detected);
 			cmds->here_doc_file = ft_strdup(files[start_idx + nredir - 1]);
 			idx = start_idx + nredir;
 		}
+		if (cmds->signal_detected)
+			break ;
 		cmds = cmds->next;
 	}
 }

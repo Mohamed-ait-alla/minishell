@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 11:40:43 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 15:08:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_commands
 	int						exit_status;
 	int						append;
 	int						heredoc;
+	int						signal_detected;
 	char					*here_doc_file;
 	t_quote_type			quote_type;
 	t_redirections			*redirections;
@@ -146,8 +147,8 @@ int							count_here_doc(t_commands *cmds, char ***files);
 int							count_redirections(t_commands *cmds);
 char						*expand_the_heredoc(char *input_heredoc,
 								t_env *env);
-void						ignore_ctrl_c_with_exit_status(int pid,
-								int *status);
+void						ign_ctrl_c_with_exit_status(int pid,
+								int *status, int *signal_detected);
 void						unlink_files(int total_here_doc, char **files);
 void						*ft_malloc(size_t size, int mode);
 

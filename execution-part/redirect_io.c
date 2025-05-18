@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:32:45 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:54:15 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:53:33 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ void	redirect_input_to_file_here_doc(char *heredoc_file)
 
 	fd = open (heredoc_file, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("error occured while opening here doc file: ");
 		return ;
-	}
 	if (unlink(heredoc_file) == -1)
 	{
 		perror("error occured while removing here_doc file: ");

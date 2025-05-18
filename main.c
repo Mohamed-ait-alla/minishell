@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 11:45:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 13:46:39 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	run_here_doc(t_commands *cmd_list, t_env *env_list)
 		printf("Error: heredoc failed\n");
 		return (0);
 	}
+	if (cmd_list->signal_detected)
+		return (0);
 	return (1);
 }
 
