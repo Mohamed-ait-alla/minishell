@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 22:18:54 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:27:09 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	*get_exec_path(char **env, char *cmd)
 	return (get_path_name(cmd, env));
 }
 
-void	execute_command(t_commands *cmds, char **args, char **env)
+void	execute_command(char **args, char **env)
 {
 	char	*path;
 

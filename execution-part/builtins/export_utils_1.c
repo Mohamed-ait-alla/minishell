@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 22:20:43 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 21:45:37 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:29:41 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	add_var_to_env(t_exec_env *exec_env, char *var)
 	exec_env->env = new_env;
 }
 
-void	append_env_var(t_exec_env *exec_env, char *new_key,
-						char *new_value, int is_found)
+void	append_env_var(t_exec_env *exec_env, char *new_value, int is_found)
 {
 	char	*key;
 	char	*value;

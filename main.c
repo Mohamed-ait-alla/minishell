@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 10:52:43 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:45:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "includes/minishell.h"
 
 int			g_exit_status;
 
@@ -21,6 +21,7 @@ static int	run_here_doc(t_commands *cmd_list, t_env *env_list)
 		printf("Error: heredoc failed\n");
 		return (0);
 	}
+	return (1);
 }
 
 static void	parsing_cmd(char *input, t_exec_env *exec_env)
@@ -92,7 +93,6 @@ static char	**create_new_env(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	char		*input;
 	t_exec_env	envir;
 
 	if (!envp || !envp[0])
@@ -113,4 +113,5 @@ int	main(int ac, char **av, char **envp)
 	read_line_process(&envir);
 	ft_malloc(0, 0);
 	clear_history();
+	return (0);
 }

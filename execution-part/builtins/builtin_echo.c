@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:29 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 20:28:36 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:32:10 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	set_echo_flags(int *i, int *is_option, int *offset)
 	*offset = 2;
 }
 
-int	builtin_echo(char **args, char **env)
+int	builtin_echo(char **args)
 {
 	int	i;
 	int	offset;

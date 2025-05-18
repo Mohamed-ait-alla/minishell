@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 11:19:47 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:32:26 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	execute_builtin(char **args, t_exec_env *exec_env, int last_cmd_exit_status)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (builtin_unset(args, exec_env->env, exec_env->is_created));
 	else if (ft_strcmp(args[0], "echo") == 0)
-		return (builtin_echo(args, exec_env->env));
+		return (builtin_echo(args));
 	else if (ft_strcmp(args[0], "export") == 0)
 		return (builtin_export(args, exec_env));
+	return (0);
 }

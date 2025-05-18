@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:01:20 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:00:33 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:20:04 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	handle_ambigous_redirect(int is_builtin, int *has_return, int *exit_status)
 	}
 	else
 		custom_error(ERR_AMBIG_REDIRECT, "$...", EXIT_FAILURE, is_builtin);
+	return (0);
 }
 
 int	handle_open_errors(t_commands *cmds, int is_builtin,
@@ -89,4 +90,5 @@ int	handle_open_errors(t_commands *cmds, int is_builtin,
 	else
 		custom_error(ERR_PERMISSION, cmds->redirections->file,
 			EXIT_FAILURE, is_builtin);
+	return (0);
 }

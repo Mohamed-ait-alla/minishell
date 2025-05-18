@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/17 20:14:12 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:40:43 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "../libft/libft.h"
 # include <fcntl.h>
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -110,6 +111,10 @@ int							custom_error(char *err_msg, char *arg,
 								int exit_code, int is_builtin);
 int							is_only_spaces(char *input);
 t_token						*tokenize_input(char *input);
+char						*get_operator(char *input, int *i,
+								t_quote_type *quote_type);
+char						*get_word(char *input, int *i,
+								t_quote_type *quote_type);
 int							ft_strncmp(const char *s1, const char *s2,
 								size_t n);
 t_token_type				get_token_type(char *value);
@@ -161,13 +166,26 @@ char						*get_tmp_file(void);
 void						redirect_input_to_pipe(int read_pipe_end);
 int							check_for_redirections(t_commands *cmds,
 								int is_builtin, int *has_return);
+bool						has_space(char *str);
+int							handle_ambigous_redirect(int is_builtin,
+								int *has_return, int *exit_status);
+int							set_output_flags(t_commands *cmd);
+int							handle_open_errors(t_commands *cmds, int is_builtin,
+								int *has_return, int *exit_status);
 
 void						handle_pipes(t_commands *cmds, int n_of_cmds,
 								t_exec_env *exec_env);
 void						close_unused_pipes(int (*pipes)[2], int n_of_pipes,
 								int except);
+int							handle_input_redirections(
+								t_redirections *redirections,
+								t_commands *cmds);
+void						wait_for_childs(int *pids, int n_of_cmds);
+void						allocate_pipes_and_pids(int (**pipes)[2],
+								int **pids, int n_of_cmds);
+void						create_pipes(int (*pipes)[2], int n_of_cmds);
 
-void						execute_command(t_commands *cmds, char **args,
+void						execute_command(char **args,
 								char **env);
 
 int							is_builtin(char *cmd);
@@ -191,5 +209,25 @@ void						update_shell_level(t_exec_env *exec_env);
 void						handle_parent_signals(void);
 void						handle_child_signals(void);
 void						handle_here_doc_signals(void);
+
+int							builtin_cd(char **args, char **env, int is_created);
+int							builtin_echo(char **args);
+int							builtin_env(char **env);
+int							builtin_exit(char	**args,
+								int last_cmd_exit_status);
+int							builtin_export(char **args, t_exec_env *exec_env);
+int							builtin_pwd(char **env);
+int							builtin_unset(char **args, char **env,
+								int is_created);
+void						add_var_to_env(t_exec_env *exec_env, char *var);
+void						append_env_var(t_exec_env *exec_env,
+								char *new_value, int is_found);
+void						sort_env(char **env);
+void						print_sorted_env(t_exec_env *exec_env);
+bool						is_valid_identifier(char *arg);
+int							ft_get_env_len(char **env);
+int							ft_get_env_var_len(char *env_var);
+int							ft_max(int value1, int value2);
+void						ft_swap(char **s1, char **s2);
 
 #endif

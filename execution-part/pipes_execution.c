@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 10:24:16 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:28:44 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	handle_output_redirections(t_redirections *redirections,
 										t_commands *cmds)
 {
 	t_redirections	*current;
-	int				fd;
 	int				redirected;
 
 	redirected = 0;
@@ -87,7 +86,7 @@ void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
 		t_pipe->is_builtin = false;
 		configure_pipeline_io(cmd, pipes, t_pipe);
 		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
-		execute_command(cmd, cmd->args, exec_env->env);
+		execute_command(cmd->args, exec_env->env);
 	}
 }
 
@@ -117,7 +116,7 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds,
 		tmp = tmp -> next;
 	}
 	close_unused_pipes(t_pipe->pipes, n_of_cmds - 1, -1);
-	wait_for_childs(cmds, t_pipe->pids, n_of_cmds);
+	wait_for_childs(t_pipe->pids, n_of_cmds);
 }
 
 void	handle_pipes(t_commands *cmds, int n_of_cmds, t_exec_env *exec_env)

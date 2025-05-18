@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 10:55:16 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:14:30 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	handle_input_redirections(t_redirections *redirections, t_commands *cmds)
 {
 	t_redirections	*current;
-	int				fd;
 	int				redirected;
 
 	redirected = 0;
@@ -31,11 +30,10 @@ int	handle_input_redirections(t_redirections *redirections, t_commands *cmds)
 		}
 		else if (current->type == TOKEN_HEREDOC)
 		{
-			if(!cmds->args && cmds->heredoc)
+			if (!cmds->args && cmds->heredoc)
 				return (0);
 			redirect_input_to_file_here_doc(cmds->here_doc_file);
 			return (1);
-			redirected = 1;
 		}
 		current = current->next;
 	}
@@ -58,7 +56,7 @@ void	close_unused_pipes(int (*pipes)[2], int n_of_pipes, int except)
 	}
 }
 
-void	wait_for_childs(t_commands *cmds, int *pids, int n_of_cmds)
+void	wait_for_childs(int *pids, int n_of_cmds)
 {
 	int	status;
 	int	i;

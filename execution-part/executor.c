@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 10:17:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:28:15 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	launch_external_cmd(t_commands *cmds, t_exec_env *exec_env)
 	{
 		handle_child_signals();
 		check_for_redirections(cmds, false, NULL);
-		execute_command(cmds, cmds->args, exec_env->env);
+		execute_command(cmds->args, exec_env->env);
 	}
 	signal (SIGINT, SIG_IGN);
 	waitpid(pid, &status, 0);

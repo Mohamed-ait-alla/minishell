@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 21:57:02 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/18 11:31:39 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
 	new_key = ft_substr(var, 0, new_value - 2 - var);
 	is_found = search_for_env_var(exec_env->env, new_key);
 	if (is_found)
-		append_env_var(exec_env, new_key, new_value, is_found);
+		append_env_var(exec_env, new_value, is_found);
 	else
 	{
 		holder = ft_strjoin(new_key, "=");

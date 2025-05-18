@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cases_of_expanding.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:05:25 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 18:11:15 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/18 11:10:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ char	*case_of_squote(char *word, int *i, char *result)
 
 char	*case_of_dquote(char *word, int *i, char *result, t_env *env)
 {
-	int	start;
-
-	char *(key), *(value), *(tmp);
 	(*i)++;
 	while (word[*i] && word[*i] != '"')
 	{
