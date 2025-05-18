@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/17 13:18:32 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:14:12 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ typedef struct s_commands
 {
 	char					**args;
 	char					**env;
-	// char					**input_file;
-	// char					**output_file;
 	int						exit_status;
 	int						append;
 	int						heredoc;
@@ -92,7 +90,6 @@ typedef struct s_gc
 	struct s_gc				*next;
 }							t_gc;
 
-// for testing purposes
 typedef struct s_exec_env
 {
 	int						is_created;
@@ -101,18 +98,17 @@ typedef struct s_exec_env
 
 typedef struct s_exec_pipe
 {
-							int	index;
-							int n_of_cmds;
-							int	is_builtin;
-							int	has_return;
-							int	*pids;
-							int	(*pipes)[2];
+	int						index;
+	int						n_of_cmds;
+	int						is_builtin;
+	int						has_return;
+	int						*pids;
+	int						(*pipes)[2];
 }							t_exec_pipe;
 
-
-//       parsing-part function's declaration
 int							custom_error(char *err_msg, char *arg,
 								int exit_code, int is_builtin);
+int							is_only_spaces(char *input);
 t_token						*tokenize_input(char *input);
 int							ft_strncmp(const char *s1, const char *s2,
 								size_t n);
@@ -150,35 +146,30 @@ void						ignore_ctrl_c_with_exit_status(int pid,
 void						unlink_files(int total_here_doc, char **files);
 void						*ft_malloc(size_t size, int mode);
 
-//       execution-part function's declaration
-
-//						#________ functions used for only testing purposes ________#
 int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
 
-//						#________redirections________#
-int						redirect_output_to_file(t_commands *cmds, int is_builtin,
-								int *exit_status, int *has_return);
-void						redirect_output_to_pipe(int write_pipe_end);
-int						redirect_input_to_file(t_commands *cmds,
+int							redirect_output_to_file(t_commands *cmds,
 								int is_builtin, int *exit_status,
 								int *has_return);
-void						redirect_input_to_file_here_doc(char *here_doc_file);
+void						redirect_output_to_pipe(int write_pipe_end);
+int							redirect_input_to_file(t_commands *cmds,
+								int is_builtin, int *exit_status,
+								int *has_return);
+void						redirect_input_to_file_here_doc(char *heredoc_file);
 char						*get_tmp_file(void);
 void						redirect_input_to_pipe(int read_pipe_end);
-int						check_for_redirections(t_commands *cmds, int is_builtin, int *has_return);
+int							check_for_redirections(t_commands *cmds,
+								int is_builtin, int *has_return);
 
-//						#________pipes________#
-void						handle_pipes(t_commands *cmds,
-								int n_of_cmds, t_exec_env *exec_env);
-void						close_unused_pipes(int pipes[][2], int n_of_pipes,
+void						handle_pipes(t_commands *cmds, int n_of_cmds,
+								t_exec_env *exec_env);
+void						close_unused_pipes(int (*pipes)[2], int n_of_pipes,
 								int except);
 
-//						#________external commands________#
 void						execute_command(t_commands *cmds, char **args,
 								char **env);
 
-//						#________built-in commands________#
 int							is_builtin(char *cmd);
 int							execute_builtin(char **args, t_exec_env *exec_env,
 								int last_cmd_exit_status);
@@ -192,14 +183,11 @@ int							ft_max(int value1, int value2);
 int							ft_get_env_var_len(char *env_var);
 int							ft_get_env_len(char **env);
 
-//						#________errors________#
 void						manage_shell_errors(char *arg, char *path);
 
-//						#________utils________#
 char						**copy_env(char **envp);
 void						update_shell_level(t_exec_env *exec_env);
 
-//						#________signals________#
 void						handle_parent_signals(void);
 void						handle_child_signals(void);
 void						handle_here_doc_signals(void);
