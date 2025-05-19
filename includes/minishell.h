@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 20:16:34 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:51:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # define MAX_HEREDOCS 16
 # include "../libft/libft.h"
 # include <fcntl.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -53,6 +53,7 @@ typedef struct s_redirections
 {
 	char					*file;
 	t_token_type			type;
+	t_quote_type			quote_type;
 	struct s_redirections	*next;
 }							t_redirections;
 
@@ -103,9 +104,9 @@ typedef struct s_exec_pipe
 	int						index;
 	int						n_of_cmds;
 	int						is_builtin;
-	int						has_return;
+	int has_return ;
 	int						*pids;
-	int						(*pipes)[2];
+	int (*pipes)[2];
 }							t_exec_pipe;
 
 int							custom_error(char *err_msg, char *arg,
@@ -132,6 +133,8 @@ char						*ft_strjoin_char(char *str, char c);
 char						*case_of_squote(char *word, int *i, char *result);
 char						*case_of_dquote(char *word, int *i, char *result,
 								t_env *env);
+char						*case_of_normal_var_with_dquotes(char *word, int *i,
+								char *result, t_env *env);
 char						*case_of_normal_var(char *word, int *i,
 								char *result, t_env *env);
 char						*case_of_var_with_next_char_squote(char *word,
@@ -147,10 +150,11 @@ int							count_here_doc(t_commands *cmds, char ***files);
 int							count_redirections(t_commands *cmds);
 char						*expand_the_heredoc(char *input_heredoc,
 								t_env *env);
-void						ign_ctrl_c_with_exit_status(int pid,
-								int *status, int *signal_detected);
+void						ign_ctrl_c_with_exit_status(int pid, int *status,
+								int *signal_detected);
 void						unlink_files(int total_here_doc, char **files);
 void						*ft_malloc(size_t size, int mode);
+void						print_error(char *msg);
 
 int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
@@ -178,16 +182,14 @@ void						handle_pipes(t_commands *cmds, int n_of_cmds,
 								t_exec_env *exec_env);
 void						close_unused_pipes(int (*pipes)[2], int n_of_pipes,
 								int except);
-int							handle_input_redirections(
-								t_redirections *redirections,
+int							handle_input_redirections(t_redirections *redirections,
 								t_commands *cmds);
 void						wait_for_childs(int *pids, int n_of_cmds);
 void						allocate_pipes_and_pids(int (**pipes)[2],
 								int **pids, int n_of_cmds);
 void						create_pipes(int (*pipes)[2], int n_of_cmds);
 
-void						execute_command(char **args,
-								char **env);
+void						execute_command(char **args, char **env);
 
 int							is_builtin(char *cmd);
 int							execute_builtin(char **args, t_exec_env *exec_env,
@@ -214,8 +216,7 @@ void						handle_here_doc_signals(void);
 int							builtin_cd(char **args, char **env, int is_created);
 int							builtin_echo(char **args);
 int							builtin_env(char **env);
-int							builtin_exit(char	**args,
-								int last_cmd_exit_status);
+int							builtin_exit(char **args, int last_cmd_exit_status);
 int							builtin_export(char **args, t_exec_env *exec_env);
 int							builtin_pwd(char **env);
 int							builtin_unset(char **args, char **env,

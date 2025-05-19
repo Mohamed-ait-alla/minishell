@@ -6,12 +6,39 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:36:51 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 16:48:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/19 17:25:39 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include "../libft/libft.h"
+
+static char	*get_limiter(char *limiter)
+{
+	int		i;
+	char	quote;
+	char	*result;
+
+	i = 0;
+	result = ft_strdup("");
+	while (limiter && limiter[i])
+	{
+		if (limiter[i] == '"' || limiter[i] == '\'')
+		{
+			quote = limiter[i];
+			i++;
+			while (limiter[i] && limiter[i] != quote)
+			{
+				result = ft_strjoin_char(result, limiter[i]);
+				i++;
+			}
+			i++;
+		}
+		else
+			result = ft_strjoin_char(result, limiter[i++]);
+	}
+	return (result);
+}
 
 static char	*process_of_expanding(char *word, int *i, char *result, t_env *env)
 {
@@ -43,8 +70,9 @@ static char	*expand_variable_value(char *word, t_env *env, int *is_here_doc)
 	i = 0;
 	if (*is_here_doc)
 	{
+		result = get_limiter(word);
 		*is_here_doc = 0;
-		return (word);
+		return (result);
 	}
 	result = ft_strdup("");
 	while (word[i])

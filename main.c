@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 14:32:04 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 21:40:36 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	run_here_doc(t_commands *cmd_list, t_env *env_list)
 {
 	if (heredoc(cmd_list, env_list) == -1)
 	{
-		printf("Error: heredoc failed\n");
+		print_error("Error: heredoc failed\n");
 		return (0);
 	}
 	if (cmd_list->signal_detected)
@@ -36,18 +36,130 @@ static void	parsing_cmd(char *input, t_exec_env *exec_env)
 	if (!tokens)
 	{
 		g_exit_status = 2;
-		printf("minishell: syntax error\n");
+		print_error("minishell: syntax error\n");
 		return ;
 	}
+
+
+
+
+
+	
+
+	// t_token	*tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d Quote: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+	// 	tmp_token = tmp_token->next;
+	// }
+
+
+
+
+
+	
 	env_list = init_env(exec_env->env);
 	expand_variables_and_remove_quotes(tokens, env_list);
+
+
+
+
+
+
+	
+
+
+
+
+	// printf("Tokens after expanding:\n");
+	// tmp_token = tokens;
+	// while (tmp_token)
+	// {
+	// 	printf("TOKEN: [%s] Type: %d Quote type: %d\n", tmp_token->value, tmp_token->type, tmp_token->quote_type);
+	// 	tmp_token = tmp_token->next;
+	// }
+
+
+
+
+
+
+
+
+
+	
 	cmd_list = parse_tokens(tokens);
 	if (!cmd_list || !check_cmds(tokens))
 	{
 		g_exit_status = 2;
-		printf("minishell: syntax error\n");
+		print_error("minishell: syntax error\n");
 		return ;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+	// int x = 1;
+	// t_commands *tmp_cmd_list = cmd_list;
+	// while (tmp_cmd_list)
+	// {
+	// 	printf("Command %d:\n", x++);
+		
+	// 	if (tmp_cmd_list->args)
+	// 	{
+	// 		printf("  Args:\n");
+	// 		for (int j = 0; tmp_cmd_list->args[j]; j++)
+	// 			printf("    %s\n", tmp_cmd_list->args[j]);
+	// 		printf("  Quote type: %d\n", tmp_cmd_list->quote_type);
+	// 	}
+	
+	// 	if (tmp_cmd_list->redirections)
+	// 	{
+	// 		t_redirections *redir = tmp_cmd_list->redirections;
+	// 		int i = 1;
+	// 		while (redir)
+	// 		{
+	// 			const char *type_redir;
+	// 			if (redir->type == TOKEN_REDIRECT_IN)
+	// 				type_redir = "Input";
+	// 			else if (redir->type == TOKEN_REDIRECT_OUT)
+	// 				type_redir = "Output (overwrite)";
+	// 			else if (redir->type == TOKEN_APPEND)
+	// 				type_redir = "Output (append)";
+	// 			else if (redir->type == TOKEN_HEREDOC)
+	// 				type_redir = "Heredoc";
+	// 			else
+	// 				type_redir = "Unknown";
+	
+	// 			printf("  Redirection[%d]: %s (%s)\n", i++, redir->file, type_redir);
+	// 			redir = redir->next;
+	// 		}
+	// 	}
+	// 	tmp_cmd_list = tmp_cmd_list->next;
+	// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 	if (!run_here_doc(cmd_list, env_list))
 		return ;
 	launch_execution(cmd_list, exec_env);

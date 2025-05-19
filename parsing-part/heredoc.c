@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 20:20:38 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:19:36 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	write_in_here_doc_file(t_commands *cmd, t_redirections *redir,
-		t_env *env, int fd)
+static void	write_in_here_doc_file(t_redirections *redir, t_env *env, int fd)
 {
 	char	*line;
 
@@ -28,7 +27,7 @@ static void	write_in_here_doc_file(t_commands *cmd, t_redirections *redir,
 					redir->file);
 			break ;
 		}
-		if (cmd->quote_type == NO_QUOTE)
+		if (redir->quote_type == NO_QUOTE)
 			line = expand_the_heredoc(line, env);
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -55,7 +54,7 @@ static void	handle_child_heredoc(t_commands *cmd, t_env *env, char **files,
 				ft_malloc(0, 0);
 				exit(1);
 			}
-			write_in_here_doc_file(cmd, redir, env, fd);
+			write_in_here_doc_file(redir, env, fd);
 			close(fd);
 			local_idx++;
 		}
