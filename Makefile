@@ -18,6 +18,7 @@ SRCS = main.c \
 	   ./parsing-part/heredoc.c \
 	   ./parsing-part/heredoc_utils.c \
 	   ./parsing-part/ft_malloc.c \
+	   ./parsing-part/print_error.c \
 	   ./execution-part/executor.c \
 	   ./execution-part/pipes_execution.c \
 	   ./execution-part/pipes_utils.c \

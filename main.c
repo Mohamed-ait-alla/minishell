@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 20:12:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:51:08 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	run_here_doc(t_commands *cmd_list, t_env *env_list)
 {
 	if (heredoc(cmd_list, env_list) == -1)
 	{
-		printf("Error: heredoc failed\n");
+		print_error("Error: heredoc failed\n");
 		return (0);
 	}
 	if (cmd_list->signal_detected)
@@ -36,7 +36,7 @@ static void	parsing_cmd(char *input, t_exec_env *exec_env)
 	if (!tokens)
 	{
 		g_exit_status = 2;
-		printf("minishell: syntax error\n");
+		print_error("minishell: syntax error\n");
 		return ;
 	}
 	env_list = init_env(exec_env->env);
@@ -45,7 +45,7 @@ static void	parsing_cmd(char *input, t_exec_env *exec_env)
 	if (!cmd_list || !check_cmds(tokens))
 	{
 		g_exit_status = 2;
-		printf("minishell: syntax error\n");
+		print_error("minishell: syntax error\n");
 		return ;
 	}
 	if (!run_here_doc(cmd_list, env_list))
@@ -82,7 +82,7 @@ static char	**create_new_env(void)
 	char	**new_env;
 	char	*tmp;
 
-	new_env = malloc(sizeof(char *) * 4);
+	new_env = ft_malloc(sizeof(char *) * 4, 1);
 	if (!new_env)
 		return (NULL);
 	tmp = ft_strjoin("PWD=", getcwd(NULL, 0));

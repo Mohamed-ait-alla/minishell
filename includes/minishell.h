@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 20:16:34 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:47:39 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void						ign_ctrl_c_with_exit_status(int pid,
 								int *status, int *signal_detected);
 void						unlink_files(int total_here_doc, char **files);
 void						*ft_malloc(size_t size, int mode);
+void						print_error(char *msg);
 
 int							launch_execution(t_commands *cmds,
 								t_exec_env *exec_env);
