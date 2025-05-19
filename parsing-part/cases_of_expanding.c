@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:05:25 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 19:47:26 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:28:21 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,10 @@ char	*case_of_normal_var(char *word, int *i, char *result, t_env *env)
 	if (!value)
 		value = ft_strdup("");
 	j = 0;
-	while (value[j])
+	while (value && value[j])
 	{
-		while (value[j] && value[j] <= 32 && value[j + 1] <= 32)
-			j++;
-		if (value[j])
-		{
-			result = ft_strjoin_char(result, value[j]);
-			j++;
-		}
+		result = ft_strjoin_char(result, value[j]);
+		j++;
 	}
 	return (result);
 }
