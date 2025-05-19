@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 20:12:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:32:04 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static char	**create_new_env(void)
 	char	**new_env;
 	char	*tmp;
 
-	new_env = malloc(sizeof(char *) * 4);
+	new_env = ft_malloc(sizeof(char *) * 4, 1);
 	if (!new_env)
 		return (NULL);
 	tmp = ft_strjoin("PWD=", getcwd(NULL, 0));

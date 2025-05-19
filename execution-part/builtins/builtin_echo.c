@@ -6,43 +6,49 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:29 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 11:32:10 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:13:03 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	set_echo_flags(int *i, int *is_option, int *offset)
+static int	has_only_n(char *arg)
 {
-	*i = 2;
-	*is_option = 1;
-	*offset = 2;
+	int	i;
+
+	i = 2;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
 }
 
 int	builtin_echo(char **args)
 {
-	int	i;
-	int	offset;
-	int	is_option;
-
+	int (n_flag), (i), (j);
+	n_flag = 0;
 	i = 1;
-	is_option = 0;
-	offset = 1;
-	if (!args[1])
+	j = 0;
+	while (args[i] && ft_strncmp(args[i], "-n", 2) == 0)
 	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		return (EXIT_SUCCESS);
-	}
-	if (ft_strncmp(args[1], "-n", 2) == 0)
-		set_echo_flags(&i, &is_option, &offset);
-	while (args[i])
-	{
-		if (i != offset)
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (has_only_n(args[i]))
+			n_flag = 1;
+		else
+			break ;
 		i++;
 	}
-	if (!is_option)
-		ft_putstr_fd("\n", STDOUT_FILENO);
+	while (args[i])
+	{
+		if (j != 0)
+			printf(" ");
+		printf("%s", args[i]);
+		j++;
+		i++;
+	}
+	if (!n_flag)
+		printf("\n");
 	return (EXIT_SUCCESS);
 }

@@ -45,7 +45,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -fsanitize=address -g3 #-Wall -Wextra -Werror 
 RM = rm -f
 
 %.o: %.c

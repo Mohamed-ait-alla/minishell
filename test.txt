@@ -1,0 +1,6 @@
+echo "$a"
+uset index->0
+leak create_env
+errors should printed in stderr
+<< "a" cat
+echo -n
