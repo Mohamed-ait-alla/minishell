@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/15 19:36:42 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:17:45 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	handle_redirections(t_commands *current_cmd, t_token **tokens)
 		|| (*tokens)->type == TOKEN_APPEND || (*tokens)->type == TOKEN_HEREDOC)
 		return (0);
 	new_redir->file = ft_strdup((*tokens)->value);
+	new_redir->quote_type = (*tokens)->quote_type;
 	add_redirections(current_cmd, new_redir);
 	if (new_redir->type == TOKEN_APPEND)
 		current_cmd->append = 1;

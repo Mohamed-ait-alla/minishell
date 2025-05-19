@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 15:47:39 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:13:32 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_redirections
 {
 	char					*file;
 	t_token_type			type;
+	t_quote_type			quote_type;
 	struct s_redirections	*next;
 }							t_redirections;
 
