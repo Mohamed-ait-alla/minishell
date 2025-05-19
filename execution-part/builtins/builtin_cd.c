@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 10:19:48 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 21:49:33 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ static void	ft_set_env(char **env, char *key, char *value, int is_created)
 			return ;
 		}
 	}
+}
+
+static	int	get_cd_args_len(char **args)
+{
+	int	i;
+
+	i = 1;
+	while (args && args[i])
+		i++;
+	return (i);
 }
 
 static int	change_dir_to_home(char **env, char *home, int is_created)
@@ -79,9 +89,9 @@ int	builtin_cd(char **args, char **env, int is_created)
 	char	*old_pwd;
 	char	*home;
 
-	if (args && args[2])
+	if (get_cd_args_len(args) > 2)
 	{
-		printf("minishell: cd: too many arguments\n");
+		ft_putstr_fd("minishell: cd: too many arguments\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	old_pwd = getenv("PWD");
