@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:11:06 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 13:49:21 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:54:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,27 @@ char	*case_of_word(char *word, int *i, char *result)
 {
 	result = ft_strjoin_char(result, word[*i]);
 	(*i)++;
+	return (result);
+}
+
+char	*case_of_normal_var_with_dquotes(char *word, int *i, char *result,
+		t_env *env)
+{
+	int (start), (j);
+	char *(key), *(value);
+	(*i)++;
+	start = (*i);
+	while (word[*i] && (ft_isalnum(word[*i]) || word[*i] == '_'))
+		(*i)++;
+	key = ft_substr(word, start, (*i) - start);
+	value = get_env_value(env, key);
+	if (!value)
+		value = ft_strdup("");
+	j = 0;
+	while (value[j])
+	{
+		result = ft_strjoin_char(result, value[j]);
+		j++;
+	}
 	return (result);
 }

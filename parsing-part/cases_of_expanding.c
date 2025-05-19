@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cases_of_expanding.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:05:25 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 11:10:37 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:47:26 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*case_of_dquote(char *word, int *i, char *result, t_env *env)
 	{
 		if (word[*i] == '$' && word[*i + 1] && (ft_isalnum(word[*i + 1])
 				|| word[*i + 1] == '_'))
-			result = case_of_normal_var(word, i, result, env);
+			result = case_of_normal_var_with_dquotes(word, i, result, env);
 		else if (word[*i] == '$' && word[*i + 1] && word[*i + 1] == '?')
 		{
 			(*i) += 2;
