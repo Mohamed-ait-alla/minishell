@@ -6,13 +6,13 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 11:32:26 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/19 22:28:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	search_for_env_var(char **env, char *var)
+int	get_env_var_index(char **env, char *var)
 {
 	int	i;
 
@@ -24,6 +24,20 @@ int	search_for_env_var(char **env, char *var)
 		i++;
 	}
 	return (0);
+}
+
+bool	search_for_env_var(char **env, char *var)
+{
+	int	i;
+
+	i = 0;
+	while (env && env[i])
+	{
+		if (ft_strncmp(var, env[i], ft_strlen(var)) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
 int	has_equal_sign(char *var)

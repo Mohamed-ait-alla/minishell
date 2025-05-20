@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/19 21:49:33 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:59:32 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ static void	ft_set_env(char **env, char *key, char *value, int is_created)
 {
 	char	*key_value;
 	int		is_found;
+	int		var_index;
 
 	is_found = search_for_env_var(env, key);
 	if (is_found || (!is_found && is_created))
 	{
+		var_index = get_env_var_index(env, key);
 		key_value = ft_strjoin(key, value);
-		env[is_found] = ft_strdup(key_value);
-		if (!env[is_found])
+		env[var_index] = ft_strdup(key_value);
+		if (!env[var_index])
 		{
 			perror ("ft_strdup: ");
 			return ;

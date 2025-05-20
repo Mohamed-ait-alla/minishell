@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:15:03 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 21:40:36 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:11:50 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,15 +193,18 @@ static char	**create_new_env(void)
 {
 	char	**new_env;
 	char	*tmp;
+	char	*cwd;
 
+	cwd = getcwd(NULL, 0);
 	new_env = ft_malloc(sizeof(char *) * 4, 1);
 	if (!new_env)
 		return (NULL);
-	tmp = ft_strjoin("PWD=", getcwd(NULL, 0));
+	tmp = ft_strjoin("PWD=", cwd);
 	new_env[0] = ft_strdup(tmp);
 	new_env[1] = ft_strdup("SHLVL=1");
 	new_env[2] = ft_strdup("_=./minishell");
 	new_env[3] = NULL;
+	free(cwd);
 	return (new_env);
 }
 

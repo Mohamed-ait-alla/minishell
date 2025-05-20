@@ -24,7 +24,11 @@ void	*ft_malloc(size_t size, int mode)
 	{
 		content = malloc(size);
 		if (!content)
-			return (NULL);
+		{
+			ft_putstr_fd("malloc Failed: ", STDERR_FILENO);
+			ft_malloc(0, 0);
+			exit (EXIT_FAILURE);
+		}
 		new_node = ft_lstnew(content);
 		ft_lstadd_back(&head_list, new_node);
 	}

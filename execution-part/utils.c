@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 20:29:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:26:58 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,27 @@ void	update_shell_level(t_exec_env *exec_env)
 	char	*tmp;
 	int		value;
 	char	*new_value;
-	int		is_found;
+	int		index_var;
 
-	is_found = search_for_env_var(exec_env->env, "SHLVL");
-	if (is_found)
+
+	if (search_for_env_var(exec_env->env, "SHLVL"))
 	{
-		value = ft_atoi(ft_strchr(exec_env->env[is_found], '=') + 1);
+		index_var = get_env_var_index(exec_env->env, "SHLVL");
+		value = ft_atoi(ft_strchr(exec_env->env[index_var], '=') + 1);
 		if (value < 0)
 			ft_strdup("SHLVL=0");
 		else if (value > 999)
 		{
 			printf("%s%d%s", "minishell: warning: shell level(",
 				value, ") too high, resetting to 1\n");
-			exec_env->env[is_found] = ft_strdup("SHLVL=1");
+			exec_env->env[index_var] = ft_strdup("SHLVL=1");
 		}
 		else
 		{
 			++value;
 			new_value = ft_itoa(value);
 			tmp = ft_strjoin("SHLVL=", new_value);
-			exec_env->env[is_found] = ft_strdup(tmp);
+			exec_env->env[index_var] = ft_strdup(tmp);
 		}
 	}
 }

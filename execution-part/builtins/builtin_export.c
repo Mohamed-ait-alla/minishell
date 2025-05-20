@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 11:31:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:07:15 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
 {
-	int		is_found;
 	char	*new_key;
 	char	*new_value;
 	char	*holder;
@@ -22,9 +21,9 @@ void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
 
 	new_value = ft_strchr(var, '=') + 1;
 	new_key = ft_substr(var, 0, new_value - 2 - var);
-	is_found = search_for_env_var(exec_env->env, new_key);
-	if (is_found)
-		append_env_var(exec_env, new_value, is_found);
+	if (search_for_env_var(exec_env->env, new_key))
+		append_env_var(exec_env, new_value,
+			get_env_var_index(exec_env->env, new_key));
 	else
 	{
 		holder = ft_strjoin(new_key, "=");
@@ -36,12 +35,16 @@ void	handle_plus_sign_feature(t_exec_env *exec_env, char *var)
 void	handle_equal_sign_feature(t_exec_env *exec_env, char *var)
 {
 	int		is_found;
+	int		index;
 	char	*key;
 
 	key = ft_substr(var, 0, ft_strchr(var, '=') - var);
 	is_found = search_for_env_var(exec_env->env, key);
 	if (is_found)
-		exec_env->env[is_found] = ft_strdup(var);
+	{
+		index = get_env_var_index(exec_env->env, key);
+		exec_env->env[index] = ft_strdup(var);
+	}
 	else
 		add_var_to_env(exec_env, var);
 }
