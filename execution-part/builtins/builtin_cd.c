@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 09:59:32 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:57:37 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ static int	change_dir_to_home(char **env, char *home, int is_created)
 {
 	char	cwd[PATH_MAX];
 
-	if (!home)
+	if (!home || (home && !search_for_env_var(env, "HOME")))
 	{
-		printf("home is not setted\n");
+		ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
+	if (!(ft_strchr(env[get_env_var_index(env, "HOME")], '=') + 1)[0])
+		return (EXIT_SUCCESS);
 	if (chdir(home) != 0)
 	{
 		perror("chdir: ");

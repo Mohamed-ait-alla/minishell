@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 09:14:22 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 20:15:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:40:30 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ static char	*get_exec_path(char **env, char *cmd)
 	{
 		if (is_directory(cmd))
 		{
-			printf("minishell: %s: Is a directory\n", cmd);
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(cmd, STDERR_FILENO);
+			ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
 			ft_exit(126);
 		}
 		if (access(cmd, F_OK) == 0)
@@ -89,7 +91,7 @@ void	execute_command(char **args, char **env)
 	path = get_exec_path(env, args[0]);
 	manage_shell_errors(args[0], path);
 	if (!path || ft_strncmp(path, "no permission", ft_strlen(path)) == 0)
-		custom_error(ERR_PERMISSION, path, 126, false);
+		custom_error(ERR_PERMISSION, args[0], 126, false);
 	execve(path, args, env);
 	perror("execve: ");
 	ft_exit(EXIT_FAILURE);

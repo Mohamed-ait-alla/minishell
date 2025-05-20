@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/19 22:28:37 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:22:10 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ int	get_env_var_index(char **env, char *var)
 bool	search_for_env_var(char **env, char *var)
 {
 	int	i;
+	int	len;
 
 	i = 0;
 	while (env && env[i])
 	{
-		if (ft_strncmp(var, env[i], ft_strlen(var)) == 0)
+		len = ft_max(ft_strlen(var),
+			ft_strlen(ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i])));
+		if (ft_strncmp(var, env[i], len) == 0)
 			return (true);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:41:21 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 10:07:15 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:36:28 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ int	builtin_export(char **args, t_exec_env *exec_env)
 			process_export_arguments(exec_env, args[i]);
 		else
 		{
-			printf("minishell: export: `%s\': not a valid identifier", args[i]);
-			printf("\n");
+			ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+			ft_putstr_fd(args[i], STDERR_FILENO);
+			ft_putstr_fd("\': not a valid identifier\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}
 		i++;

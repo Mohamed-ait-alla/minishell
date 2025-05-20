@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 20:21:17 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:11:40 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
 		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
 		if (t_pipe->has_return)
 			ft_exit(g_exit_status);
-		execute_builtin(cmd->args, exec_env, 0);
+		g_exit_status = execute_builtin(cmd->args, exec_env, 0);
 		ft_exit(g_exit_status);
 	}
 	else
