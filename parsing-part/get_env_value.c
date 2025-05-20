@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 20:26:14 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 20:30:12 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:55:11 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*get_env_value(t_env *env, char *key)
 {
 	while (env)
 	{
-		if (!ft_strncmp(env->key, key, ft_strlen(key)))
+		if (!ft_strcmp(env->key, key))
 			return (env->value);
 		env = env->next;
 	}
