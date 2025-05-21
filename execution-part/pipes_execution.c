@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/21 12:17:23 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:11:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds,
 	}
 	signal(SIGINT, SIG_IGN);
 	close_unused_pipes(t_pipe->pipes, n_of_cmds - 1, -1);
-	wait_for_childs(t_pipe->pids, n_of_cmds);
+	wait_for_childs(cmds, t_pipe->pids, n_of_cmds);
 	handle_parent_signals();
 }
 

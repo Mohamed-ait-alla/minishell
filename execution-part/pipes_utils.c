@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 21:50:18 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/21 13:18:05 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	close_unused_pipes(int (*pipes)[2], int n_of_pipes, int except)
 	}
 }
 
-void	wait_for_childs(int *pids, int n_of_cmds)
+void	wait_for_childs(t_commands *cmds, int *pids, int n_of_cmds)
 {
 	int	status;
 	int	i;
@@ -70,7 +70,7 @@ void	wait_for_childs(int *pids, int n_of_cmds)
 			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_exit_status = 128 + WTERMSIG(status);
-		if (g_exit_status == 130)
+		if (g_exit_status == 130 && !cmds->heredoc)
 			printf("\n");
 		i++;
 	}
