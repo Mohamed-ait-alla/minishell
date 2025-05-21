@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 20:11:40 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:17:23 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,22 +104,21 @@ static void	execute_pipes(t_commands *cmds, int n_of_cmds,
 	while (tmp && i < n_of_cmds)
 	{
 		t_pipe->pids[i] = fork();
-		if (t_pipe->pids[i] == -1)
-		{
-			perror("an error occured while forking processes: ");
-			g_exit_status = EXIT_FAILURE;
+		if (handle_fork_errors(t_pipe->pids[i]) == -1)
 			return ;
-		}
 		if (t_pipe->pids[i] == 0)
 		{
+			handle_child_signals();
 			t_pipe->index = i;
 			handle_child_proccesses(tmp, t_pipe->pipes, t_pipe, exec_env);
 		}
 		i++;
 		tmp = tmp -> next;
 	}
+	signal(SIGINT, SIG_IGN);
 	close_unused_pipes(t_pipe->pipes, n_of_cmds - 1, -1);
 	wait_for_childs(t_pipe->pids, n_of_cmds);
+	handle_parent_signals();
 }
 
 void	handle_pipes(t_commands *cmds, int n_of_cmds, t_exec_env *exec_env)

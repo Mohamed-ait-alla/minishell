@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 20:20:59 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 18:19:36 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:47:35 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ static void	handle_child_heredoc(t_commands *cmd, t_env *env, char **files,
 	exit(0);
 }
 
+static void	here_doc_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		ft_malloc(0, 0);
+		exit(130);
+	}
+}
+
 static void	here_doc_process(t_commands *cmds, t_env *env, char **files)
 {
 	int (pid), (status), (nredir), (idx), (start_idx);
@@ -80,7 +89,7 @@ static void	here_doc_process(t_commands *cmds, t_env *env, char **files)
 				return ;
 			if (pid == 0)
 			{
-				signal(SIGINT, SIG_DFL);
+				signal(SIGINT, here_doc_handler);
 				handle_child_heredoc(cmds, env, files, start_idx);
 			}
 			ign_ctrl_c_with_exit_status(pid, &status, &cmds->signal_detected);

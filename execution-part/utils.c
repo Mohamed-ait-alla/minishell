@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 09:26:58 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:06:40 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	update_shell_level(t_exec_env *exec_env)
 	int		value;
 	char	*new_value;
 	int		index_var;
-
 
 	if (search_for_env_var(exec_env->env, "SHLVL"))
 	{
