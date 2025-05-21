@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 10:23:39 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/18 15:08:29 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/21 11:56:23 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	ign_ctrl_c_with_exit_status(int pid, int *status, int *signal_detected)
 	signal(SIGINT, SIG_IGN);
 	waitpid(pid, status, 0);
 	g_exit_status = 130;
-	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
+	if ((WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
+		|| (WIFEXITED(*status) && WEXITSTATUS(*status) == 130))
 	{
 		g_exit_status = 130;
 		*signal_detected = 1;

@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 20:40:24 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/18 13:58:04 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/20 21:50:18 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	wait_for_childs(int *pids, int n_of_cmds)
 			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_exit_status = 128 + WTERMSIG(status);
+		if (g_exit_status == 130)
+			printf("\n");
 		i++;
 	}
 }

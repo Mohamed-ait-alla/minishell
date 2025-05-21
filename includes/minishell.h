@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 22:28:26 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:11:24 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ typedef struct s_exec_pipe
 	int						index;
 	int						n_of_cmds;
 	int						is_builtin;
-	int has_return ;
+	int						has_return;
 	int						*pids;
-	int (*pipes)[2];
+	int						(*pipes)[2];
 }							t_exec_pipe;
 
 int							custom_error(char *err_msg, char *arg,
@@ -182,7 +182,8 @@ void						handle_pipes(t_commands *cmds, int n_of_cmds,
 								t_exec_env *exec_env);
 void						close_unused_pipes(int (*pipes)[2], int n_of_pipes,
 								int except);
-int							handle_input_redirections(t_redirections *redirections,
+int							handle_input_redirections(
+								t_redirections *redirections,
 								t_commands *cmds);
 void						wait_for_childs(int *pids, int n_of_cmds);
 void						allocate_pipes_and_pids(int (**pipes)[2],
@@ -206,6 +207,7 @@ int							ft_get_env_var_len(char *env_var);
 int							ft_get_env_len(char **env);
 
 void						manage_shell_errors(char *arg, char *path);
+int							handle_fork_errors(int pid);
 
 char						**copy_env(char **envp);
 void						update_shell_level(t_exec_env *exec_env);
