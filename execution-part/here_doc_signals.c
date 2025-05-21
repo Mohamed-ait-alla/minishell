@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env_value.c                                    :+:      :+:    :+:   */
+/*   here_doc_signals.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/19 20:26:14 by mdahani           #+#    #+#             */
-/*   Updated: 2025/04/19 20:30:12 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/15 22:09:01 by mait-all          #+#    #+#             */
+/*   Updated: 2025/05/18 20:15:51 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../libft/libft.h"
 
-char	*get_env_value(t_env *env, char *key)
+void	sig_handler_here_doc(int signum)
 {
-	while (env)
+	if (signum == SIGINT)
 	{
-		if (!ft_strncmp(env->key, key, ft_strlen(key)))
-			return (env->value);
-		env = env->next;
+		printf("\n");
+		g_exit_status = 130;
+		ft_malloc(0, 0);
+		ft_exit(g_exit_status);
 	}
-	return (NULL);
+}
+
+void	handle_here_doc_signals(void)
+{
+	signal (SIGQUIT, SIG_IGN);
+	signal (SIGINT, sig_handler_here_doc);
 }

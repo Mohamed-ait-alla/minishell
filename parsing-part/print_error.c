@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/25 19:41:25 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/15 20:30:44 by mait-all         ###   ########.fr       */
+/*   Created: 2025/05/19 15:44:04 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/19 15:49:43 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 
-int	builtin_env(char **env)
+void	print_error(char *msg)
 {
 	int	i;
 
 	i = 0;
-	while (env && env[i])
+	while (msg && msg[i])
 	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
+		write(2, &msg[i], 1);
 		i++;
 	}
-	if (i != 0)
-		return (EXIT_SUCCESS);
-	else
-		return (EXIT_FAILURE);
 }

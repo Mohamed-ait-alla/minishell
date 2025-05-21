@@ -6,130 +6,128 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 10:41:13 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/13 11:36:51 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:11:55 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minishell.h"
+#include "../includes/minishell.h"
 
-static void	configure_pipeline_io(t_commands *cmds, int pipes[][2], int i, int n_of_cmds, char *tmpfile, int is_builtin, int *has_return)
+static int	handle_output_redirections(t_redirections *redirections,
+										t_commands *cmds)
 {
-	if (i == 0) // first command 
+	t_redirections	*current;
+	int				redirected;
+
+	redirected = 0;
+	if (!redirections)
+		return (0);
+	current = redirections;
+	while (current)
 	{
-		check_for_redirections(cmds, tmpfile, is_builtin, has_return);
-		if (*has_return || *has_return == -1 || *has_return == -2)
+		if (current->type == TOKEN_REDIRECT_OUT)
 		{
-			if (*has_return == -1)
-				*has_return = false;
-			return ;
+			cmds->redirections->file = current->file;
+			redirect_output_to_file(cmds, 0, &g_exit_status, NULL);
+			redirected = 1;
 		}
-		redirect_output_to_pipe(pipes[i][1]);
+		else if (current->type == TOKEN_APPEND)
+		{
+			redirect_output_to_file(cmds, 0, &g_exit_status, NULL);
+			redirected = 1;
+		}
+		current = current->next;
 	}
-	else if (i == n_of_cmds - 1) // last command
+	return (redirected);
+}
+
+static void	configure_pipeline_io(t_commands *cmds, int (*pipes)[2],
+									t_exec_pipe *t_pipe)
+{
+	int (redirected_in), (redirected_out);
+	if (t_pipe->index == 0)
 	{
-		check_for_redirections(cmds, tmpfile, is_builtin, has_return); // take care when here_doc is found
-		if (*has_return || *has_return == -1 || *has_return)
-		{
-			if (*has_return == -1)
-				*has_return = false;
-			return ;
-		}
-		redirect_input_to_pipe(pipes[i - 1][0]);
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		redirected_out = handle_output_redirections(cmds->redirections, cmds);
+		if (!redirected_out)
+			redirect_output_to_pipe(pipes[t_pipe->index][1]);
 	}
-	else // middle commands
+	else if (t_pipe->index == t_pipe->n_of_cmds - 1)
 	{
-		check_for_redirections(cmds, tmpfile, is_builtin, has_return);
-		if (*has_return || *has_return == -1 || *has_return == -2)
-		{
-			if (*has_return == -1)
-				*has_return = false;
-			return ;
-		}
-		redirect_input_to_pipe(pipes[i - 1][0]);
-		redirect_output_to_pipe(pipes[i][1]);
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		if (!redirected_in)
+			redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
+		handle_output_redirections(cmds->redirections, cmds);
+	}
+	else
+	{
+		redirected_in = handle_input_redirections(cmds->redirections, cmds);
+		if (!redirected_in)
+			redirect_input_to_pipe(pipes[t_pipe->index - 1][0]);
+		redirected_out = handle_output_redirections(cmds->redirections, cmds);
+		if (!redirected_out)
+			redirect_output_to_pipe(pipes[t_pipe->index][1]);
 	}
 }
 
-static void	wait_for_childs(t_commands *cmds, int pids[], int n_of_cmds, char *tmpfile)
+void	handle_child_proccesses(t_commands *cmd, int (*pipes)[2],
+								t_exec_pipe *t_pipe, t_exec_env *exec_env)
 {
-	int	status;
-	int	i;
-
-	status = 0;
-	i = 0;
-	while (i < n_of_cmds)
+	if (cmd->args && is_builtin(cmd->args[0]))
 	{
-		waitpid(pids[i], &status, 0);
-		if (WIFEXITED(status) && (i == n_of_cmds - 1))
-		{
-			g_exit_status = WEXITSTATUS(status);
-		}
-		else if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
-		i++;
+		t_pipe->is_builtin = true;
+		configure_pipeline_io(cmd, pipes, t_pipe);
+		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
+		if (t_pipe->has_return)
+			ft_exit(g_exit_status);
+		g_exit_status = execute_builtin(cmd->args, exec_env, 0);
+		ft_exit(g_exit_status);
+	}
+	else
+	{
+		t_pipe->is_builtin = false;
+		configure_pipeline_io(cmd, pipes, t_pipe);
+		close_unused_pipes(pipes, t_pipe->n_of_cmds - 1, -1);
+		if (t_pipe->index != t_pipe->n_of_cmds - 1 && cmd->heredoc && cmd->args)
+			ft_exit(0);
+		execute_command(cmd->args, exec_env->env);
 	}
 }
 
-static void	execute_pipes(t_commands *cmds, int n_of_cmds, char *tmpfile, t_exec_env *exec_env)
+static void	execute_pipes(t_commands *cmds, int n_of_cmds,
+							t_exec_env *exec_env, t_exec_pipe *t_pipe)
 {
-	t_commands *tmp;
-	int pids[n_of_cmds];
-	int pipes[n_of_cmds - 1][2];
-	int i;
-	int has_return;
+	t_commands	*tmp;
+	int			i;
 
-	i = 0;
-	has_return = 0;
 	tmp = cmds;
-	// creates the pipe ends
-	while (i < n_of_cmds - 1)
-	{
-		if (pipe(pipes[i]) == -1)
-		{
-			perror("an error occured while creating pipes: ");
-			g_exit_status = EXIT_FAILURE;
-			return ;
-		}
-		i++;
-	}
 	i = 0;
 	while (tmp && i < n_of_cmds)
 	{
-		pids[i] = fork();
-		if (pids[i] == -1)
-		{
-			perror("an error occured while forking processes: ");
-			g_exit_status = EXIT_FAILURE;
+		t_pipe->pids[i] = fork();
+		if (handle_fork_errors(t_pipe->pids[i]) == -1)
 			return ;
-		}
-		if (pids[i] == 0) // child processes
+		if (t_pipe->pids[i] == 0)
 		{
-			// check if it is builtin
-			if (tmp->args && is_builtin(tmp->args[0]))
-			{
-				configure_pipeline_io(tmp, pipes, i, n_of_cmds, NULL, true, &has_return);
-				close_unused_pipes(pipes, n_of_cmds - 1, -1);
-				if (has_return)
-					exit (g_exit_status);
-				execute_builtin(tmp->args, exec_env, 0);
-				exit (g_exit_status);
-			}
-			else
-			{
-				// printf("yes external");
-				configure_pipeline_io(tmp, pipes, i, n_of_cmds, NULL, false, &has_return);
-				close_unused_pipes(pipes, n_of_cmds - 1, -1);
-				execute_command(tmp, tmp->args, exec_env->env);
-			}
+			handle_child_signals();
+			t_pipe->index = i;
+			handle_child_proccesses(tmp, t_pipe->pipes, t_pipe, exec_env);
 		}
 		i++;
 		tmp = tmp -> next;
 	}
-	close_unused_pipes(pipes, n_of_cmds - 1, -1);
-	wait_for_childs(cmds, pids, n_of_cmds, tmpfile);
+	signal(SIGINT, SIG_IGN);
+	close_unused_pipes(t_pipe->pipes, n_of_cmds - 1, -1);
+	wait_for_childs(cmds, t_pipe->pids, n_of_cmds);
+	handle_parent_signals();
 }
 
-void	handle_pipes(t_commands *cmds, char *tmpfile, int n_of_cmds, t_exec_env *exec_env)
+void	handle_pipes(t_commands *cmds, int n_of_cmds, t_exec_env *exec_env)
 {
-	execute_pipes(cmds, n_of_cmds, tmpfile, exec_env);
+	t_exec_pipe	t_pipe;
+
+	ft_bzero(&t_pipe, sizeof(t_exec_pipe));
+	t_pipe.n_of_cmds = n_of_cmds;
+	allocate_pipes_and_pids(&t_pipe.pipes, &t_pipe.pids, n_of_cmds);
+	create_pipes(t_pipe.pipes, n_of_cmds);
+	execute_pipes(cmds, n_of_cmds, exec_env, &t_pipe);
 }

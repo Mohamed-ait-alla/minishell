@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   is_only_spaces.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 14:43:44 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/10 21:44:03 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/17 20:12:00 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/17 20:12:31 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../includes/minishell.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
+int	is_only_spaces(char *input)
+{
+	int	i;
 
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "../includes/minishell.h"
-
-char	*get_next_line(int fd);
-#endif
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] > 32)
+			return (0);
+		i++;
+	}
+	return (1);
+}

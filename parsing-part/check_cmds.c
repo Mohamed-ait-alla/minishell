@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alloc_gc.c                                   :+:      :+:    :+:   */
+/*   check_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 14:37:52 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/05 17:26:35 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/12 11:46:47 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/18 14:35:02 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	*ft_malloc(size_t size, int mode)
+int	check_cmds(t_token *tokens)
 {
-	static t_list	*head_list;
-	t_list			*new_node;
-	void			*content;
+	t_token	*tmp_tokens;
 
-	new_node = NULL;
-	content = NULL;
-	if (mode == 1)
+	tmp_tokens = tokens;
+	while (tmp_tokens)
 	{
-		content = malloc(size);
-		if (!content)
-			return (NULL);
-		new_node = ft_lstnew(content);
-		ft_lstadd_back(&head_list, new_node);
+		if (tmp_tokens->type == TOKEN_PIPE && tmp_tokens->next == NULL)
+			return (0);
+		if (tmp_tokens->type == TOKEN_PIPE)
+		{
+			tmp_tokens = tmp_tokens->next;
+			if (tmp_tokens->type == TOKEN_PIPE)
+				return (0);
+		}
+		tmp_tokens = tmp_tokens->next;
 	}
-	else if (mode == 0)
-	{
-		ft_lstclear(&head_list, free);
-		head_list = NULL;
-	}
-	return (content);
+	return (1);
 }

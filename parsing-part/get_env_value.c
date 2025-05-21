@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmds.c                                       :+:      :+:    :+:   */
+/*   get_env_value.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 11:46:47 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/13 14:53:54 by mdahani          ###   ########.fr       */
+/*   Created: 2025/04/19 20:26:14 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/20 15:55:11 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../libft/libft.h"
 
-int	check_cmds(t_token *tokens)
+char	*get_env_value(t_env *env, char *key)
 {
-	t_token	*tmp_tokens;
-
-	tmp_tokens = tokens;
-	while (tmp_tokens)
+	while (env)
 	{
-		if (tmp_tokens->type == TOKEN_PIPE)
-		{
-			tmp_tokens = tmp_tokens->next;
-			if (tmp_tokens->type == TOKEN_PIPE)
-				return (0);
-		}
-		tmp_tokens = tmp_tokens->next;
+		if (!ft_strcmp(env->key, key))
+			return (env->value);
+		env = env->next;
 	}
-	return (1);
+	return (NULL);
 }

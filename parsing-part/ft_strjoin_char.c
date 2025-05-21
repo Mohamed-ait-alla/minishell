@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   ft_strjoin_char.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/26 19:01:57 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/17 19:55:41 by mdahani          ###   ########.fr       */
+/*   Created: 2025/05/15 15:56:27 by mdahani           #+#    #+#             */
+/*   Updated: 2025/05/15 15:57:27 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+char	*ft_strjoin_char(char *str, char c)
 {
-	t_list	*current_node;
-	t_list	*next_node;
+	char	*new_str;
+	int		i;
 
-	if (!lst || !del || !(*lst))
-		return ;
-	current_node = *lst;
-	while (current_node)
+	new_str = ft_malloc(sizeof(char) * (ft_strlen(str) + 2), 1);
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (str[i])
 	{
-		next_node = current_node->next;
-		if (current_node->content)
-			del(current_node->content);
-		free(current_node);
-		current_node = next_node;
+		new_str[i] = str[i];
+		i++;
 	}
-	*lst = NULL;
+	new_str[i] = c;
+	new_str[i + 1] = '\0';
+	return (new_str);
 }

@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 10:37:40 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/09 18:02:18 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:06:40 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_exit(int nb)
+{
+	ft_malloc(0, 0);
+	exit(nb);
+}
 
 char	*get_tmp_file(void)
 {
@@ -22,23 +28,8 @@ char	*get_tmp_file(void)
 	heredoc_name = "heredoc_";
 	file_name = ft_strjoin(heredoc_name, ft_itoa(i));
 	tmpfile = ft_strjoin("/tmp/", file_name);
-	// free(file_name);
 	i++;
 	return (tmpfile);
-}
-
-int	check_for_here_doc(char **av)
-{
-	int	i;
-
-	i = 1;
-	while (av[i])
-	{
-		if (ft_strncmp("<<", av[i], 2) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	is_builtin(char *cmd)
@@ -85,28 +76,26 @@ void	update_shell_level(t_exec_env *exec_env)
 	char	*tmp;
 	int		value;
 	char	*new_value;
-	int		is_found;
+	int		index_var;
 
-	is_found = search_for_env_var(exec_env->env, "SHLVL");
-	if (is_found)
+	if (search_for_env_var(exec_env->env, "SHLVL"))
 	{
-		value = ft_atoi(ft_strchr(exec_env->env[is_found], '=') + 1);
-		++value;
-		new_value = ft_itoa(value);
-		tmp = ft_strjoin("SHLVL=", new_value);
-		// free(exec_env->env[is_found]);
-		exec_env->env[is_found] = ft_strdup(tmp);
-		// free(new_value);
-		// free(tmp);
+		index_var = get_env_var_index(exec_env->env, "SHLVL");
+		value = ft_atoi(ft_strchr(exec_env->env[index_var], '=') + 1);
+		if (value < 0)
+			ft_strdup("SHLVL=0");
+		else if (value > 999)
+		{
+			printf("%s%d%s", "minishell: warning: shell level(",
+				value, ") too high, resetting to 1\n");
+			exec_env->env[index_var] = ft_strdup("SHLVL=1");
+		}
+		else
+		{
+			++value;
+			new_value = ft_itoa(value);
+			tmp = ft_strjoin("SHLVL=", new_value);
+			exec_env->env[index_var] = ft_strdup(tmp);
+		}
 	}
 }
-
-// void	free_double_array(char **arr)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (arr && arr[i])
-// 		free(arr[i++]);
-// 	free(arr);
-// }
