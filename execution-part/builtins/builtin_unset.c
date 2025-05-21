@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:56 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 14:36:41 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:24:14 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	builtin_unset(char **args, char **env, int is_created)
 		if (has_equal_sign(args[i]))
 		{
 			is_found = search_for_env_var(env, args[i]);
-			if (is_found || (!is_found && is_created))
+			printf("is found is %d, is created is %d\n", is_found, is_created);
+			if (is_found || (is_found && is_created))
 			{
 				var_index = get_env_var_index(env, args[i]);
 				while (env && env[var_index])
