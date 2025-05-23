@@ -6,11 +6,17 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 18:07:37 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/21 16:03:34 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:09:07 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	ft_close_duplicated_fds(int s_out, int s_in)
+{
+	close (s_out);
+	close (s_in);
+}
 
 void	launch_builtin_cmd(t_commands *cmds, t_exec_env *exec_env)
 {
@@ -33,14 +39,12 @@ void	launch_builtin_cmd(t_commands *cmds, t_exec_env *exec_env)
 	{
 		printf("exit\n");
 		ft_malloc(0, 0);
-		close (saved_stdin);
-		close (saved_stdout);
+		ft_close_duplicated_fds(saved_stdout, saved_stdin);
 		ft_exit(g_exit_status);
 	}
 	dup2 (saved_stdout, STDOUT_FILENO);
 	dup2 (saved_stdin, STDIN_FILENO);
-	close (saved_stdout);
-	close (saved_stdin);
+	ft_close_duplicated_fds(saved_stdout, saved_stdin);
 }
 
 void	launch_external_cmd(t_commands *cmds, t_exec_env *exec_env)

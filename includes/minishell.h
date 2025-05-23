@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:42:01 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/21 13:13:26 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:13:46 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,8 @@ void						close_unused_pipes(int (*pipes)[2], int n_of_pipes,
 int							handle_input_redirections(
 								t_redirections *redirections,
 								t_commands *cmds);
-void						wait_for_childs(t_commands *cmds, int *pids, int n_of_cmds);
+void						wait_for_childs(t_commands *cmds, int *pids,
+								int n_of_cmds);
 void						allocate_pipes_and_pids(int (**pipes)[2],
 								int **pids, int n_of_cmds);
 void						create_pipes(int (*pipes)[2], int n_of_cmds);

@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 12:01:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 15:22:10 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:15:45 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ bool	search_for_env_var(char **env, char *var)
 	while (env && env[i])
 	{
 		len = ft_max(ft_strlen(var),
-			ft_strlen(ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i])));
+				ft_strlen(ft_substr(env[i], 0,
+						ft_strchr(env[i], '=') - env[i])));
 		if (ft_strncmp(var, env[i], len) == 0)
 			return (true);
 		i++;
