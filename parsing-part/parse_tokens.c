@@ -6,7 +6,7 @@
 /*   By: mdahani <mdahani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:34:29 by mdahani           #+#    #+#             */
-/*   Updated: 2025/05/19 18:17:45 by mdahani          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:02:16 by mdahani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_commands	*parse_tokens(t_token *tokens)
 			|| tokens->type == TOKEN_APPEND || tokens->type == TOKEN_HEREDOC)
 			if (!handle_redirections(current_cmd, &tokens))
 				return (NULL);
-		current_cmd->quote_type = tokens->quote_type;
 		tokens = tokens->next;
 	}
 	return (cmd_list);

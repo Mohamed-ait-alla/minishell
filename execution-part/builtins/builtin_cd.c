@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:17 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 13:57:37 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:32:46 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static int	change_dir_to_path(char **env, char *path,
 		perror("getcwd: ");
 		return (EXIT_FAILURE);
 	}
-	ft_set_env(env, "PWD=", cwd, is_created);
+	if (!is_created)
+		ft_set_env(env, "PWD=", cwd, is_created);
 	if (!is_created)
 		ft_set_env(env, "OLDPWD=", old_path, is_created);
 	return (EXIT_SUCCESS);
