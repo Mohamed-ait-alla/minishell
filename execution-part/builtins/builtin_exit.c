@@ -6,7 +6,7 @@
 /*   By: mait-all <mait-all@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:39:53 by mait-all          #+#    #+#             */
-/*   Updated: 2025/05/20 20:27:39 by mait-all         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:07:56 by mait-all         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	builtin_exit(char	**args, int last_cmd_exit_status)
 {
 	if (!args[1])
 		return (last_cmd_exit_status);
-	if (!is_numeric(args[1]))
+	if (!args[1][0] || !is_numeric(args[1]))
 	{
 		ft_putstr_fd("bash: exit: numeric argument required\n", STDERR_FILENO);
 		return (2);
