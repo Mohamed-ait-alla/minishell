@@ -10,7 +10,7 @@
 - [🧠 Key Concepts](#key-concepts)
 - [⚙️ Features](#️features)
 - [🛠️ Usage](#usage)
-- [📁 Project Structure](#project-structure)
+- [📁 Project Structure](#📁-project-structure)
 - [🧑‍💻 Author](#author)
 - [📜 License](#license)
 
