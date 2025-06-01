@@ -39,8 +39,8 @@ The goal is to build a reliable, POSIX-compliant shell while handling input pars
 > 🧩 This project gave us deep insights into Unix internals, shell behavior, and low-level C programming.
 
 ---
-
-##  Features
+<a name="features"></a>
+## ⚙️ Features
 
 - ✅ Execution of binary commands (`ls`, `grep`, `cat`, etc.)
 - ✅ Support for built-in commands: `cd`, `echo`, `pwd`, `env`, `export`, `unset`, `exit`
@@ -53,7 +53,7 @@ The goal is to build a reliable, POSIX-compliant shell while handling input pars
 - ✅ Signal handling for interactive mode
 
 ---
-
+<a name="usage"></a>
 ## 🛠️ Usage
 
 1. **Clone the repository And Navigate to it:**
@@ -95,7 +95,7 @@ minishell> cat << EOF                  # here-document
 This is heredoc
 
 ```
-
+<a name="project-structure"></a>
 ## 📁 Project Structure
 ```bash
 minishell/
@@ -125,13 +125,14 @@ minishell/
 📄 README.md                   # You're reading it :)
 
  ```
-
+<a name="author"></a>
 ## 🧑‍💻 Author
 
 Mohamed Ait Alla | [GitHub](https://github.com/Mohamed-ait-alla)
 <br>
 Mohamed Dahani   | [GitHub](https://github.com/dahani-dev)
 
+<a name="license"></a>
 📜 License
 
 This project is part of the 42 School curriculum and follows educational usage guidelines.
