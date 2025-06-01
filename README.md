@@ -40,7 +40,7 @@ The goal is to build a reliable, POSIX-compliant shell while handling input pars
 
 ---
 
-## ⚙️ Features
+##  Features
 
 - ✅ Execution of binary commands (`ls`, `grep`, `cat`, etc.)
 - ✅ Support for built-in commands: `cd`, `echo`, `pwd`, `env`, `export`, `unset`, `exit`
