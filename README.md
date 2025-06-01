@@ -15,7 +15,7 @@
 - [📜 License](#license)
 
 ---
-
+<a name="project-overview"></a>
 ## 📚 Project Overview
 
 **Minishell** is a minimalist yet powerful command-line shell that replicates essential features of Bash. It supports executing programs, pipelines, redirections, built-in commands, and environment variable management.
@@ -23,7 +23,7 @@
 The goal is to build a reliable, POSIX-compliant shell while handling input parsing, process control, and user interaction — all without relying on external parsing tools.
 
 ---
-
+<a name="key-concepts"></a>
 ## 🧠 Key Concepts
 
 - Shell command parsing
